@@ -254,7 +254,7 @@ public class GameMain {
 			vec.x = touch_now.x - touch_push.x;
 			vec.y = touch_now.y - touch_push.y;
 			
-			if(Math.abs(vec.x) >= 30.0f || Math.abs(vec.y) >= 30.0f)
+			if(Math.abs(vec.x) >= 30.0f || Math.abs(vec.y) >= 40.0f)
 			{
 				GameSurfaceView.SetVecXY(vec.x, vec.y);
 			}
