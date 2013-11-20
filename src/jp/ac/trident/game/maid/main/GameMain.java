@@ -254,10 +254,10 @@ public class GameMain {
 			vec.x = touch_now.x - touch_push.x;
 			vec.y = touch_now.y - touch_push.y;
 			
-			if(Math.abs(vec.x) >= 30.0f || Math.abs(vec.y) >= 30.0f)
-			{
-				GameSurfaceView.SetVecXY(vec.x, vec.y);
-			}
+//			if(Math.abs(vec.x) >= 30.0f || Math.abs(vec.y) >= 20.0f)
+//			{
+//				GameSurfaceView.SetVecXY(vec.x, vec.y);
+//			}
 			
 			// 効果音を再生する。
 			se.start();
@@ -282,7 +282,7 @@ public class GameMain {
 		// 背景を表示する。
 		sv.DrawImage(bg, -235, -210);
 
-		map.draw(sv);
+		map.Draw(sv);
 		
 	//**************************************************************************************//
 		// テキストを表示する。
