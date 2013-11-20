@@ -80,9 +80,14 @@ public class GameMap {
 	private Vector2D select_pos;
 
 	/**
-	 * リソース画像 floor : 床 wall : 壁 object : 物
+	 * リソース画像 
+	 * floor	: 床 
+	 * wall		: 壁 
+	 * object	: 物
+	 * maid		: メイド画像
+	 * food		: メイドが持つ料理品
 	 */
-	private Bitmap floor_img, wall_img, object_img, maid_img;
+	private Bitmap floor_img, wall_img, object_img, maid_img, food_img;
 
 	/**
 	 * マップチップ 2次元配列の構造体
@@ -193,13 +198,14 @@ public class GameMap {
 	 * @param img
 	 *            : リソース画像
 	 */
-	public GameMap(Bitmap floorImg, Bitmap wallImg, Bitmap objectImg,
-			Bitmap maidImg) {
+	public GameMap(Bitmap floorImg, Bitmap wallImg, Bitmap objectImg, Bitmap maidImg, Bitmap cookingImg) {
 
+		// 画像の初期化
 		this.floor_img = floorImg;
 		this.wall_img = wallImg;
 		this.object_img = objectImg;
 		this.maid_img = maidImg;
+		this.food_img = cookingImg;
 
 		// 縦の配列 マップの高さ分回す
 		for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -342,12 +348,22 @@ public class GameMap {
 							maid_img,
 							(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
 							(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2),
-							Maid.MAID_RES_WIDTH
-									* (maid.GetChip_num() % Maid.MAID_ANIME_LEMGTH),
-							Maid.MAID_RES_HEIGHT
-									* (maid.GetChip_num() / Maid.MAID_ANIME_LEMGTH),
+							Maid.MAID_RES_WIDTH * (maid.GetChip_num() % Maid.MAID_ANIME_LENGTH),
+							Maid.MAID_RES_HEIGHT * (maid.GetChip_num() / Maid.MAID_ANIME_LENGTH),
 							Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
 							maid.GetDirection());
+					
+					// メイドの所持料理(メイドが持ってる画像を準備出来たら、必要無くなるかも。)
+					sv.DrawImage(
+							food_img,
+							(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
+							(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2) - Maid.FOOD_HEIGHT, // 料理の画像サイズ分引く
+							0,
+							0,
+							Maid.FOOD_WIDTH,
+							Maid.FOOD_HEIGHT,
+							false);
+					
 				}
 
 				// オブジェクト

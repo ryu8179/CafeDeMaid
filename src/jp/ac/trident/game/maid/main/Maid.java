@@ -15,11 +15,10 @@ public class Maid {
 	private static final int MODE_NONE = 0, MODE_MOVE = 1;
 
 	/** キャラクターのアニメーション枚数 */
-	public static final int MAID_ANIME_LEMGTH = 3;
+	public static final int MAID_ANIME_LENGTH = 3;
 
 	/** 画像の幅 */
 	public static final int MAID_RES_WIDTH = 32;
-
 	/** 画像の高さ */
 	public static final int MAID_RES_HEIGHT = 64;
 
@@ -36,6 +35,24 @@ public class Maid {
 
 	/** アニメーションの切り替え時間 */
 	private static final int ANIMATION_CHANGE_NUM = 10;
+	
+	/**
+	 * 料理の所持状態
+	 */
+	public enum FOOD_NAME {
+		FOOD_NAME_TEA,
+		FOOD_NAME_COFFEE,
+		FOOD_NAME_RICE_OMELET,
+		FOOD_NAME_COUNT,
+		FOOD_NAME_NONE,
+	}
+	/**
+	 * 料理の画像情報　サイズ等
+	 */
+	public static final int FOODTX_WIDTH = 256;
+	public static final int FOODTX_HEIGHT = 192;
+	public static final int FOOD_WIDTH = 64;
+	public static final int FOOD_HEIGHT = 32;
 
 	/* ここまで定数宣言 */
 	/**
@@ -52,6 +69,12 @@ public class Maid {
 	 * メイドのイメージ番号
 	 */
 	private int chip_num;
+	
+	/**
+	 * メイドが手に持っているもの
+	 * 配膳等の時に使用する
+	 */
+	private FOOD_NAME m_food = FOOD_NAME.FOOD_NAME_NONE;
 
 	/**
 	 * アニメーション描画時間
@@ -257,6 +280,22 @@ public class Maid {
 	}
 
 	/**
+	 * 所持料理名を返す
+	 * @return
+	 */
+	public FOOD_NAME getM_food() {
+		return m_food;
+	}
+
+	/**
+	 * 所持料理をセットする
+	 * @param m_food
+	 */
+	public void setM_food(FOOD_NAME m_food) {
+		this.m_food = m_food;
+	}
+
+	/**
 	 * デバックメッセージを返す
 	 */
 	public String GetDebugMessage() {
@@ -401,7 +440,7 @@ public class Maid {
 			if (animation_timer > ANIMATION_CHANGE_NUM) {
 
 				// アニメーション枚数を超えたら
-				if (chip_num >= animetion_start_num + MAID_ANIME_LEMGTH) {
+				if (chip_num >= animetion_start_num + MAID_ANIME_LENGTH) {
 					chip_num = animetion_start_num;
 				} else {
 					chip_num++;
