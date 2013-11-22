@@ -5,10 +5,15 @@
  */
 package jp.ac.trident.game.maid.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import com.example.maid.GameSurfaceView;
+import com.example.maid.VirtualController;
 
 /**
  * マップクラス
@@ -104,66 +109,92 @@ public class GameMap {
 	// private ObjectData ObjectChip[][] = new
 	// ObjectData[MAP_HEIGHT][MAP_WIDTH];
 	private ObjectData ObjectChip[][] = {
-			{ new ObjectData(0, false), new ObjectData(0, false),
+			{		new ObjectData(0, false), 
+					new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), },
-			{ new ObjectData(9, false), new ObjectData(2, false),
-					new ObjectData(2, false), new ObjectData(6, false),
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
 					new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(27, false), new ObjectData(0, false),
+					new ObjectData(27, false),
+					new ObjectData(0, false),
 					new ObjectData(0, false), },
-			{ new ObjectData(9, false), new ObjectData(2, false),
-					new ObjectData(2, false), new ObjectData(6, false),
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
 					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(9, false),
-					new ObjectData(39, false), new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(39, false), new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(9, false), new ObjectData(2, false),
-					new ObjectData(2, false), new ObjectData(6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(9, false),
-					new ObjectData(39, false), new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(9, false), new ObjectData(2, false),
-					new ObjectData(2, false), new ObjectData(6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(39, false), new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(9, false),
-					new ObjectData(39, false), new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(9, false), new ObjectData(2, false),
-					new ObjectData(2, false), new ObjectData(6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(39, false), new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(9, false), new ObjectData(2, false),
-					new ObjectData(2, false), new ObjectData(6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(9, false),
-					new ObjectData(39, false), new ObjectData(0, false),
+					new ObjectData(0, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false),
+					new ObjectData(0, false),
 					new ObjectData(0, false), },
 			{ new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
 					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(39, false), new ObjectData(0, false),
-					new ObjectData(15, false), },
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
+					new ObjectData(0, false),
+					new ObjectData(0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
+					new ObjectData(0, false),
+					new ObjectData(0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false),
+					new ObjectData(0, false),
+					new ObjectData(0, false), },
+			{ new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false),
+					new ObjectData(0, false),
+					new ObjectData(0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
+					new ObjectData(0, false),
+					new ObjectData(0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
+					new ObjectData(0, false),
+					new ObjectData(0, false), },
+			{ new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(0, false), new ObjectData(0, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE , 39, false),
+					new ObjectData(0, false),
+					new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), },
 
 	// テスト用3*3
 	// {new ObjectData( 0, false), new ObjectData( 3, false), new ObjectData( 0,
@@ -176,6 +207,9 @@ public class GameMap {
 
 	/** メイド */
 	private Maid maid;
+	
+	/** 配膳されている料理を格納するリスト */
+	ArrayList<Food> m_foodList;
 
 	// あほみたいなやり方
 	// 描画順を正しく行いたいけどアルゴリズム思いつかないんで、今はこれで
@@ -198,14 +232,14 @@ public class GameMap {
 	 * @param img
 	 *            : リソース画像
 	 */
-	public GameMap(Bitmap floorImg, Bitmap wallImg, Bitmap objectImg, Bitmap maidImg, Bitmap cookingImg) {
+	public GameMap(Bitmap floorImg, Bitmap wallImg, Bitmap objectImg, Bitmap maidImg, Bitmap foodImg) {
 
 		// 画像の初期化
 		this.floor_img = floorImg;
 		this.wall_img = wallImg;
 		this.object_img = objectImg;
 		this.maid_img = maidImg;
-		this.food_img = cookingImg;
+		this.food_img = foodImg;
 
 		// 縦の配列 マップの高さ分回す
 		for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -217,6 +251,8 @@ public class GameMap {
 		}
 
 		maid = new Maid();
+		
+		m_foodList = new ArrayList<Food>();
 
 		Initialize();
 
@@ -290,6 +326,7 @@ public class GameMap {
 	 */
 	public void Update(float mouse_x, float mouse_y) {
 
+		// マップチップとの当たり判定を取り、target_squareY, target_squareX に、タッチしたチップ番号を入れている。
 		// 縦の配列 マップの高さ分回す
 		for (int y = 0; y < MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
@@ -297,7 +334,29 @@ public class GameMap {
 				mapChip_col(y, x, mouse_x, mouse_y);
 			}
 		}
-
+		
+		// タッチしたところがキッチンテーブルだった時、料理を持たせる。
+		// タッチしたところがテーブルだった時、料理を置く。
+		if (VirtualController.isTouchTrigger(0)) {
+			OBJECT_NAME objName = ObjectChip[target_squareY][target_squareX].getM_objectName();
+			switch (objName) {
+				case OBJECT_NAME_COOKING_TABLE:
+					maid.setM_food(Food.FOOD_NAME.FOOD_NAME_COFFEE);
+					break;
+				case OBJECT_NAME_TABLE:
+					// メイドが料理を持っていない場合のみ料理を持たせる
+					if (maid.getM_food() != Food.FOOD_NAME.FOOD_NAME_NONE) {
+						Food food = new Food(maid.getM_food(), target_squareX, target_squareY);
+						m_foodList.add(food);
+						maid.setM_food(Food.FOOD_NAME.FOOD_NAME_NONE);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		
+		// メイドの更新、移動ルートの探索と、移動を行う
 		maid.Update(target_squareY, target_squareX);
 
 		// time++;
@@ -327,7 +386,6 @@ public class GameMap {
 						FloorData.FLOOR_RES_HEIGHT
 								* (FloorChip[y][x].GetChip_num() / CHIP_RES_LENGTH),
 						MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT * 2, false);
-
 			}
 		}
 
@@ -354,15 +412,25 @@ public class GameMap {
 							maid.GetDirection());
 					
 					// メイドの所持料理(メイドが持ってる画像を準備出来たら、必要無くなるかも。)
-					sv.DrawImage(
-							food_img,
-							(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
-							(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2) - Maid.FOOD_HEIGHT, // 料理の画像サイズ分引く
-							0,
-							0,
-							Maid.FOOD_WIDTH,
-							Maid.FOOD_HEIGHT,
-							false);
+					if (maid.getM_food() != Food.FOOD_NAME.FOOD_NAME_NONE) {
+						int sx = 0;
+						int sy = 0;
+						switch (maid.getM_food()) {
+							case FOOD_NAME_TEA:			sx = 1; sy = 2; break;
+							case FOOD_NAME_COFFEE:		sx = 2;	sy = 2;	break;
+							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
+							default:					sx = 0;	sy = 0;	break;
+						}
+						sv.DrawImage(
+								food_img,
+								(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
+								(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2) - Food.FOOD_HEIGHT, // 料理の画像サイズ分引く
+								sx * Food.FOOD_WIDTH,
+								sy * Food.FOOD_HEIGHT,
+								Food.FOOD_WIDTH,
+								Food.FOOD_HEIGHT,
+								false);
+					}
 					
 				}
 
@@ -378,10 +446,35 @@ public class GameMap {
 								* (ObjectChip[y][x].GetChip_num() / ObjectData.OBJ_CHIP_RES_LENGTH),
 						ObjectData.OBJ_RES_WIDTH, ObjectData.OBJ_RES_HEIGHT,
 						ObjectChip[y][x].GetDirection());
+				
+				// 料理リスト内を検索して、指定座標に料理がある場合、描画する
+				for (int i=0; i<m_foodList.size(); i++) {
+					if (m_foodList.get(i).getM_x() == x
+					&&  m_foodList.get(i).getM_y() == y) {
+						int sx = 0;
+						int sy = 0;
+						switch (m_foodList.get(i).getM_foodName()) {
+							case FOOD_NAME_TEA:			sx = 1; sy = 2; break;
+							case FOOD_NAME_COFFEE:		sx = 2;	sy = 2;	break;
+							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
+							default:					sx = 0;	sy = 0;	break;
+						}
+						sv.DrawImage(
+								food_img,
+								(int) ObjectChip[y][x].GetPos().x,
+								(int) ObjectChip[y][x].GetPos().y - (ObjectData.OBJ_RES_HEIGHT *1/4),
+								sx * Food.FOOD_WIDTH,
+								sy * Food.FOOD_HEIGHT,
+								Food.FOOD_WIDTH,
+								Food.FOOD_HEIGHT,
+								false);
+					}
+				}
+				
 			}
 		}
 
-		//debug_draw(sv);
+		debug_draw(sv);
 	}
 
 	/**
@@ -495,6 +588,9 @@ public class GameMap {
 				"床の上に物があるか："
 						+ FloorChip[target_squareY][target_squareX]
 								.GetUsed_floor(), 400, 440, Color.WHITE);
+		sv.DrawText(
+				"所持料理："
+						+ maid.getM_food(), 400, 460, Color.WHITE);
 		/* ◆◆◆◆◆◆◆◆◆◆◆◆◆◆ */
 
 		// /* ◆◆◆◆　Object　◆◆◆◆◆ */

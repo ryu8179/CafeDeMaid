@@ -3,6 +3,8 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
+
 public class Maid {
 
 	/* ●●●メイドの管理方法●● */
@@ -35,24 +37,6 @@ public class Maid {
 
 	/** アニメーションの切り替え時間 */
 	private static final int ANIMATION_CHANGE_NUM = 10;
-	
-	/**
-	 * 料理の所持状態
-	 */
-	public enum FOOD_NAME {
-		FOOD_NAME_TEA,
-		FOOD_NAME_COFFEE,
-		FOOD_NAME_RICE_OMELET,
-		FOOD_NAME_COUNT,
-		FOOD_NAME_NONE,
-	}
-	/**
-	 * 料理の画像情報　サイズ等
-	 */
-	public static final int FOODTX_WIDTH = 256;
-	public static final int FOODTX_HEIGHT = 192;
-	public static final int FOOD_WIDTH = 64;
-	public static final int FOOD_HEIGHT = 32;
 
 	/* ここまで定数宣言 */
 	/**
