@@ -109,92 +109,16 @@ public class GameMap {
 	// private ObjectData ObjectChip[][] = new
 	// ObjectData[MAP_HEIGHT][MAP_WIDTH];
 	private ObjectData ObjectChip[][] = {
-			{		new ObjectData(0, false), 
-					new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(27, false),
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false),
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false),
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false),
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 2, false), 
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), 
-					new ObjectData(0, false),
-					new ObjectData(0, false), },
-			{ new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(0, false), new ObjectData(0, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE , 39, false),
-					new ObjectData(0, false),
-					new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false),  new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 27, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
 
 	// テスト用3*3
 	// {new ObjectData( 0, false), new ObjectData( 3, false), new ObjectData( 0,
@@ -256,7 +180,7 @@ public class GameMap {
 
 		Initialize();
 
-		quarterConvert();
+		QuarterConvert();
 
 		SetData();
 
@@ -331,7 +255,7 @@ public class GameMap {
 		for (int y = 0; y < MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
 			for (int x = 0; x < MAP_WIDTH; x++) {
-				mapChip_col(y, x, mouse_x, mouse_y);
+				MapChipCollision(y, x, mouse_x, mouse_y);
 			}
 		}
 		
@@ -366,15 +290,12 @@ public class GameMap {
 	/**
 	 * 描画
 	 */
-	public void draw(GameSurfaceView sv) {
+	public void Draw(GameSurfaceView sv) {
 
 		// 縦の配列 マップの高さ分回す
 		for (int y = 0; y < MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
-			for (int x = MAP_WIDTH - 1; x >= 0; x--/*
-													 * int x = 0; x < MAP_WIDTH;
-													 * x++
-													 */) {
+			for (int x = 0; x < MAP_WIDTH; x++) {
 
 				// 床
 				sv.DrawMapChip(
@@ -396,10 +317,7 @@ public class GameMap {
 		// 縦の配列 マップの高さ分回す
 		for (int y = 0; y < MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
-			for (int x = MAP_WIDTH - 1; x >= 0; x--/*
-													 * int x = 0; x < MAP_WIDTH;
-													 * x++
-													 */) {
+			for (int x = 0; x < MAP_WIDTH; x++) {
 				if (maid.GetSquareX() == x && maid.GetSquareY() == y) {
 					// メイド
 					sv.DrawImage(
@@ -473,14 +391,13 @@ public class GameMap {
 				
 			}
 		}
-
-		debug_draw(sv);
+		DebugDraw(sv);
 	}
 
 	/**
 	 * マップチップ座標をクォータービュー座標に変換
 	 */
-	private void quarterConvert() {
+	private void QuarterConvert() {
 
 		// 縦の配列 マップの高さ分回す
 		for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -492,40 +409,35 @@ public class GameMap {
 				// クォーターY = (チップの高さH/2) * ( チップの座標X - チップの座標Y)
 
 				// 床
-				FloorChip[y][x].SetPosX((MAP_CHIPSIZE_WIDTH / 2) * (y + x));
-				FloorChip[y][x].SetPosY((MAP_CHIPSIZE_HEIGHT / 2) * (y - x));
+				FloorChip[y][x].SetPosX((MAP_CHIPSIZE_WIDTH / 2) * (y - x));
+				FloorChip[y][x].SetPosY((MAP_CHIPSIZE_HEIGHT / 2) * (y + x));
 
 				// オブジェクト
-				ObjectChip[y][x].SetPosX((MAP_CHIPSIZE_WIDTH / 2) * (y + x));
-				ObjectChip[y][x].SetPosY((MAP_CHIPSIZE_HEIGHT / 2) * (y - x));
+				ObjectChip[y][x].SetPosX((MAP_CHIPSIZE_WIDTH / 2) * (y - x));
+				ObjectChip[y][x].SetPosY((MAP_CHIPSIZE_HEIGHT / 2) * (y + x));
 
 				// マップ全体のオフセットを反映
 				// 床
 				FloorChip[y][x].SetPosX(FloorChip[y][x].GetPos().x
 						+ map_Offset_x);
 				FloorChip[y][x].SetPosY(FloorChip[y][x].GetPos().y
-						+ map_Offset_y/* + MAP_CHIPSIZE_WIDTH */);
+						+ map_Offset_y/3);
 
 				// オブジェクト
 				ObjectChip[y][x].SetPosX(ObjectChip[y][x].GetPos().x
 						+ map_Offset_x);
 				ObjectChip[y][x].SetPosY(ObjectChip[y][x].GetPos().y
-						+ map_Offset_y/* + MAP_CHIPSIZE_WIDTH */);
+						+ map_Offset_y/3);
 
 				// チップ分のオフセットをする
 				// 床
-				FloorChip[y][x].SetPosX(FloorChip[y][x].GetPos().x
-						- (chip_offset_x * MAP_HEIGHT));
-				FloorChip[y][x].SetPosY(FloorChip[y][x].GetPos().y
-						- chip_offset_y);
+				FloorChip[y][x].SetPosX(FloorChip[y][x].GetPos().x - chip_offset_x/2);
+				FloorChip[y][x].SetPosY(FloorChip[y][x].GetPos().y - chip_offset_y/2);
 				FloorChip[y][x].SetCenterXY();
 
 				// オブジェクト
-				ObjectChip[y][x].SetPosX(ObjectChip[y][x].GetPos().x
-						- (chip_offset_x * MAP_HEIGHT));
-				ObjectChip[y][x].SetPosY(ObjectChip[y][x].GetPos().y
-						- chip_offset_y);
-
+				ObjectChip[y][x].SetPosX(ObjectChip[y][x].GetPos().x - chip_offset_x/2);
+				ObjectChip[y][x].SetPosY(ObjectChip[y][x].GetPos().y - chip_offset_y/2);
 			}
 		}
 	}
@@ -533,7 +445,7 @@ public class GameMap {
 	/**
 	 * マップチップの当たり判定 やり方 ：一次関数を使い当たり判定をとる 参考 ：URL.txt "ひし形当たり判定"
 	 */
-	public void mapChip_col(int y, int x, float mouse_x, float mouse_y) {
+	public void MapChipCollision(int y, int x, float mouse_x, float mouse_y) {
 
 		// マップチップの中心を算出
 		map_cx = (int) FloorChip[y][x].GetPos().x + (MAP_CHIPSIZE_WIDTH / 2);
@@ -566,7 +478,12 @@ public class GameMap {
 		}
 	}
 
-	private void debug_draw(GameSurfaceView sv) {
+	/**
+	 * デバック用
+	 * 
+	 * @param sv
+	 */
+	private void DebugDraw(GameSurfaceView sv) {
 		// デバック表示
 		/* ◆◆◆◆　Floor　◆◆◆◆◆ */
 
