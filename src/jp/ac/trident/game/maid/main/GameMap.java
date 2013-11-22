@@ -76,7 +76,7 @@ public class GameMap {
 	private int map_cy;
 	private float gradient;
 	private int col1, col2, col3, col4;
-	private int target_squareY = 0, target_squareX = 8;
+	private int target_squareY = 0, target_squareX = 2;
 	private Vector2D select_pos;
 
 	/**
@@ -224,7 +224,7 @@ public class GameMap {
 		// メイド
 		maid.SetFloorData(FloorChip);
 		maid.SetChip_num(0);
-		maid.SetSquareXY(8, 0);
+		maid.SetSquareXY(2, 0);
 	}
 
 	/**
@@ -439,7 +439,9 @@ public class GameMap {
 		/* ◆◆◆◆◆◆◆◆◆◆◆◆◆◆ */
 
 		/* ◆◆◆◆　Maid　◆◆◆◆◆ */
-		sv.DrawText("DebugMessage：" + maid.GetDebugMessage(), 50, 320,
+		sv.DrawText("targetX" + maid.GetTargetX(), 50, 320,
+				Color.WHITE);
+		sv.DrawText("targetY" + maid.GetTargetY(), 50, 340,
 				Color.WHITE);
 		sv.DrawText("Maid_PosX：" + (int) maid.GetPos().x + " Maid_PosY："
 				+ (int) maid.GetPos().y, 50, 360, Color.WHITE);
