@@ -156,11 +156,11 @@ public class A_Star {
 
 		// ゴールからスタートまでの道のりをマーキング
 		List<MapData> list = new ArrayList<MapData>();
-		// コメント解除で目的地までマーキング
-		// if(!map[this.goal_y][this.goal_x].barrier){
-		list.add(0, map[this.goal_y][this.goal_x]);
-		map[this.goal_y][this.goal_x].correct = true;
-		// }
+		// ゴール地点が障害物でないなら、ゴール地点まで向かう
+		if(!map[this.goal_y][this.goal_x].barrier){
+			list.add(0, map[this.goal_y][this.goal_x]);
+			map[this.goal_y][this.goal_x].correct = true;
+		}
 
 		MapData parent = map[this.goal_y][this.goal_x].parent;
 		while (true) {
