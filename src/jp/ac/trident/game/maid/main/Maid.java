@@ -158,6 +158,12 @@ public class Maid {
 		this.side_direction = false;
 	}
 
+	/**
+	 * 更新
+	 * 
+	 * @param target_height
+	 * @param target_width
+	 */
 	public void Update(int target_height, int target_width) {
 		this.RootSerch(target_height, target_width);
 		this.Move();
@@ -242,6 +248,14 @@ public class Maid {
 		return this.square_y;
 	}
 
+	public int GetTargetX() {
+		return this.targetX;
+	}
+
+	public int GetTargetY() {
+		return this.targetY;
+	}
+
 	/**
 	 * 向きを取得
 	 */
@@ -291,6 +305,16 @@ public class Maid {
 	 */
 	public void Move() {
 		// もしメイドが目的地についていないなら
+		if (list.size() == 0) {
+			search_flag = true;
+			root_counter = 0;
+			list.clear();
+			return;
+		} else {
+			targetX = list.get(list.size() - 1).x;
+			targetY = list.get(list.size() - 1).y;
+		}
+
 		if (this.square_x != targetX || this.square_y != targetY) {
 			if (reach_flag == true) {
 
@@ -300,25 +324,25 @@ public class Maid {
 				// 目標とするマスよりも自身の居るマスの方が大きい場合
 				if (mark_squareX - this.square_x == -1
 						&& mark_squareY - this.square_y == 0) {
+					// MOVE_RIGHTUP;
+					debug_message = "MOVE_RIGHTUP";
+					chip_num = 4;
+				}
+
+				if (mark_squareX - this.square_x == 1
+						&& mark_squareY - this.square_y == 0) {
 					// MOVE_LEFTDOWN;
 					debug_message = "MOVE_LEFTDOWN";
 					chip_num = 1;
 				}
 
-				if (mark_squareX - this.square_x == 1
-						&& mark_squareY - this.square_y == 0) {
-					// MOVE_RIGHTUP;
-					debug_message = "MOVE_RIGHTUP";
-					chip_num = 4;
-				}
-				
 				if (mark_squareX - this.square_x == 0
 						&& mark_squareY - this.square_y == -1) {
 					// MOVE_LEFTUP;
 					debug_message = "MOVE_LEFTUP";
 					chip_num = 4;
 				}
-				
+
 				if (mark_squareX - this.square_x == 0
 						&& mark_squareY - this.square_y == 1) {
 					// MOVE_RIGHTDOWN;

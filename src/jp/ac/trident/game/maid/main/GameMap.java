@@ -439,6 +439,8 @@ public class GameMap {
 		/* ◆◆◆◆◆◆◆◆◆◆◆◆◆◆ */
 
 		/* ◆◆◆◆　Maid　◆◆◆◆◆ */
+		sv.DrawText("DebugText" + maid.GetDebugMessage(), 50, 300,
+				Color.WHITE);
 		sv.DrawText("targetX" + maid.GetTargetX(), 50, 320,
 				Color.WHITE);
 		sv.DrawText("targetY" + maid.GetTargetY(), 50, 340,
