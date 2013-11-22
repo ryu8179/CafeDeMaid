@@ -13,6 +13,18 @@ public class ObjectData {
 	/** 画像のリソース幅 */
 	public static final int OBJ_CHIP_RES_LENGTH = 3;
 	
+	/**
+	 * オブジェクトの種類
+	 * @author ryu8179
+	 *
+	 */
+	public enum OBJECT_NAME {
+		OBJECT_NAME_NONE,
+		OBJECT_NAME_CHAIR,
+		OBJECT_NAME_TABLE,
+		OBJECT_NAME_COOKING_TABLE,
+	}
+	
 	/* ここまで定数宣言 */
 	
 	/**
@@ -24,6 +36,11 @@ public class ObjectData {
 	 * オブジェクトのチップ番号
 	 */
 	private int chip_num;
+	
+	/**
+	 * オブジェクトの種類
+	 */
+	private OBJECT_NAME m_objectName;
 	
 	/**
 	 * オブジェクトの中心座標
@@ -65,8 +82,13 @@ public class ObjectData {
 		this.pos.x = 0;
 		this.pos.y = 0;
 		this.chip_num = chip_num;
+		this.m_objectName = OBJECT_NAME.OBJECT_NAME_NONE;
 		this.direction = direction;
 		this.used_flag = false;
+	}
+	public ObjectData(OBJECT_NAME objectName, int chip_num, boolean direction) {
+		this(chip_num, direction);
+		this.m_objectName = objectName;
 	}
 
 	/**
@@ -191,5 +213,13 @@ public class ObjectData {
 	 */
 	public int GetDrawNumber() {
 		return this.draw_number;
+	}
+
+	/**
+	 * オブジェクトの名前を返す
+	 * @return
+	 */
+	public OBJECT_NAME getM_objectName() {
+		return m_objectName;
 	}
 }

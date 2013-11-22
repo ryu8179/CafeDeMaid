@@ -18,6 +18,7 @@
         <!-- TitleActivity -->
         <activity
             android:name="jp.ac.trident.game.maid.title.TitleActivity"
+            android:screenOrientation="landscape"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

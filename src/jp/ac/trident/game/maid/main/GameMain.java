@@ -96,10 +96,6 @@ public class GameMain {
 	private Display disp;
 
 	/**
-	 * ビットマップ用画像
-	 */
-	private Bitmap floorImg, wallImg, objectImg, maidImg;
-	/**
 	 * マップチップクラス
 	 */
 	private GameMap map;
@@ -147,18 +143,17 @@ public class GameMain {
 		bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.background);
 		//bg = Bitmap.createScaledBitmap(bg, disp.getWidth(), disp.getHeight(), true);
 
+		// 経営部分で使用する画像の読み込みなど
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inScaled = false;
-		floorImg = BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.floor_chip_w64_h64_var3,options);
-	
-		wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall, options);
 		
-		objectImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.obj5, options);
-			
-		maidImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid_cawaisugi, options);
+		Bitmap floorImg = BitmapFactory.decodeResource(context.getResources(),R.drawable.floor_chip_w64_h64_var3,options);
+		Bitmap wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall, options);
+		Bitmap objectImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.obj5, options);
+		Bitmap maidImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid_cawaisugi, options);
+		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.floor_chip_w64_h64_var3, options);
 		
-		map = new GameMap(floorImg, wallImg, objectImg, maidImg);
+		map = new GameMap(floorImg, wallImg, objectImg, maidImg, foodImg);
 
 		// ランダムの作成
 		r = new Random();
