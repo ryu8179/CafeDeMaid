@@ -1,7 +1,7 @@
 package jp.ac.trident.game.maid.main;
 
 /**
- * マップ画面に表示される料理データ
+ * 料理データ
  * @author ryu8179
  *
  */
