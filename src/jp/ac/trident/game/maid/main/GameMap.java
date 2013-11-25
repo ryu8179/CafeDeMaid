@@ -6,15 +6,12 @@
 package jp.ac.trident.game.maid.main;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import com.example.maid.GameSurfaceView;
-import com.example.maid.VirtualController;
 
 /**
  * マップクラス
@@ -91,6 +88,7 @@ public class GameMap {
 	 * wall		: 壁 
 	 * object	: 物
 	 * maid		: メイド画像
+	 * 
 	 * food		: メイドが持つ料理品
 	 */
 	private Bitmap floor_img, wall_img, object_img, maid_img, food_img;
@@ -322,15 +320,27 @@ public class GameMap {
 			// 横の配列 マップの横幅分回す
 			for (int x = 0; x < MAP_WIDTH; x++) {
 				if (maid.GetSquareX() == x && maid.GetSquareY() == y) {
+					boolean reverseFlag;
+					switch (maid.getM_direction()) {
+						case Maid.DIRECTION_RIGHTDOWN:
+						case Maid.DIRECTION_RIGHTUP:
+							reverseFlag = true;
+							break;
+						case Maid.DIRECTION_LEFTDOWN:
+						case Maid.DIRECTION_LEFTUP:
+						default:
+							reverseFlag = false;
+							break;
+					}
 					// メイド
 					sv.DrawImage(
 							maid_img,
 							(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
 							(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2),
 							Maid.MAID_RES_WIDTH * (maid.GetChip_num() % Maid.MAID_ANIME_LENGTH),
-							Maid.MAID_RES_HEIGHT * (maid.GetChip_num() / Maid.MAID_ANIME_LENGTH),
+							Maid.MAID_RES_HEIGHT * (maid.getM_direction() % 2 ),	// 上向きだけ1に変換
 							Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
-							maid.GetDirection());
+							reverseFlag);
 					
 					// メイドの所持料理(メイドが持ってる画像を準備出来たら、必要無くなるかも。)
 					if (maid.getM_food() != Food.FOOD_NAME.FOOD_NAME_NONE) {
@@ -544,8 +554,6 @@ public class GameMap {
 		// sv.DrawLine((int)maid.GetCenter().x, (int)maid.GetCenter().y,
 		// (int)FloorChip[target_squareY][target_squareX].GetCenter().x,
 		// (int)FloorChip[target_squareY][target_squareX].GetCenter().y);
-		sv.DrawText("animation_timer：" + maid.animation_timer, 50, 450,
-				Color.WHITE);
 		sv.DrawText("Maid_chip_num：" + maid.GetChip_num(), 50, 470, Color.WHITE);
 		/* ◆◆◆◆◆◆◆◆◆◆◆◆◆ */
 	}
