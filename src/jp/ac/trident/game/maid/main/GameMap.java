@@ -8,6 +8,7 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -259,13 +260,15 @@ public class GameMap {
 			}
 		}
 		
+		// タッチしたマスがメイドの隣で、
 		// タッチしたところがキッチンテーブルだった時、料理を持たせる。
 		// タッチしたところがテーブルだった時、料理を置く。
-		if (VirtualController.isTouchTrigger(0)) {
+		if (maid.GetSquareX() == target_squareX && (maid.GetSquareY()-1 == target_squareY || maid.GetSquareY()+1 == target_squareY)
+		||  maid.GetSquareY() == target_squareY && (maid.GetSquareX()-1 == target_squareX || maid.GetSquareX()+1 == target_squareX) ) {
 			OBJECT_NAME objName = ObjectChip[target_squareY][target_squareX].getM_objectName();
 			switch (objName) {
 				case OBJECT_NAME_COOKING_TABLE:
-					maid.setM_food(Food.FOOD_NAME.FOOD_NAME_COFFEE);
+					maid.Cooking();
 					break;
 				case OBJECT_NAME_TABLE:
 					// メイドが料理を持っていない場合のみ料理を持たせる

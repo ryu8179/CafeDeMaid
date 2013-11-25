@@ -3,6 +3,8 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.sax.StartElementListener;
+
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 
 public class Maid {
@@ -37,6 +39,9 @@ public class Maid {
 
 	/** アニメーションの切り替え時間 */
 	private static final int ANIMATION_CHANGE_NUM = 10;
+	
+	/** 調理時間(ミリ秒) */
+	private final long COOKING_TIME = 2000;
 
 	/* ここまで定数宣言 */
 	/**
@@ -59,6 +64,16 @@ public class Maid {
 	 * 配膳等の時に使用する
 	 */
 	private FOOD_NAME m_food = FOOD_NAME.FOOD_NAME_NONE;
+	
+	/**
+	 * 調理中かどうか
+	 */
+	private boolean isCooking = false;
+	
+	/**
+	 * 調理開始時のタイム
+	 */
+	private long m_startTime = 0;
 
 	/**
 	 * アニメーション描画時間
@@ -388,6 +403,9 @@ public class Maid {
 
 					// 移動アニメーションさせる
 					Animation(MODE_MOVE);
+					
+					// 移動中は、調理フラグを下げる
+					isCooking = false;
 
 					// 座標で隣接するマスに到着したか判定　こっちを使った方が後々便利だと思う
 					// 経由マスに現在の座標が到達したら次の経由マスに移動　…現在floatで座標を取得しているので、重なったら処理に移るとすると時間がかかりすぎるため、判定を甘く見積もっている
@@ -410,6 +428,27 @@ public class Maid {
 			root_counter = 0;
 			list.clear();
 		}
+	}
+	
+	/**
+	 * 調理を行う。
+	 */
+	public void Cooking() {
+		// 既に料理を持っていたらメソッドを抜ける。
+		if (m_food != FOOD_NAME.FOOD_NAME_NONE) {
+			return;
+		}
+		// 調理中のフラグが立っていたら調理を行う。
+		if (isCooking) {
+			long currentTime = System.currentTimeMillis();
+			if (currentTime - m_startTime >= COOKING_TIME) {
+				m_food = FOOD_NAME.FOOD_NAME_COFFEE;
+				isCooking = false;
+			}
+			return;
+		}
+		isCooking = true;
+		m_startTime = System.currentTimeMillis();
 	}
 
 	/**
