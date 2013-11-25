@@ -188,7 +188,7 @@ public class Maid {
 	 */
 	public void Update(int target_height, int target_width) {
 		this.RootSerch(target_height, target_width);
-		this.Move();
+		this.Move(target_height, target_width);
 	}
 
 	/**
@@ -324,14 +324,14 @@ public class Maid {
 			this.targetX = target_width;
 
 			try {
-				if (targetX != square_x || targetY != square_y) {
+				//if (targetX != square_x || targetY != square_y) {
 					// イニシャライズしないとstampedがtrueのままでおかしくなる。
 					// イニシャライズするタイミングをもっといい場所にしたい。
 					a_star.Initialize();
 					list = a_star.serch(FloorChip, this.GetSquareX(),
 							this.GetSquareY(), targetX, targetY);
 					search_flag = false;
-				}
+				//}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -341,7 +341,7 @@ public class Maid {
 	/**
 	 * 移動させる処理 実際に移動させる関数
 	 */
-	public void Move() {
+	public void Move(int target_height, int target_width) {
 		// もしメイドが目的地についていないなら
 		if (list.size() == 0) {
 			search_flag = true;
@@ -355,6 +355,13 @@ public class Maid {
 
 		if (this.square_x != targetX || this.square_y != targetY) {
 			if (reach_flag == true) {
+				
+				if(target_width != targetX || target_height != targetY){
+					search_flag = true;
+					root_counter = 0;
+					list.clear();
+					RootSerch(target_height, target_width);
+				}
 
 				mark_squareX = list.get(root_counter).x;
 				mark_squareY = list.get(root_counter).y;
