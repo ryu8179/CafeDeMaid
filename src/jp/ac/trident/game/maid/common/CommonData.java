@@ -3,38 +3,82 @@
  */
 package jp.ac.trident.game.maid.common;
 
+
 /**
- * シングルトン
- * シーンを跨いで利用するデータ群
+ * シングルトンクラス
+ * シーンをまたいで利用するデータ群
  * @author ryu8179
  *
  */
 public class CommonData {
 	
+	/* データ構造体 */
+	public class PlayerData {
+		public int money;
+		public int str;
+		public int speed;
+		public int maid;
+	};
+	public class OptionData {
+		;
+	};
+	
 	/* 定数 */
 	/* ここまで定数 */
 	
-	/* メンバ変数 */
 	/**
 	 * シングルトンのインスタンス
 	 */
-	private static CommonData m_commonData;
-	
-	public int money;
+	private static CommonData instance = new CommonData();
+
+	/* メンバ変数 */
+	/**
+	 * プレイヤーのデータ
+	 */
+	private PlayerData playerData;
+	/**
+	 * オプションデータ
+	 */
+	private OptionData optionData;
 	/* ここまでメンバ変数 */
 
+	/* メソッド */
 	/**
 	 * デフォルトコンストラクタ
 	 */
 	private CommonData() {
-		money = 0;
+		playerData = new PlayerData();
+		optionData = new OptionData();
+		
+		playerData.money = 1000;
+		playerData.str = 5;
+		playerData.speed = 10;
+		playerData.maid = 15;
 	}
 	
+	/**
+	 * インスタンスの取得
+	 * @return
+	 */
 	public static CommonData GetInstance() {
-		if (m_commonData == null) {
-			m_commonData = new CommonData();
-		}
-		return m_commonData;
+		return instance;
 	}
+	
+	/**
+	 * プレイヤーデータの取得
+	 * @return
+	 */
+	public PlayerData GetPlayerData() {
+		return playerData;
+	}
+	
+	/**
+	 * オプションデータの取得
+	 * @return
+	 */
+	public OptionData GetOptionData() {
+		return optionData;
+	}
+	/* ここまでメソッド */
 
 }
