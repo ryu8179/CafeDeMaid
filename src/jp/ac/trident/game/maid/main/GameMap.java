@@ -7,6 +7,7 @@ package jp.ac.trident.game.maid.main;
 
 import java.util.ArrayList;
 
+import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -26,6 +27,17 @@ public class GameMap {
 	 * ・マップの種類 ・リソース画像
 	 */
 
+	
+	/* 定数宣言 */
+	/**
+	 * 店に入るか判定する、店の前の道路の座標
+	 */
+	public static final Vector2D FRONT_OF_SHOP_POS = new Vector2D(80, 60);
+	/**
+	 * お店の入口座標
+	 */
+	public static final Vector2D ENTRANCE_POS = new Vector2D(224, 152);
+
 	/**
 	 * マップのマス数（横）
 	 */
@@ -39,22 +51,22 @@ public class GameMap {
 	/**
 	 * 画面の幅
 	 */
-	private int SCREEN_WIDTH = 800;
+	private final int SCREEN_WIDTH = 800;
 
 	/**
 	 * 画面の高さ
 	 */
-	private int SCREEN_HEIGHT = 480;
+	private final int SCREEN_HEIGHT = 480;
 
 	/**
 	 * チップの幅
 	 */
-	private int MAP_CHIPSIZE_WIDTH = 64;
+	private final int MAP_CHIPSIZE_WIDTH = 64;
 
 	/**
 	 * チップの高さ
 	 */
-	private int MAP_CHIPSIZE_HEIGHT = 32;
+	private final int MAP_CHIPSIZE_HEIGHT = 32;
 
 	/**
 	 * マップオフセット オフセットは画面の大きさの半分
@@ -70,8 +82,14 @@ public class GameMap {
 	/**
 	 * マップチップの画像読み込み幅
 	 */
-	private int CHIP_RES_LENGTH = 4;
+	private final int CHIP_RES_LENGTH = 4;
+	/* ここまで定数宣言 */
 
+	/* メンバ変数 */
+	/**
+	 * 生成してからの経過フレーム
+	 */
+	private int m_elapsedFrame;
 	/**
 	 * ひし形当たり判定用変数達
 	 */
@@ -85,13 +103,11 @@ public class GameMap {
 	/**
 	 * リソース画像 
 	 * floor	: 床 
-	 * wall		: 壁 
 	 * object	: 物
-	 * maid		: メイド画像
 	 * 
 	 * food		: メイドが持つ料理品
 	 */
-	private Bitmap floor_img, wall_img, object_img, maid_img, food_img;
+	private Bitmap floor_img, wall_img, object_img, food_img;
 
 	/**
 	 * マップチップ 2次元配列の構造体
@@ -130,6 +146,7 @@ public class GameMap {
 
 	/** メイド */
 	private Maid maid;
+	private ArrayList<Customer> m_customerList;
 	
 	/** 配膳されている料理を格納するリスト */
 	ArrayList<Food> m_foodList;
@@ -147,7 +164,7 @@ public class GameMap {
 			{ 36, 46, 56, 66, 75, 83, 90, 96, 101, 105, 108, },
 			{ 45, 55, 65, 74, 82, 89, 95, 100, 104, 107, 109, }, };
 
-	// private int time = 0;
+	/* ここまで定数宣言 */
 
 	/**
 	 * コンストラクタ
@@ -161,7 +178,6 @@ public class GameMap {
 		this.floor_img = floorImg;
 		this.wall_img = wallImg;
 		this.object_img = objectImg;
-		this.maid_img = maidImg;
 		this.food_img = foodImg;
 
 		// 縦の配列 マップの高さ分回す
@@ -173,10 +189,16 @@ public class GameMap {
 			}
 		}
 
-		maid = new Maid();
-		
+		// メイドの生成
+		maid = new Maid(maidImg);
+		// 配膳時の料理を入れるリストの生成
 		m_foodList = new ArrayList<Food>();
-
+		
+		// お客を入れるリストの生成と、１人目を生成
+		m_customerList = new ArrayList<Customer>();
+		Customer customer = new Customer(GameMain.imageMap.get("mohikan_edit"));
+		m_customerList.add(customer);
+		
 		Initialize();
 
 		QuarterConvert();
@@ -202,7 +224,11 @@ public class GameMap {
 			}
 		}
 
+		// メイドとお客の初期化
 		maid.Initialize();
+		for (int i=0; i<m_customerList.size(); i++) {
+			m_customerList.get(i).Initialize();
+		}
 	}
 
 	/**
@@ -240,6 +266,11 @@ public class GameMap {
 		maid.SetFloorData(FloorChip);
 		maid.SetChip_num(0);
 		maid.SetSquareXY(2, 0);
+		// お客
+		for (int i=0; i<m_customerList.size(); i++) {
+			m_customerList.get(i).SetFloorData(FloorChip);
+			m_customerList.get(i).SetChip_num(0);
+		}
 	}
 
 	/**
@@ -248,6 +279,7 @@ public class GameMap {
 	 * @param
 	 */
 	public void Update(float mouse_x, float mouse_y) {
+		m_elapsedFrame++;
 
 		// マップチップとの当たり判定を取り、target_squareY, target_squareX に、タッチしたチップ番号を入れている。
 		// 縦の配列 マップの高さ分回す
@@ -283,8 +315,16 @@ public class GameMap {
 		
 		// メイドの更新、移動ルートの探索と、移動を行う
 		maid.Update(target_squareY, target_squareX);
-
-		// time++;
+		// お客の更新
+		for (int i=0; i<m_customerList.size(); i++) {
+			m_customerList.get(i).Update();
+		}
+		// 経過時間によって、お客を生成する
+		if (m_elapsedFrame % (3*30) == 0) {
+			Customer customer = new Customer(GameMain.imageMap.get("mohikan_edit"));
+			customer.SetFloorData(FloorChip);
+			m_customerList.add(customer);
+		}
 
 	}
 
@@ -320,28 +360,15 @@ public class GameMap {
 			// 横の配列 マップの横幅分回す
 			for (int x = 0; x < MAP_WIDTH; x++) {
 				if (maid.GetSquareX() == x && maid.GetSquareY() == y) {
-					boolean reverseFlag;
-					switch (maid.getM_direction()) {
-						case Maid.DIRECTION_RIGHTDOWN:
-						case Maid.DIRECTION_RIGHTUP:
-							reverseFlag = true;
-							break;
-						case Maid.DIRECTION_LEFTDOWN:
-						case Maid.DIRECTION_LEFTUP:
-						default:
-							reverseFlag = false;
-							break;
-					}
 					// メイド
 					sv.DrawImage(
-							maid_img,
+							maid.getM_image(),
 							(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
 							(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2),
 							Maid.MAID_RES_WIDTH * (maid.GetChip_num() % Maid.MAID_ANIME_LENGTH),
 							Maid.MAID_RES_HEIGHT * (maid.getM_direction() % 2 ),	// 上向きだけ1に変換
 							Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
-							reverseFlag);
-					
+							maid.isReverse);
 					// メイドの所持料理(メイドが持ってる画像を準備出来たら、必要無くなるかも。)
 					if (maid.getM_food() != Food.FOOD_NAME.FOOD_NAME_NONE) {
 						int sx = 0;
@@ -361,6 +388,18 @@ public class GameMap {
 								Food.FOOD_WIDTH,
 								Food.FOOD_HEIGHT,
 								false);
+					}
+					
+					// お客様
+					for (int i=0; i<m_customerList.size(); i++) {
+						sv.DrawImage(
+								m_customerList.get(i).getM_image(),
+								(int) m_customerList.get(i).GetPos().x + (Maid.MAID_RES_WIDTH / 2),
+								(int) m_customerList.get(i).GetPos().y - (Maid.MAID_RES_HEIGHT / 2),
+								Maid.MAID_RES_WIDTH * (m_customerList.get(i).GetChip_num() % Maid.MAID_ANIME_LENGTH),
+								Maid.MAID_RES_HEIGHT * (m_customerList.get(i).getM_direction() % 2 ),	// 上向きだけ1に変換
+								Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
+								m_customerList.get(i).isReverse);
 					}
 					
 				}

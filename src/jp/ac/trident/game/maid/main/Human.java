@@ -6,6 +6,9 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.ac.trident.game.maid.common.Vector2D;
+import android.graphics.Bitmap;
+
 /**
  * メイド、お客様に派生するスーパークラス
  * 移動などの共通部分を持つ
@@ -54,7 +57,7 @@ public abstract class Human {
 	
 	/* ここからメンバ変数 */
 	/**
-	 * 経過フレーム
+	 * 生成してからの経過フレーム
 	 */
 	protected int m_elapsedFrame;
 	
@@ -64,9 +67,19 @@ public abstract class Human {
 	protected FloorData FloorChip[][] = new FloorData[GameMap.MAP_HEIGHT][GameMap.MAP_WIDTH];
 
 	/**
+	 * 画像データ
+	 */
+	protected Bitmap m_image;
+	
+	/**
 	 * スプライトシートの、何番目かのイメージ番号
 	 */
 	protected int chip_num;
+	
+	/**
+	 * 描画時に反転させるか
+	 */
+	protected boolean isReverse;
 
 	/**
 	 * メイドのX,Y座標
@@ -86,18 +99,20 @@ public abstract class Human {
 	/**
 	 * メイドの移動速度（ステータス的）
 	 */
-	protected Vector2D vec;
+	protected Vector2D vel;
 	
 	/**
 	 * メイドの向き
 	 * 右向きの場合、描画を反転させる必要がある。
+	 * DIRECTION_***** で指定お願いします。
 	 */
 	protected int m_direction;
 
 	/**
 	 * 目的地X,Y
+	 * 使用時にintにキャストしたりする
 	 */
-	protected int targetX = 0, targetY = 0;
+	protected Vector2D target = new Vector2D();
 
 	/**
 	 * 次に目標とするマスXY
@@ -122,11 +137,6 @@ public abstract class Human {
 	protected boolean search_flag = true;
 	protected int root_counter = 0;
 
-	/**
-	 * よくわからんアニメーション用の変数
-	 */
-	protected int animetion_start_num = 0;
-
 	protected String debug_message = "";
 	/* ここまでメンバ変数 */
 	
@@ -134,10 +144,11 @@ public abstract class Human {
 	/**
 	 * デフォルトコンストラクタ
 	 */
-	public Human() {
+	public Human(Bitmap image) {
+		m_image = image;
 		pos = new Vector2D();
 		center = new Vector2D();
-		vec = new Vector2D();
+		vel = new Vector2D();
 
 		// 縦の配列 マップの高さ分回す
 		for (int y = 0; y < GameMap.MAP_HEIGHT; y++) {
@@ -156,12 +167,14 @@ public abstract class Human {
 	public void Initialize() {
 		// this.ID = 0;
 		this.m_elapsedFrame = 0;
+		this.chip_num = 0;
+		this.isReverse = false;
 		this.pos.x = 0;
 		this.pos.y = 0;
 		this.square_x = 0;
 		this.square_y = 0;
-		this.vec.x = 4.0f;
-		this.vec.y = 4.0f;
+		this.vel.x = 4.0f;
+		this.vel.y = 4.0f;
 		this.m_direction = DIRECTION_LEFTDOWN;
 	}
 
@@ -185,6 +198,20 @@ public abstract class Human {
 	}
 
 	/**
+	 * @return m_image
+	 */
+	public Bitmap getM_image() {
+		return m_image;
+	}
+
+	/**
+	 * @param m_image 設定する m_image
+	 */
+	public void setM_image(Bitmap m_image) {
+		this.m_image = m_image;
+	}
+
+	/**
 	 * メイドのイメージ番号の取得
 	 */
 	public void SetChip_num(int chip_num) {
@@ -196,6 +223,13 @@ public abstract class Human {
 	 */
 	public int GetChip_num() {
 		return this.chip_num;
+	}
+
+	/**
+	 * @return isReverse
+	 */
+	public boolean isReverse() {
+		return isReverse;
 	}
 
 	/**
@@ -257,11 +291,11 @@ public abstract class Human {
 	}
 
 	public int GetTargetX() {
-		return this.targetX;
+		return (int)(this.target.x);
 	}
 
 	public int GetTargetY() {
-		return this.targetY;
+		return (int)(this.target.y);
 	}
 
 	/**
@@ -284,16 +318,16 @@ public abstract class Human {
 	 */
 	public void RootSerch(int target_height, int target_width) {
 		if (search_flag) {
-			this.targetY = target_height;
-			this.targetX = target_width;
+			this.target.y = target_height;
+			this.target.x = target_width;
 
 			try {
-				if (targetX != square_x || targetY != square_y) {
+				if ((int)(target.x) != square_x || (int)(target.y) != square_y) {
 					// イニシャライズしないとstampedがtrueのままでおかしくなる。
 					// イニシャライズするタイミングをもっといい場所にしたい。
 					a_star.Initialize();
 					list = a_star.serch(FloorChip, this.GetSquareX(),
-							this.GetSquareY(), targetX, targetY);
+							this.GetSquareY(), (int)(target.x), (int)(target.y));
 					search_flag = false;
 				}
 			} catch (Exception e) {
@@ -313,14 +347,14 @@ public abstract class Human {
 			list.clear();
 			return;
 		} else {
-			targetX = list.get(list.size() - 1).x;
-			targetY = list.get(list.size() - 1).y;
+			target.x = list.get(list.size() - 1).x;
+			target.y = list.get(list.size() - 1).y;
 		}
 
-		if (this.square_x != targetX || this.square_y != targetY) {
+		if (this.square_x != (int)(target.x) || this.square_y != (int)(target.y)) {
 			if (reach_flag == true) {
 				
-				if(target_width != targetX || target_height != targetY){
+				if(target_width != (int)(target.x) || target_height != (int)(target.y)){
 					search_flag = true;
 					root_counter = 0;
 					list.clear();
@@ -335,27 +369,29 @@ public abstract class Human {
 						&& mark_squareY - this.square_y == 0) {
 					// MOVE_RIGHTUP;
 					m_direction = DIRECTION_RIGHTUP;
+					isReverse = true;
 				}
 
 				if (mark_squareX - this.square_x == 1
 						&& mark_squareY - this.square_y == 0) {
 					// MOVE_LEFTDOWN;
 					m_direction = DIRECTION_LEFTDOWN;
+					isReverse = false;
 				}
 
 				if (mark_squareX - this.square_x == 0
 						&& mark_squareY - this.square_y == -1) {
 					// MOVE_LEFTUP;
 					m_direction = DIRECTION_LEFTUP;
+					isReverse = false;
 				}
 
 				if (mark_squareX - this.square_x == 0
 						&& mark_squareY - this.square_y == 1) {
 					// MOVE_RIGHTDOWN;
 					m_direction = DIRECTION_RIGHTDOWN;
+					isReverse = true;
 				}
-
-				animetion_start_num = chip_num;
 
 				reach_flag = false;
 			} else {
@@ -406,25 +442,12 @@ public abstract class Human {
 
 		// 何もしていない状態
 		case MODE_NONE:
-
 			chip_num = 0;
 
 			break;
 
 		// 移動している
 		case MODE_MOVE:
-
-//			// 速度によってｷｬﾗｸﾀｰの向きを変える 横
-//			if (move_speed.x <= 0.0f) {
-//				// 左に移動
-//				// 反転しない
-//				side_direction = false;
-//			} else {
-//				// 右に移動
-//				// 反転する
-//				side_direction = true;
-//			}
-			
 			// アニメーションさせる
 			chip_num = ANIMATION_INDEX[m_elapsedFrame / 10 % ANIMATION_INDEX.length];
 
@@ -452,8 +475,8 @@ public abstract class Human {
 
 		length = (float) Math.sqrt(length);
 
-		move_speed.x = ((x2 - x1) / length) * vec.x;
-		move_speed.y = ((y2 - y1) / length) * vec.y;
+		move_speed.x = ((x2 - x1) / length) * vel.x;
+		move_speed.y = ((y2 - y1) / length) * vel.y;
 	}
 	
 	
