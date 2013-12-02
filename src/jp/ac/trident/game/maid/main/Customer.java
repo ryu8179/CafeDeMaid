@@ -7,6 +7,7 @@ import java.text.BreakIterator;
 
 import jp.ac.trident.game.maid.common.Collision;
 import jp.ac.trident.game.maid.common.Vector2D;
+import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 
 /**
@@ -108,15 +109,17 @@ public class Customer extends Human {
 				isInShop = true;
 				// 空いている座席に移動先を定める。
 				// 縦の配列 マップの高さ分回す
-				for (int y = 0; y < GameMap.MAP_HEIGHT; y++) {
+				for (int y = GameMap.MAP_HEIGHT-1; y > 0; y--) {
 					boolean isSearchEnd = false;
 					// 横の配列 マップの横幅分回す
-					for (int x = 0; x < GameMap.MAP_WIDTH; x++) {
-						if (FloorChip[y][x].GetUsed_floor()) {
+					for (int x = GameMap.MAP_WIDTH-1; x > 0; x--) {
+						// 使用されていたら次のマスへ
+						if (ObjectChip[y][x].GetUsed_flag()) {
 							continue;
 						}
-						if (!FloorChip[y][x].GetUsed_floor()) {
-							FloorChip[y][x].SetUsed_floor(true);
+						// 椅子だったらそこに向かわせる
+						if (ObjectChip[y][x].getM_objectName() == OBJECT_NAME.OBJECT_NAME_CHAIR) {
+							//ObjectChip[y][x].SetUsed_floor(true);
 							target_height = y;
 							target_width = x;
 							isSearchEnd = true;

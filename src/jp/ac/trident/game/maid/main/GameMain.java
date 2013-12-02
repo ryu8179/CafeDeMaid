@@ -158,7 +158,8 @@ public class GameMain {
 		Bitmap floorImg = BitmapFactory.decodeResource(context.getResources(),R.drawable.floor_chip_w64_h64_var3,options);
 		Bitmap wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall, options);
 		Bitmap objectImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.obj5, options);
-		Bitmap maidImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid_cawaisugi, options);
+		Bitmap maid01Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid01, options);
+		Bitmap maid02Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid02, options);
 		Bitmap mohikanImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.mohikan_edit, options);
 		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.floor_chip_w64_h64_var3, options);
 
@@ -166,12 +167,13 @@ public class GameMain {
 		imageMap.put("floor_chip_w64_h64_var3", floorImg);
 		imageMap.put("wall", wallImg);
 		imageMap.put("obj5", objectImg);
-		imageMap.put("maid_cawaisugi", maidImg);
+		imageMap.put("maid01", maid01Img);
+		imageMap.put("maid02", maid02Img);
 		imageMap.put("mohikan_edit", mohikanImg);
 		imageMap.put("floor_chip_w64_h64_var3", foodImg);
 		
 		// mapの作成
-		map = new GameMap(floorImg, wallImg, objectImg, maidImg, foodImg);
+		map = new GameMap(floorImg, wallImg, objectImg, maid01Img, foodImg);
 		
 
 		// ランダムの作成

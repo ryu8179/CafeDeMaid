@@ -25,6 +25,7 @@ public class ObjectData {
 		OBJECT_NAME_CHAIR,
 		OBJECT_NAME_TABLE,
 		OBJECT_NAME_COOKING_TABLE,
+		OBJECT_NAME_CASHIER,
 	}
 	
 	/* ここまで定数宣言 */

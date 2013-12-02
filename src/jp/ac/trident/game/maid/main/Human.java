@@ -62,9 +62,9 @@ public abstract class Human {
 	protected int m_elapsedFrame;
 	
 	/**
-	 * 床の情報
+	 * 床の上にあるオブジェクトの情報
 	 */
-	protected FloorData FloorChip[][] = new FloorData[GameMap.MAP_HEIGHT][GameMap.MAP_WIDTH];
+	protected ObjectData ObjectChip[][] = new ObjectData[GameMap.MAP_HEIGHT][GameMap.MAP_WIDTH];
 
 	/**
 	 * 画像データ
@@ -154,7 +154,7 @@ public abstract class Human {
 		for (int y = 0; y < GameMap.MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
 			for (int x = 0; x < GameMap.MAP_WIDTH; x++) {
-				FloorChip[y][x] = new FloorData();
+				ObjectChip[y][x] = new ObjectData();
 			}
 		}
 
@@ -191,10 +191,10 @@ public abstract class Human {
 	}
 
 	/**
-	 * 床の情報の取得
+	 * オブジェクト情報のセット
 	 */
-	public void SetFloorData(FloorData[][] data) {
-		this.FloorChip = data;
+	public void SetFloorData(ObjectData[][] data) {
+		this.ObjectChip = data;
 	}
 
 	/**
@@ -272,8 +272,8 @@ public abstract class Human {
 		this.square_x = square_x;
 		this.square_y = square_y;
 
-		SetPosXY(FloorChip[square_y][square_x].GetPos().x,
-				FloorChip[square_y][square_x].GetPos().y);
+		SetPosXY(ObjectChip[square_y][square_x].GetPos().x,
+				ObjectChip[square_y][square_x].GetPos().y);
 	}
 
 	/**
@@ -326,7 +326,7 @@ public abstract class Human {
 					// イニシャライズしないとstampedがtrueのままでおかしくなる。
 					// イニシャライズするタイミングをもっといい場所にしたい。
 					a_star.Initialize();
-					list = a_star.serch(FloorChip, this.GetSquareX(),
+					list = a_star.serch(ObjectChip, this.GetSquareX(),
 							this.GetSquareY(), (int)(target.x), (int)(target.y));
 					search_flag = false;
 				}
@@ -360,7 +360,6 @@ public abstract class Human {
 					list.clear();
 					RootSerch(target_height, target_width);
 				}
-
 				mark_squareX = list.get(root_counter).x;
 				mark_squareY = list.get(root_counter).y;
 
@@ -409,12 +408,12 @@ public abstract class Human {
 
 					// 座標で隣接するマスに到着したか判定　こっちを使った方が後々便利だと思う
 					// 経由マスに現在の座標が到達したら次の経由マスに移動　…現在floatで座標を取得しているので、重なったら処理に移るとすると時間がかかりすぎるため、判定を甘く見積もっている
-					if ((((pos.x - 0.75f) <= FloorChip[mark_squareY][mark_squareX]
-							.GetPos().x) && ((pos.x + 0.75f) >= FloorChip[mark_squareY][mark_squareX]
+					if ((((pos.x - 0.75f) <= ObjectChip[mark_squareY][mark_squareX]
+							.GetPos().x) && ((pos.x + 0.75f) >= ObjectChip[mark_squareY][mark_squareX]
 							.GetPos().x))
-							&& ((pos.y - (0.75f / 2.0f)) <= FloorChip[mark_squareY][mark_squareX]
+							&& ((pos.y - (0.75f / 2.0f)) <= ObjectChip[mark_squareY][mark_squareX]
 									.GetPos().y)
-							&& (pos.y + 0.75f / 2.0f) >= FloorChip[mark_squareY][mark_squareX]
+							&& (pos.y + 0.75f / 2.0f) >= ObjectChip[mark_squareY][mark_squareX]
 									.GetPos().y) {
 						reach_flag = true;
 						SetSquareXY(mark_squareX, mark_squareY);
@@ -467,9 +466,9 @@ public abstract class Human {
 		float x1, x2, y1, y2, length;
 
 		x1 = pos.x;
-		x2 = FloorChip[mark_squareY][mark_squareX].GetPos().x;
+		x2 = ObjectChip[mark_squareY][mark_squareX].GetPos().x;
 		y1 = pos.y;
-		y2 = FloorChip[mark_squareY][mark_squareX].GetPos().y;
+		y2 = ObjectChip[mark_squareY][mark_squareX].GetPos().y;
 
 		length = ((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1));
 
