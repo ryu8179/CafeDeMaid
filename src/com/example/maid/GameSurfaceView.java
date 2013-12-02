@@ -4,6 +4,7 @@
 package com.example.maid;
 
 import jp.ac.trident.game.maid.R;
+import jp.ac.trident.game.maid.common.Vector2D;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

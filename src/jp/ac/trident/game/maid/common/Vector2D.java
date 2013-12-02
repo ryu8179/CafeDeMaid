@@ -1,4 +1,4 @@
-package com.example.maid;
+package jp.ac.trident.game.maid.common;
 
 public class Vector2D {
 
@@ -23,7 +23,6 @@ public class Vector2D {
 	 * @param y
 	 */
 	public Vector2D(float x, float y) {
-
 		this.x = x;
 		this.y = y;
 	}
@@ -35,6 +34,18 @@ public class Vector2D {
 		// 初期化
 		x = 0;
 		y = 0;
+	}
+
+	// 値の指定
+	public void set(Vector2D origin) {
+		x = origin.x;
+		y = origin.y;
+	}
+
+	// 値の指定
+	public void set(float x, float y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
@@ -95,43 +106,45 @@ public class Vector2D {
 		x += width * rate;
 		y += height * rate;
 	}
-
-	/**
-	 * Xの値を返す
-	 * 
-	 * @return x : X要素
-	 */
-	public float getX() {
-		return x;
+	
+	// 減算
+	public void sub(Vector2D v1) {
+		this.x -= v1.x;
+		this.y -= v1.y;
 	}
 
-	/**
-	 * Yの値を返す
-	 * 
-	 * @
-	 */
-	public float getY() {
-		return y;
+	// スカラー倍
+	public void scale(float scale) {
+		this.x *= scale;
+		this.y *= scale;
 	}
 
-	/**
-	 * Xに値を設定する
-	 * 
-	 * @param x
-	 *            :
-	 */
-	public void setX(float x) {
-		this.x = x;
+	// ベクトルの長さの取得
+	public float length() {
+		return (float) Math.sqrt((double) ((x * x) + (y * y)));
 	}
 
-	/**
-	 * Yに値を設定する
-	 * 
-	 * @param y
-	 *            :
-	 */
-	public void setY(float y) {
-		this.y = y;
+	// 正規化
+	public void normalize() {
+		float length = this.length();
+		this.scale(1 / length);
+	}
+
+	// 値の比較
+	@Override
+	public boolean equals(Object o) {
+		Vector2D v = (Vector2D) o;
+		return v.x == x && v.y == y;
+	}
+
+	// public static メソッド(オブジェクトが無くても使用可能)
+	// 加算
+	public static Vector2D add(Vector2D v0, Vector2D v1) {
+		return new Vector2D(v0.x+v1.x, v0.y+v1.y);
+	}
+	// 減算
+	public static Vector2D sub(Vector2D v0, Vector2D v1) {
+		return new Vector2D(v0.x-v1.x, v0.y-v1.y);
 	}
 
 }

@@ -6,6 +6,7 @@ package jp.ac.trident.game.maid.game;
 import java.util.Random;
 
 import jp.ac.trident.game.maid.R;
+import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.GameMap;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +14,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
 import com.example.maid.GameSurfaceView;
-import com.example.maid.Vector2D;
 import com.example.maid.VirtualController;
 
 /**

@@ -1,5 +1,7 @@
 package jp.ac.trident.game.maid.main;
 
+import jp.ac.trident.game.maid.common.Vector2D;
+
 public class ObjectData {
 	
 	/* 定数宣言 */
