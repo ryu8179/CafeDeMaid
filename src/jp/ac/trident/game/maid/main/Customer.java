@@ -84,16 +84,25 @@ public class Customer extends Human {
 	 */
 	public void Update() {
 		m_elapsedFrame++;
-		// 店内と店外で移動方法が異なる
+		
+		// 店内にいるか
 		if (isInShop) {
-			// 目標に向かって
+			//  目標地点に向かいます。
 			super.Update(target_height, target_width);
+			
+			// 目の前が目標の椅子だったら、座らせるような処理をする
+			if (square_x == target_width && (square_y-1 == target_height || square_y+1 == target_height)
+			||  square_y == target_height && (square_x-1 == target_width || square_x+1 == target_width) ) {
+				SetSquareXY(target_width, target_height);
+				list.clear();
+			}
 			
 		} else {
 			// 道路を歩く、店に入るまで。
 			this.pos.x += vel.x;
 			this.pos.y += vel.y;
 			Animation(MODE_MOVE);
+			
 			// 店の前らへんに来たら、入るかどうかの判定、ターゲット座標の変更
 			if (Collision.pointCircle(pos, GameMap.FRONT_OF_SHOP_POS, 20)) {
 				target.set(GameMap.ENTRANCE_POS);
@@ -103,23 +112,24 @@ public class Customer extends Human {
 				vel.normalize();
 				vel.scale(4);
 			}
+			// 店内の入り口に来たら、マスでの移動モードに切り替える
 			if (Collision.pointCircle(pos, GameMap.ENTRANCE_POS, 5)) {
 				super.Initialize();
 				SetSquareXY(5, 0);
 				isInShop = true;
-				// 空いている座席に移動先を定める。
-				// 縦の配列 マップの高さ分回す
-				for (int y = GameMap.MAP_HEIGHT-1; y > 0; y--) {
+				// 空いている座席を探す
+				for (int y = GameMap.MAP_HEIGHT-1; y >= 0; y--) {
 					boolean isSearchEnd = false;
 					// 横の配列 マップの横幅分回す
-					for (int x = GameMap.MAP_WIDTH-1; x > 0; x--) {
+					for (int x = GameMap.MAP_WIDTH-1; x >= 0; x--) {
 						// 使用されていたら次のマスへ
 						if (ObjectChip[y][x].GetUsed_flag()) {
 							continue;
 						}
 						// 椅子だったらそこに向かわせる
+						//if (ObjectChip[y][x].getM_objectName() == OBJECT_NAME.OBJECT_NAME_NONE) { // 整列する遊び
 						if (ObjectChip[y][x].getM_objectName() == OBJECT_NAME.OBJECT_NAME_CHAIR) {
-							//ObjectChip[y][x].SetUsed_floor(true);
+							ObjectChip[y][x].SetUsed_flag(true);
 							target_height = y;
 							target_width = x;
 							isSearchEnd = true;

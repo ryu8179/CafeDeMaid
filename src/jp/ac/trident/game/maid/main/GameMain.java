@@ -26,6 +26,22 @@ import com.example.maid.ZooData;
  * @author minnna
  */
 public class GameMain {
+	/* ================== 定数宣言 ================== */
+	/**
+	 * テクスチャー用の列挙体
+	 * @author ryu8179
+	 *
+	 */
+	public enum TEX_NAME {
+		FLOOR_CHIP,
+		WALL,
+		OBJECT,
+		MAID_01,
+		MAID_02,
+		MOHIKAN,
+		FOOD,
+	}
+	/* ================== ここまで定数宣言 ================== */
 
 	/** ================== 変数宣言 ================== **/
 
@@ -87,7 +103,7 @@ public class GameMain {
 	/**
 	 * 使用するイメージリソースをstaticで持ってしまう。
 	 */
-	public static HashMap<String, Bitmap> imageMap;
+	public static HashMap<TEX_NAME, Bitmap> imageMap;
 
 	/**
 	 * 背景。
@@ -152,7 +168,7 @@ public class GameMain {
 		options.inScaled = false;
 		
 		// staticなMapに格納する
-		imageMap = new HashMap<String, Bitmap>();
+		imageMap = new HashMap<TEX_NAME, Bitmap>();
 		imageMap.clear();
 		
 		Bitmap floorImg = BitmapFactory.decodeResource(context.getResources(),R.drawable.floor_chip_w64_h64_var3,options);
@@ -164,13 +180,14 @@ public class GameMain {
 		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.floor_chip_w64_h64_var3, options);
 
 		// staticなMapに格納する
-		imageMap.put("floor_chip_w64_h64_var3", floorImg);
-		imageMap.put("wall", wallImg);
-		imageMap.put("obj5", objectImg);
-		imageMap.put("maid01", maid01Img);
-		imageMap.put("maid02", maid02Img);
-		imageMap.put("mohikan_edit", mohikanImg);
-		imageMap.put("floor_chip_w64_h64_var3", foodImg);
+		imageMap.put(TEX_NAME.FLOOR_CHIP, floorImg);
+		imageMap.put(TEX_NAME.WALL, wallImg);
+		imageMap.put(TEX_NAME.OBJECT, objectImg);
+		imageMap.put(TEX_NAME.MAID_01, maid01Img);
+		imageMap.put(TEX_NAME.MAID_02, maid02Img);
+		imageMap.put(TEX_NAME.MOHIKAN, mohikanImg);
+		imageMap.put(TEX_NAME.FOOD, foodImg);
+		
 		
 		// mapの作成
 		map = new GameMap(floorImg, wallImg, objectImg, maid01Img, foodImg);

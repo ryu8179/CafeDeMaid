@@ -340,7 +340,7 @@ public abstract class Human {
 	 * 移動させる処理 実際に移動させる関数
 	 */
 	public void Move(int target_height, int target_width) {
-		// もし人が目的地についていないなら
+		// 目的地について、リストがクリアされていたら
 		if (list.size() == 0) {
 			search_flag = true;
 			root_counter = 0;
@@ -351,9 +351,10 @@ public abstract class Human {
 			target.y = list.get(list.size() - 1).y;
 		}
 
+		// もし現在地が目的地でないなら
 		if (this.square_x != (int)(target.x) || this.square_y != (int)(target.y)) {
+			// 次のマスに着いたか
 			if (reach_flag == true) {
-				
 				if(target_width != (int)(target.x) || target_height != (int)(target.y)){
 					search_flag = true;
 					root_counter = 0;

@@ -1,9 +1,8 @@
 package jp.ac.trident.game.maid.main;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import jp.ac.trident.game.maid.R;
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
+import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
+import android.graphics.Bitmap;
 
 public class Maid extends Human {
 
@@ -101,13 +100,13 @@ public class Maid extends Human {
 			long currentTime = System.currentTimeMillis();
 			if (currentTime - m_startTime >= COOKING_TIME) {
 				m_food = FOOD_NAME.FOOD_NAME_COFFEE;
-				m_image = GameMain.imageMap.get("maid_cawaisugi");
+				m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
 				isCooking = false;
 			}
 			return;
 		}
 		isCooking = true;
-		m_image = GameMain.imageMap.get("mohikan_edit");
+		m_image = GameMain.imageMap.get(TEX_NAME.MOHIKAN);
 		m_startTime = System.currentTimeMillis();
 	}
 }
