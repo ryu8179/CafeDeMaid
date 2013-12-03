@@ -136,6 +136,11 @@ public abstract class Human {
 	protected List<MapData> list = new ArrayList<MapData>();
 	protected boolean search_flag = true;
 	protected int root_counter = 0;
+	
+	/**
+	 * 調理/食事開始時のタイム
+	 */
+	protected long m_startTime = 0;
 
 	protected String debug_message = "";
 	/* ここまでメンバ変数 */

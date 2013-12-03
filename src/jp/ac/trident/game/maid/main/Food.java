@@ -29,15 +29,21 @@ class Food {
 
 	// ********************** メンバ変数 ********************** 
 	/**
+	 * 料理名
+	 */
+	private FOOD_NAME m_foodName;
+	
+	/**
 	 * マップチップによる x と y 座標
 	 */
 	private int m_x;
 	private int m_y;
 	
 	/**
-	 * 料理名
+	 * 食べられる前か。
 	 */
-	private FOOD_NAME m_foodName;
+	private boolean isExist;
+	
 	// ********************** ここまでメンバ変数 ********************** 
 
 	// ********************** メソッド ********************** 
@@ -46,14 +52,13 @@ class Food {
 	 * @return
 	 */
 	public Food() {
-		m_x = 0;
-		m_y = 0;
-		m_foodName = FOOD_NAME.FOOD_NAME_NONE;
+		this(FOOD_NAME.FOOD_NAME_NONE, 0, 0);
 	}
 	public Food(FOOD_NAME foodName, int x, int y) {
 		m_foodName = foodName;
 		m_x = x;
 		m_y = y;
+		isExist = true;
 	}
 
 	// getter と setter
@@ -72,8 +77,21 @@ class Food {
 	public FOOD_NAME getM_foodName() {
 		return m_foodName;
 	}
-	public void setM_foodName(FOOD_NAME m_foodName) {
+	public void setM_food(FOOD_NAME m_foodName) {
 		this.m_foodName = m_foodName;
 	}
+	/**
+	 * @return isExist
+	 */
+	public boolean isExist() {
+		return isExist;
+	}
+	/**
+	 * @param isExist 設定する isExist
+	 */
+	public void setExist(boolean isExist) {
+		this.isExist = isExist;
+	}
+	
 	// ********************** ここまでメソッド ********************** 
 }

@@ -8,6 +8,7 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 
 import jp.ac.trident.game.maid.common.Vector2D;
+import jp.ac.trident.game.maid.main.Customer.PHASE;
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
@@ -314,6 +315,34 @@ public class GameMap {
 		for (int i=0; i<m_customerList.size(); i++) {
 			m_customerList.get(i).Update();
 		}
+		
+		// お客が席に座っており、目の前に料理がある場合、お客に食べる命令を出す。
+		for (int i=0; i<m_customerList.size(); i++) {
+			// 料理待ちか
+			if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
+				// お客様の位置が、料理の目の前か
+				for (int j=0; j<m_foodList.size(); j++) {
+					Customer customer = m_customerList.get(i);
+					Food food = m_foodList.get(j);
+					if (customer.GetSquareX() == food.getM_x() && (customer.GetSquareY()-1 == food.getM_y() || customer.GetSquareY()+1 == food.getM_y())
+					||  customer.GetSquareY() == food.getM_y() && (customer.GetSquareX()-1 == food.getM_x() || customer.GetSquareX()+1 == food.getM_x()) ) {
+							customer.setM_phase(PHASE.PHASE_EATING);
+							customer.setM_order(food);
+					}
+				}
+			}
+		}
+		
+		// 料理リストを監視して、食べられた料理は削除する
+		for (int i=m_foodList.size()-1; i>=0; i--) {
+			if (!m_foodList.get(i).isExist()) {
+				m_foodList.remove(i);
+			}
+		}
+		
+		
+		
+		
 		// 経過時間によって、お客を生成する
 		if (m_elapsedFrame % (3*30) == 0) {
 			TEX_NAME imgName = GameMain.rand.nextBoolean() ? TEX_NAME.MOHIKAN : TEX_NAME.MAID_02;
@@ -322,7 +351,6 @@ public class GameMap {
 			customer.SetFloorData(ObjectChip);
 			m_customerList.add(customer);
 		}
-
 	}
 
 	/**
@@ -402,10 +430,10 @@ public class GameMap {
 								m_customerList.get(i).isReverse);
 						
 						// 料理待ちの間、注文を頭上に表示する。
-						if (m_customerList.get(i).getM_order() != FOOD_NAME.FOOD_NAME_NONE) {
+						if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
 							int sx = 0;
 							int sy = 0;
-							switch (m_customerList.get(i).getM_order()) {
+							switch (m_customerList.get(i).getM_order().getM_foodName()) {
 								case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
 								case FOOD_NAME_CAKE:		sx = 1;	sy = 0;	break;
 								case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
