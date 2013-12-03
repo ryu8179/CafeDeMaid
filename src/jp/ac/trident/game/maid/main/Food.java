@@ -11,8 +11,9 @@ class Food {
 	 * 料理名
 	 */
 	public enum FOOD_NAME {
-		FOOD_NAME_TEA,
 		FOOD_NAME_COFFEE,
+		FOOD_NAME_CAKE,
+		FOOD_NAME_TEA,
 		FOOD_NAME_RICE_OMELET,
 		FOOD_NAME_COUNT,
 		FOOD_NAME_NONE,
@@ -20,10 +21,10 @@ class Food {
 	/**
 	 * 料理の画像情報　サイズ等
 	 */
-	public static final int FOODTX_WIDTH = 256;
-	public static final int FOODTX_HEIGHT = 192;
+	public static final int FOODTX_WIDTH = 128;
+	public static final int FOODTX_HEIGHT = 128;
 	public static final int FOOD_WIDTH = 64;
-	public static final int FOOD_HEIGHT = 32;
+	public static final int FOOD_HEIGHT = 64;
 	// ********************** ここまで定数宣言 ********************** 
 
 	// ********************** メンバ変数 ********************** 

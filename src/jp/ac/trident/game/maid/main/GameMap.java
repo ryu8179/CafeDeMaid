@@ -370,15 +370,15 @@ public class GameMap {
 						int sx = 0;
 						int sy = 0;
 						switch (maid.getM_food()) {
-							case FOOD_NAME_TEA:			sx = 1; sy = 2; break;
-							case FOOD_NAME_COFFEE:		sx = 2;	sy = 2;	break;
-							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
+							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
+							case FOOD_NAME_RICE_OMELET:	sx = 1;	sy = 0;	break;
+							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawImage(
 								food_img,
-								(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
-								(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2) - Food.FOOD_HEIGHT, // 料理の画像サイズ分引く
+								(int)(maid.GetPos().x),
+								(int)(maid.GetPos().y - Maid.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 								sx * Food.FOOD_WIDTH,
 								sy * Food.FOOD_HEIGHT,
 								Food.FOOD_WIDTH,
@@ -415,6 +415,7 @@ public class GameMap {
 						ObjectData.OBJ_RES_WIDTH, ObjectData.OBJ_RES_HEIGHT,
 						ObjectChip[y][x].GetDirection());
 				
+				// 料理
 				// 料理リスト内を検索して、指定座標に料理がある場合、描画する
 				for (int i=0; i<m_foodList.size(); i++) {
 					if (m_foodList.get(i).getM_x() == x
@@ -422,15 +423,15 @@ public class GameMap {
 						int sx = 0;
 						int sy = 0;
 						switch (m_foodList.get(i).getM_foodName()) {
-							case FOOD_NAME_TEA:			sx = 1; sy = 2; break;
-							case FOOD_NAME_COFFEE:		sx = 2;	sy = 2;	break;
-							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
+							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
+							case FOOD_NAME_RICE_OMELET:	sx = 1;	sy = 0;	break;
+							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawImage(
 								food_img,
 								(int) ObjectChip[y][x].GetPos().x,
-								(int) ObjectChip[y][x].GetPos().y - (ObjectData.OBJ_RES_HEIGHT *1/4),
+								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
 								sx * Food.FOOD_WIDTH,
 								sy * Food.FOOD_HEIGHT,
 								Food.FOOD_WIDTH,

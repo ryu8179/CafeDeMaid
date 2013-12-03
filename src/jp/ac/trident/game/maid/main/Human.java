@@ -361,8 +361,14 @@ public abstract class Human {
 					list.clear();
 					RootSerch(target_height, target_width);
 				}
-				mark_squareX = list.get(root_counter).x;
-				mark_squareY = list.get(root_counter).y;
+				// 
+				try {
+					mark_squareX = list.get(root_counter).x;
+					mark_squareY = list.get(root_counter).y;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					e.printStackTrace();
+					return;
+				}
 
 				// 目標とするマスよりも自身の居るマスの方が大きい場合
 				if (mark_squareX - this.square_x == -1
