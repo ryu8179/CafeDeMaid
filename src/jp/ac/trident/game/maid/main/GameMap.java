@@ -8,6 +8,7 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 
 import jp.ac.trident.game.maid.common.Vector2D;
+import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
@@ -371,7 +372,7 @@ public class GameMap {
 						int sy = 0;
 						switch (maid.getM_food()) {
 							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
-							case FOOD_NAME_RICE_OMELET:	sx = 1;	sy = 0;	break;
+							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
 							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
 							default:					sx = 0;	sy = 0;	break;
 						}
@@ -399,7 +400,29 @@ public class GameMap {
 								Maid.MAID_RES_HEIGHT * (m_customerList.get(i).getM_direction() % 2 ),	// 上向きだけ1に変換
 								Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
 								m_customerList.get(i).isReverse);
+						
+						// 料理待ちの間、注文を頭上に表示する。
+						if (m_customerList.get(i).getM_order() != FOOD_NAME.FOOD_NAME_NONE) {
+							int sx = 0;
+							int sy = 0;
+							switch (m_customerList.get(i).getM_order()) {
+								case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
+								case FOOD_NAME_CAKE:		sx = 1;	sy = 0;	break;
+								case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
+								default:					sx = 0;	sy = 0;	break;
+							}
+							sv.DrawImage(
+									food_img,
+									(int)(m_customerList.get(i).GetPos().x),
+									(int)(m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
+									sx * Food.FOOD_WIDTH,
+									sy * Food.FOOD_HEIGHT,
+									Food.FOOD_WIDTH,
+									Food.FOOD_HEIGHT,
+									false);
+						}
 					}
+					
 				}
 
 				// オブジェクト
@@ -424,7 +447,7 @@ public class GameMap {
 						int sy = 0;
 						switch (m_foodList.get(i).getM_foodName()) {
 							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
-							case FOOD_NAME_RICE_OMELET:	sx = 1;	sy = 0;	break;
+							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
 							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
 							default:					sx = 0;	sy = 0;	break;
 						}

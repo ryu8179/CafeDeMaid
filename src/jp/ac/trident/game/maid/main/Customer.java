@@ -5,6 +5,7 @@ package jp.ac.trident.game.maid.main;
 
 import jp.ac.trident.game.maid.common.Collision;
 import jp.ac.trident.game.maid.common.Vector2D;
+import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 
@@ -26,6 +27,11 @@ public class Customer extends Human {
 	 * 描画方法に関わってくる。
 	 */
 	private boolean isInShop;
+	
+	/**
+	 * 注文の品
+	 */
+	private FOOD_NAME m_order;
 	
 	/**
 	 * 目の前のマスじゃなく、最後の座標
@@ -52,13 +58,14 @@ public class Customer extends Human {
 	public void Initialize() {
 		// HumanクラスのInitialize()呼び出し
 		super.Initialize();
+		
 		// Customerのみの変数の初期化
 		isCheckEnter = false;
 		isInShop = false;
 		target_height = 0;	// 店内に入るまで意味なし
 		target_width = 0;	// 店内に入るまで意味なし
-		target.x= 80;
-		target.y = 60;
+		m_order = FOOD_NAME.FOOD_NAME_NONE;
+		
 		// 店外に設置するための初期化
 		InitializePos();
 	}
@@ -67,6 +74,9 @@ public class Customer extends Human {
 	 * 初期位置に設置(店外)
 	 */
 	private void InitializePos() {
+		// 向かう先を決定
+		target.x= 80;
+		target.y = 60;
 		
 		// どちらに向いて歩くかをランダムで決定。
 		if (GameMain.rand.nextBoolean()) {
@@ -97,11 +107,14 @@ public class Customer extends Human {
 			//  目標地点に向かいます。
 			super.Update(target_height, target_width);
 			
-			// 目の前が目標の椅子だったら、座らせるような処理をする
+			// 目の前が目標の椅子だったら、座らせ、注文を決定する。
 			if (square_x == target_width && (square_y-1 == target_height || square_y+1 == target_height)
 			||  square_y == target_height && (square_x-1 == target_width || square_x+1 == target_width) ) {
 				SetSquareXY(target_width, target_height);
 				list.clear();
+				// 注文の品を決定
+				m_order = GameMain.rand.nextBoolean() ? FOOD_NAME.FOOD_NAME_COFFEE : FOOD_NAME.FOOD_NAME_CAKE;
+				
 			}
 			
 		} else {
@@ -185,5 +198,12 @@ public class Customer extends Human {
 		return null;
 	}
 	/* ここまでメソッド */
+
+	/**
+	 * @return m_order
+	 */
+	public FOOD_NAME getM_order() {
+		return m_order;
+	}
 
 }
