@@ -1,6 +1,8 @@
 package jp.ac.trident.game.maid.main;
 
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
+import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
+import android.graphics.Bitmap;
 
 public class Maid extends Human {
 
@@ -31,9 +33,10 @@ public class Maid extends Human {
 	private long m_startTime = 0;
 
 	/**
-	 * デフォルトコンストラクタ
+	 * コンストラクタ
 	 */
-	public Maid() {
+	public Maid(Bitmap image)  {
+		super(image);
 		Initialize();
 	}
 
@@ -93,14 +96,17 @@ public class Maid extends Human {
 		}
 		// 調理中のフラグが立っていたら調理を行う。
 		if (isCooking) {
+			Animation(MODE_MOVE);
 			long currentTime = System.currentTimeMillis();
 			if (currentTime - m_startTime >= COOKING_TIME) {
 				m_food = FOOD_NAME.FOOD_NAME_COFFEE;
+				m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
 				isCooking = false;
 			}
 			return;
 		}
 		isCooking = true;
+		m_image = GameMain.imageMap.get(TEX_NAME.MOHIKAN);
 		m_startTime = System.currentTimeMillis();
 	}
 }

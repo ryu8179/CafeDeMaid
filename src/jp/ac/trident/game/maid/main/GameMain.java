@@ -3,14 +3,16 @@
  */
 package jp.ac.trident.game.maid.main;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import jp.ac.trident.game.maid.R;
+import jp.ac.trident.game.maid.common.Vector2D;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -24,6 +26,22 @@ import com.example.maid.ZooData;
  * @author minnna
  */
 public class GameMain {
+	/* ================== 定数宣言 ================== */
+	/**
+	 * テクスチャー用の列挙体
+	 * @author ryu8179
+	 *
+	 */
+	public enum TEX_NAME {
+		FLOOR_CHIP,
+		WALL,
+		OBJECT,
+		MAID_01,
+		MAID_02,
+		MOHIKAN,
+		FOOD,
+	}
+	/* ================== ここまで定数宣言 ================== */
 
 	/** ================== 変数宣言 ================== **/
 
@@ -65,7 +83,7 @@ public class GameMain {
 	/**
 	 * 乱数オブジェクト。
 	 */
-	private Random r = new Random();
+	public static Random rand = new Random();
 
 	/**
 	 * BGM。
@@ -81,6 +99,11 @@ public class GameMain {
 	 * コンテキスト。
 	 */
 	private Context context;
+	
+	/**
+	 * 使用するイメージリソースをstaticで持ってしまう。
+	 */
+	public static HashMap<TEX_NAME, Bitmap> imageMap;
 
 	/**
 	 * 背景。
@@ -137,9 +160,6 @@ public class GameMain {
 		}
 		zooData = new ZooData(this.context);
 
-		// タッチ処理用コントローラを作成する。
-		virtualController = new VirtualController();
-
 		// BGMを読み込む。
 		bgm = MediaPlayer.create(context, R.raw.bgm);
 
@@ -154,16 +174,34 @@ public class GameMain {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inScaled = false;
 		
+		// staticなMapに格納する
+		imageMap = new HashMap<TEX_NAME, Bitmap>();
+		imageMap.clear();
+		
 		Bitmap floorImg = BitmapFactory.decodeResource(context.getResources(),R.drawable.floor_chip_w64_h64_var3,options);
 		Bitmap wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall, options);
 		Bitmap objectImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.obj5, options);
-		Bitmap maidImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid_cawaisugi, options);
+		Bitmap maid01Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid01, options);
+		Bitmap maid02Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid02, options);
+		Bitmap mohikanImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.mohikan_edit, options);
 		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.floor_chip_w64_h64_var3, options);
+
+		// staticなMapに格納する
+		imageMap.put(TEX_NAME.FLOOR_CHIP, floorImg);
+		imageMap.put(TEX_NAME.WALL, wallImg);
+		imageMap.put(TEX_NAME.OBJECT, objectImg);
+		imageMap.put(TEX_NAME.MAID_01, maid01Img);
+		imageMap.put(TEX_NAME.MAID_02, maid02Img);
+		imageMap.put(TEX_NAME.MOHIKAN, mohikanImg);
+		imageMap.put(TEX_NAME.FOOD, foodImg);
 		
-		map = new GameMap(floorImg, wallImg, objectImg, maidImg, foodImg);
+		
+		// mapの作成
+		map = new GameMap(floorImg, wallImg, objectImg, maid01Img, foodImg);
+		
 
 		// ランダムの作成
-		r = new Random();
+		//rand = new Random();
 
 		// ベクトルの作成
 		vec = new Vector2D();
@@ -179,7 +217,7 @@ public class GameMain {
 	 * @return 乱数値
 	 */
 	public int getRandom(int max) {
-		return r.nextInt(max);
+		return rand.nextInt(max);
 	}
 
 	/**
@@ -258,6 +296,7 @@ public class GameMain {
 			// タッチされている座標を入れる
 			touch_now.x = VirtualController.getTouchX(0);
 			touch_now.y = VirtualController.getTouchY(0);
+			Log.d("debug", "touchPos = "+touch_now.x+", "+touch_now.y);
 
 			vec.x = touch_now.x - touch_push.x;
 			vec.y = touch_now.y - touch_push.y;

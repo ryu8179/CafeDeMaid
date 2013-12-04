@@ -3,6 +3,8 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
+
 public class A_Star {
 
 	/**
@@ -62,19 +64,19 @@ public class A_Star {
 	/**
 	 * 最短経路を検索し返す
 	 * 
-	 * @param floorData
+	 * @param objectChip
 	 * @param start_x
 	 * @param start_y
 	 * @param goal_x
 	 * @param goal_y
 	 * @throws Exception
 	 */
-	public List<MapData> serch(FloorData[][] floorData, int start_x,
+	public List<MapData> serch(ObjectData[][] objectChip, int start_x,
 			int start_y, int goal_x, int goal_y) throws Exception {
 
 		for (int y = 0; y < GameMap.MAP_HEIGHT; y++) {
 			for (int x = 0; x < GameMap.MAP_WIDTH; x++) {
-				if (floorData[y][x].GetUsed_floor()) {
+				if (objectChip[y][x].getM_objectName() != OBJECT_NAME.OBJECT_NAME_NONE) {
 					// 実際のマップの障害物がある地点を割り出し、仮想マップにも障害物を置く
 					map[y][x].barrier = true;
 				}

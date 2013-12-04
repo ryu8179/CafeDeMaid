@@ -1,5 +1,7 @@
 package jp.ac.trident.game.maid.main;
 
+import jp.ac.trident.game.maid.common.Vector2D;
+
 public class ObjectData {
 	
 	/* 定数宣言 */
@@ -23,6 +25,7 @@ public class ObjectData {
 		OBJECT_NAME_CHAIR,
 		OBJECT_NAME_TABLE,
 		OBJECT_NAME_COOKING_TABLE,
+		OBJECT_NAME_CASHIER,
 	}
 	
 	/* ここまで定数宣言 */
