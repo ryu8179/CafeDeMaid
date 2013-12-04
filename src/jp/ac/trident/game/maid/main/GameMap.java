@@ -134,19 +134,6 @@ public class GameMap {
 	/** 配膳されている料理を格納するリスト */
 	ArrayList<Food> m_foodList;
 
-	// あほみたいなやり方
-	// 描画順を正しく行いたいけどアルゴリズム思いつかないんで、今はこれで
-	private int draw_num[][] = { { 0, 2, 5, 9, 14, 20, 27, 35, 44, 54, 64, },
-			{ 1, 4, 8, 13, 19, 26, 34, 43, 53, 63, 73, },
-			{ 3, 7, 12, 18, 25, 33, 42, 52, 62, 72, 81, },
-			{ 6, 11, 17, 24, 32, 41, 51, 61, 71, 80, 88, },
-			{ 10, 16, 23, 31, 40, 50, 60, 70, 79, 87, 94, },
-			{ 15, 22, 30, 39, 49, 59, 69, 78, 86, 93, 99, },
-			{ 21, 29, 38, 48, 58, 68, 77, 85, 92, 98, 103, },
-			{ 28, 37, 47, 57, 67, 76, 84, 91, 97, 102, 106, },
-			{ 36, 46, 56, 66, 75, 83, 90, 96, 101, 105, 108, },
-			{ 45, 55, 65, 74, 82, 89, 95, 100, 104, 107, 109, }, };
-
 	// private int time = 0;
 
 	/**
@@ -312,7 +299,7 @@ public class GameMap {
 		}
 
 		// 選択されているマス
-		sv.DrawImage(floor_img, (int) select_pos.x, (int) select_pos.y, 0, 0,
+		sv.DrawMapChip(floor_img, (int) select_pos.x, (int) select_pos.y, 0, 0,
 				MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT, false);
 
 		// 縦の配列 マップの高さ分回す
@@ -333,7 +320,7 @@ public class GameMap {
 							break;
 					}
 					// メイド
-					sv.DrawImage(
+					sv.DrawMapChip(
 							maid_img,
 							(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
 							(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2),
@@ -352,7 +339,7 @@ public class GameMap {
 							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
 							default:					sx = 0;	sy = 0;	break;
 						}
-						sv.DrawImage(
+						sv.DrawMapChip(
 								food_img,
 								(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
 								(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2) - Food.FOOD_HEIGHT, // 料理の画像サイズ分引く
@@ -366,7 +353,7 @@ public class GameMap {
 				}
 
 				// オブジェクト
-				sv.DrawImage(
+				sv.DrawMapChip(
 						object_img,
 						(int) ObjectChip[y][x].GetPos().x,
 						(int) ObjectChip[y][x].GetPos().y
@@ -390,7 +377,7 @@ public class GameMap {
 							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
 							default:					sx = 0;	sy = 0;	break;
 						}
-						sv.DrawImage(
+						sv.DrawMapChip(
 								food_img,
 								(int) ObjectChip[y][x].GetPos().x,
 								(int) ObjectChip[y][x].GetPos().y - (ObjectData.OBJ_RES_HEIGHT *1/4),

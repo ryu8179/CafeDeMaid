@@ -104,6 +104,13 @@ public class GameMain {
 	 * ベクトル
 	 */
 	private Vector2D vec;
+	
+	private Vector2D vec_holder;
+	
+	/**
+	 * 背景の位置
+	 */
+	private int bg_x,bg_y;
 
 	/** ============================================ **/
 
@@ -160,6 +167,8 @@ public class GameMain {
 
 		// ベクトルの作成
 		vec = new Vector2D();
+		
+		vec_holder = new Vector2D();
 
 	}
 
@@ -195,9 +204,13 @@ public class GameMain {
 		touch_release.Init();
 
 		vec.Init();
+		
+		vec_holder.Init();
 
 		totalElapsedTime = 0;
-
+		
+		bg_x = -175;
+		bg_y = -180;
 	}
 
 	/**
@@ -249,9 +262,12 @@ public class GameMain {
 			vec.x = touch_now.x - touch_push.x;
 			vec.y = touch_now.y - touch_push.y;
 			
-//			if(Math.abs(vec.x) >= 30.0f || Math.abs(vec.y) >= 20.0f)
+//			if(Math.abs(vec.x) >= 10.0f || Math.abs(vec.y) >= 10.0f)
+//			{
+//			if(vec.x < 175 && vec.x > -160)
 //			{
 //				GameSurfaceView.SetVecXY(vec.x, vec.y);
+//			}
 //			}
 			
 			// 効果音を再生する。
@@ -263,8 +279,9 @@ public class GameMain {
 		}
 		
 		map.Update(touch_now.x, touch_now.y);
-	
-
+		
+		vec_holder.x = vec.x;
+		vec_holder.y = vec.y;
 	}
 
 	/**
@@ -274,13 +291,37 @@ public class GameMain {
 	 *            サーフェイスビュー
 	 */
 	void drawGame(GameSurfaceView sv) {
+		
+//		if(bg_x + (int)vec_holder.x > 0){
+//			vec_holder.x = 175;
+//		}
+//		
+//		if(bg_x + (int)vec_holder.x < -330){
+//			vec_holder.x = -160;
+//		}
+//		
+//		if(bg_y + (int)vec_holder.y > 0)
+//		{
+//			vec_holder.y = 180;
+//		}
+//		
+//		if(bg_y + (int)vec_holder.y < -230)
+//		{
+//			vec_holder.y = -50;
+//		}
+		
 		// 背景を表示する。
-		sv.DrawImage(bg, -235, -210);
+		//sv.DrawImage(bg, bg_x + (int)vec_holder.x, bg_y + (int)vec_holder.y);
+		sv.DrawImage(bg, bg_x, bg_y);
 
 		map.Draw(sv);
 		
 	//**************************************************************************************//
 		// テキストを表示する。
+//		sv.DrawText("bg_x:" + bg_x, 90, 40, Color.BLACK);
+//		sv.DrawText("bg_y:" + bg_y, 90, 60, Color.BLACK);
+//		sv.DrawText("vec.x:" + vec.x, 290, 40, Color.BLACK);
+//		sv.DrawText("vec.y:" + vec.y, 290, 60, Color.BLACK);
 		//sv.DrawText("FPS:" + fps, 90, 40, Color.BLACK);
 		//sv.DrawText("x:" + touch_push.x + " y:" + touch_push.y, 200, 40,Color.WHITE);
 		//sv.DrawText("x2:" + touch_release.x + " y2:" + touch_release.y, 200,60, Color.WHITE);
