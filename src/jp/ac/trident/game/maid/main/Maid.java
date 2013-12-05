@@ -40,6 +40,8 @@ public class Maid extends Human {
 	 */
 	public void Initialize() {
 		super.Initialize();
+		this.vel.x = 6.0f;
+		this.vel.y = 6.0f;
 		m_food = FOOD_NAME.FOOD_NAME_NONE;
 		isCooking = false;
 	}

@@ -4,9 +4,9 @@
 package jp.ac.trident.game.maid.main;
 
 import jp.ac.trident.game.maid.common.Collision;
+import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
-import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 
@@ -35,7 +35,7 @@ public class Customer extends Human {
 	/**
 	 * 食事時間(ミリ秒)
 	 */
-	private static final long EATING_TIME = 1000;
+	private static final long EATING_TIME = 3000;
 	/* ここまで定数 */
 
 	
@@ -54,7 +54,7 @@ public class Customer extends Human {
 	/**
 	 * 注文の品
 	 */
-	private Food m_order;
+	private Food m_orderFood;
 	
 	/**
 	 * 食事中か
@@ -92,7 +92,7 @@ public class Customer extends Human {
 		isCheckEnter = false;
 		target_height = 0;	// 店内に入るまで意味なし
 		target_width = 0;	// 店内に入るまで意味なし
-		m_order = new Food();
+		m_orderFood = new Food();
 		isEating = false;
 		
 		// 店外に設置するための初期化
@@ -145,8 +145,17 @@ public class Customer extends Human {
 					SetSquareXY(target_width, target_height);
 					list.clear();
 					// 注文の品を決定
-					m_order.setM_food(GameMain.rand.nextBoolean() ? FOOD_NAME.FOOD_NAME_COFFEE : FOOD_NAME.FOOD_NAME_CAKE);
+					m_orderFood.setM_food(GameMain.rand.nextBoolean() ? FOOD_NAME.FOOD_NAME_COFFEE : FOOD_NAME.FOOD_NAME_CAKE);
 					m_phase = PHASE.PHASE_WAITING;
+				}
+				
+				// 食事を終え、入り口についたら外にいかせる。
+				if (!m_orderFood.isExist()) {
+					if (Collision.pointCircle(pos, GameMap.ENTRANCE_POS, 1)) {
+						m_phase = PHASE.PHASE_MOVING_ROAD;
+						vel.x = -4.0f;
+						vel.y = -4.0f;
+					}
 				}
 				break;
 				
@@ -180,13 +189,16 @@ public class Customer extends Human {
 					SetSquareXY(5, 0);
 					m_phase = PHASE.PHASE_MOVING_SHOP;
 					
-					// 空いている座席を探し、そこに向かわせる。
+					// 空いている座席を探し、そこに向かわせる。空いている席が無かったら帰ってもらう
 					Vector2D objPos = SearchOfUnusedObject(OBJECT_NAME.OBJECT_NAME_CHAIR);
-					if (objPos != null) {
-						ObjectChip[(int)objPos.y][(int)objPos.x].SetUsed_flag(true);
-						target_height = (int)objPos.y;
-						target_width = (int)objPos.x;
+					if (objPos == null) {
+						m_orderFood.setExist(false);
+						break;
 					}
+						
+					ObjectChip[(int)objPos.y][(int)objPos.x].SetUsed_flag(true);
+					target_height = (int)objPos.y;
+					target_width = (int)objPos.x;
 				}
 				break;
 				
@@ -254,19 +266,30 @@ public class Customer extends Human {
 	 * 料理を食べる。
 	 */
 	public void Eating() {
-		// 既に料理を持っていたらメソッドを抜ける。
-		if (!m_order.isExist()) {
+		// 注文の料理が食べられていたら、メソッドを抜ける
+		if (!m_orderFood.isExist()) {
 			return;
 		}
-		// 調理中のフラグが立っていたら調理を行う。
+		// 食事中のフラグが立っていたら食事を行う。
 		if (isEating) {
 			Animation(MODE_MOVE);
 			long currentTime = System.currentTimeMillis();
 			// 食べ終えたら
 			if (currentTime - m_startTime >= EATING_TIME) {
-				m_order.setExist(false);
+				// 注文料理を無効化する
+				m_orderFood.setExist(false);
+				// 自分が座っていた席を空ける
+				ObjectChip[this.GetSquareY()][this.GetSquareX()].SetUsed_flag(false);
+				//// アニメーションを終えて、テクスチャを戻す？
 				//m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
+				// 食事中のフラグを下ろす
 				isEating = false;
+				// 料理代金を徴収する
+				CommonData.GetInstance().GetPlayerData().money += 1000;
+				// 食事を終えたので、入り口に向かわせる
+				target_height = 0;
+				target_width = 5;
+				m_phase = PHASE.PHASE_MOVING_SHOP;
 			}
 			return;
 		}
@@ -276,17 +299,17 @@ public class Customer extends Human {
 	}
 
 	/**
-	 * @return m_order
+	 * @return m_orderFood
 	 */
 	public Food getM_order() {
-		return m_order;
+		return m_orderFood;
 	}
 
 	/**
-	 * @param m_order 設定する m_order
+	 * @param m_orderFood 設定する m_orderFood
 	 */
-	public void setM_order(Food m_order) {
-		this.m_order = m_order;
+	public void setM_order(Food m_orderFood) {
+		this.m_orderFood = m_orderFood;
 	}
 
 	/**
