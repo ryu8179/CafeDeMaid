@@ -7,13 +7,15 @@ package jp.ac.trident.game.maid.main;
 
 import java.util.ArrayList;
 
+import jp.ac.trident.game.maid.common.Collision;
+import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.Customer.PHASE;
-import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 
 import com.example.maid.GameSurfaceView;
 
@@ -136,7 +138,7 @@ public class GameMap {
 			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
 			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
 			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
 
 	// テスト用3*3
 	// {new ObjectData( 0, false), new ObjectData( 3, false), new ObjectData( 0,
@@ -315,6 +317,14 @@ public class GameMap {
 							customer.setM_order(food);
 					}
 				}
+			}
+		}
+		
+		// お客リストを監視し、画面外の変な所に行ったお客は削除する
+		Rect screenRect = new Rect(0-100, 0-100, 800+100, 480+100);
+		for (int i=m_customerList.size()-1; i>=0; i--) {
+			if (!Collision.pointRect(m_customerList.get(i).GetPos(), screenRect)) {
+				m_customerList.remove(i);
 			}
 		}
 		
@@ -574,6 +584,7 @@ public class GameMap {
 		// デバック表示
 		/* ◆◆◆◆　Floor　◆◆◆◆◆ */
 
+		sv.DrawText("お客の数(List)：" + m_customerList.size(), 400, 340, Color.WHITE);
 		sv.DrawText("ID：" + FloorChip[target_squareY][target_squareX].GetId(),
 				400, 360, Color.WHITE);
 		sv.DrawText(
@@ -593,8 +604,8 @@ public class GameMap {
 						+ FloorChip[target_squareY][target_squareX]
 								.GetUsed_floor(), 400, 440, Color.WHITE);
 		sv.DrawText(
-				"所持料理："
-						+ maid.getM_food(), 400, 460, Color.WHITE);
+				"所持金："
+						+ CommonData.GetInstance().GetPlayerData().money, 400, 460, Color.WHITE);
 		/* ◆◆◆◆◆◆◆◆◆◆◆◆◆◆ */
 
 		// /* ◆◆◆◆　Object　◆◆◆◆◆ */
