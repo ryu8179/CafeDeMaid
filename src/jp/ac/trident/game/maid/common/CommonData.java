@@ -50,10 +50,24 @@ public class CommonData {
 		playerData = new PlayerData();
 		optionData = new OptionData();
 		
+		// 端末に保存されているデータのロード
+		LoadData();
+	}
+	
+	/**
+	 * 端末に保存されているデータのロードを行う。　予定
+	 */
+	public void LoadData() {
 		playerData.money = 1000;
 		playerData.str = 5;
 		playerData.speed = 10;
 		playerData.maid = 15;
+	}
+	
+	/**
+	 * 端末にデータを保存する。　予定
+	 */
+	public void SaveData() {
 	}
 	
 	/**
