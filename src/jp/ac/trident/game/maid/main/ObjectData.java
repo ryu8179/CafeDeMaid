@@ -44,16 +44,6 @@ public class ObjectData {
 	 * オブジェクトの種類
 	 */
 	private OBJECT_NAME m_objectName;
-	
-	/**
-	 * オブジェクトの中心座標
-	 */
-	private Vector2D center;
-
-	/**
-	 * オブジェクトがどのマスにいるのか
-	 */
-	private int square_x, square_y;
 
 	/**
 	 * マップチップの向き

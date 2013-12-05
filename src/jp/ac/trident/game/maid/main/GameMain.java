@@ -184,7 +184,7 @@ public class GameMain {
 		Bitmap maid01Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid01, options);
 		Bitmap maid02Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid02, options);
 		Bitmap mohikanImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.mohikan_edit, options);
-		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.floor_chip_w64_h64_var3, options);
+		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.food, options);
 
 		// staticなMapに格納する
 		imageMap.put(TEX_NAME.FLOOR_CHIP, floorImg);
