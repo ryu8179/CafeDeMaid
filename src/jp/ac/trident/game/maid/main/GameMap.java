@@ -523,13 +523,15 @@ public class GameMap {
 		/* ◆◆◆◆　Floor　◆◆◆◆◆ */
 
 		sv.DrawText("ID：" + FloorChip[target_squareY][target_squareX].GetId(),
+				400, 340, Color.WHITE);
+		sv.DrawText("DrawNumber：" + FloorChip[target_squareY][target_squareX].GetDrawNumber(),
 				400, 360, Color.WHITE);
 		sv.DrawText(
 				"チップの種類："
 						+ FloorChip[target_squareY][target_squareX]
 								.GetChip_num(), 400, 380, Color.WHITE);
-		sv.DrawText("縦 HEIGHT Y：" + target_squareY + "　横 WIDTH X:"
-				+ target_squareX, 400, 400, Color.WHITE);
+		sv.DrawText("(" + target_squareX + ","
+				+ target_squareY + ")", 400, 400, Color.WHITE);
 		sv.DrawText(
 				"クォーターX："
 						+ FloorChip[target_squareY][target_squareX].GetPos().x

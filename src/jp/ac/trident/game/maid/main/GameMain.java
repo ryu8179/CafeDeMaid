@@ -303,10 +303,7 @@ public class GameMain {
 			
 //			if(Math.abs(vec.x) >= 10.0f || Math.abs(vec.y) >= 10.0f)
 //			{
-//			if(vec.x < 175 && vec.x > -160)
-//			{
 //				GameSurfaceView.SetVecXY(vec.x, vec.y);
-//			}
 //			}
 			
 			// 効果音を再生する。
@@ -331,26 +328,7 @@ public class GameMain {
 	 */
 	void drawGame(GameSurfaceView sv) {
 		
-//		if(bg_x + (int)vec_holder.x > 0){
-//			vec_holder.x = 175;
-//		}
-//		
-//		if(bg_x + (int)vec_holder.x < -330){
-//			vec_holder.x = -160;
-//		}
-//		
-//		if(bg_y + (int)vec_holder.y > 0)
-//		{
-//			vec_holder.y = 180;
-//		}
-//		
-//		if(bg_y + (int)vec_holder.y < -230)
-//		{
-//			vec_holder.y = -50;
-//		}
-		
 		// 背景を表示する。
-		//sv.DrawImage(bg, bg_x + (int)vec_holder.x, bg_y + (int)vec_holder.y);
 		sv.DrawImage(bg, bg_x, bg_y);
 
 		map.Draw(sv);
