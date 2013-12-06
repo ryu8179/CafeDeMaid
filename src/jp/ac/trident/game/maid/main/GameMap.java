@@ -7,11 +7,15 @@ package jp.ac.trident.game.maid.main;
 
 import java.util.ArrayList;
 
+import jp.ac.trident.game.maid.common.Collision;
+import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
+import jp.ac.trident.game.maid.main.Customer.PHASE;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 
 import com.example.maid.GameSurfaceView;
 
@@ -134,7 +138,7 @@ public class GameMap {
 			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
 			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
 			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
 
 	// テスト用3*3
 	// {new ObjectData( 0, false), new ObjectData( 3, false), new ObjectData( 0,
@@ -298,6 +302,42 @@ public class GameMap {
 		for (int i=0; i<m_customerList.size(); i++) {
 			m_customerList.get(i).Update();
 		}
+		
+		// お客が席に座っており、目の前に料理がある場合、お客に食べる命令を出す。
+		for (int i=0; i<m_customerList.size(); i++) {
+			// 料理待ちか
+			if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
+				// お客様の位置が、料理の目の前か
+				for (int j=0; j<m_foodList.size(); j++) {
+					Customer customer = m_customerList.get(i);
+					Food food = m_foodList.get(j);
+					if (customer.GetSquareX() == food.getM_x() && (customer.GetSquareY()-1 == food.getM_y() || customer.GetSquareY()+1 == food.getM_y())
+					||  customer.GetSquareY() == food.getM_y() && (customer.GetSquareX()-1 == food.getM_x() || customer.GetSquareX()+1 == food.getM_x()) ) {
+							customer.setM_phase(PHASE.PHASE_EATING);
+							customer.setM_order(food);
+					}
+				}
+			}
+		}
+		
+		// お客リストを監視し、画面外の変な所に行ったお客は削除する
+		Rect screenRect = new Rect(0-100, 0-100, 800+100, 480+100);
+		for (int i=m_customerList.size()-1; i>=0; i--) {
+			if (!Collision.pointRect(m_customerList.get(i).GetPos(), screenRect)) {
+				m_customerList.remove(i);
+			}
+		}
+		
+		// 料理リストを監視して、食べられた料理は削除する
+		for (int i=m_foodList.size()-1; i>=0; i--) {
+			if (!m_foodList.get(i).isExist()) {
+				m_foodList.remove(i);
+			}
+		}
+		
+		
+		
+		
 		// 経過時間によって、お客を生成する
 		if (m_elapsedFrame % (3*30) == 0) {
 			TEX_NAME imgName = GameMain.rand.nextBoolean() ? TEX_NAME.MOHIKAN : TEX_NAME.MAID_02;
@@ -306,7 +346,6 @@ public class GameMap {
 			customer.SetFloorData(ObjectChip);
 			m_customerList.add(customer);
 		}
-
 	}
 
 	/**
@@ -355,15 +394,15 @@ public class GameMap {
 						int sx = 0;
 						int sy = 0;
 						switch (maid.getM_food()) {
-							case FOOD_NAME_TEA:			sx = 1; sy = 2; break;
-							case FOOD_NAME_COFFEE:		sx = 2;	sy = 2;	break;
-							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
+							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
+							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
+							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
 								food_img,
-								(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
-								(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2) - Food.FOOD_HEIGHT, // 料理の画像サイズ分引く
+								(int)(maid.GetPos().x),
+								(int)(maid.GetPos().y - Maid.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 								sx * Food.FOOD_WIDTH,
 								sy * Food.FOOD_HEIGHT,
 								Food.FOOD_WIDTH,
@@ -384,7 +423,29 @@ public class GameMap {
 								Maid.MAID_RES_HEIGHT * (m_customerList.get(i).getM_direction() % 2 ),	// 上向きだけ1に変換
 								Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
 								m_customerList.get(i).isReverse);
+						
+						// 料理待ちの間、注文を頭上に表示する。
+						if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
+							int sx = 0;
+							int sy = 0;
+							switch (m_customerList.get(i).getM_order().getM_foodName()) {
+								case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
+								case FOOD_NAME_CAKE:		sx = 1;	sy = 0;	break;
+								case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
+								default:					sx = 0;	sy = 0;	break;
+							}
+							sv.DrawImage(
+									food_img,
+									(int)(m_customerList.get(i).GetPos().x),
+									(int)(m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
+									sx * Food.FOOD_WIDTH,
+									sy * Food.FOOD_HEIGHT,
+									Food.FOOD_WIDTH,
+									Food.FOOD_HEIGHT,
+									false);
+						}
 					}
+					
 				}
 
 				// オブジェクト
@@ -400,6 +461,7 @@ public class GameMap {
 						ObjectData.OBJ_RES_WIDTH, ObjectData.OBJ_RES_HEIGHT,
 						ObjectChip[y][x].GetDirection());
 				
+				// 料理
 				// 料理リスト内を検索して、指定座標に料理がある場合、描画する
 				for (int i=0; i<m_foodList.size(); i++) {
 					if (m_foodList.get(i).getM_x() == x
@@ -407,15 +469,15 @@ public class GameMap {
 						int sx = 0;
 						int sy = 0;
 						switch (m_foodList.get(i).getM_foodName()) {
-							case FOOD_NAME_TEA:			sx = 1; sy = 2; break;
-							case FOOD_NAME_COFFEE:		sx = 2;	sy = 2;	break;
-							case FOOD_NAME_RICE_OMELET:	sx = 3;	sy = 0;	break;
+							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
+							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
+							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
 								food_img,
 								(int) ObjectChip[y][x].GetPos().x,
-								(int) ObjectChip[y][x].GetPos().y - (ObjectData.OBJ_RES_HEIGHT *1/4),
+								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
 								sx * Food.FOOD_WIDTH,
 								sy * Food.FOOD_HEIGHT,
 								Food.FOOD_WIDTH,
@@ -522,6 +584,7 @@ public class GameMap {
 		// デバック表示
 		/* ◆◆◆◆　Floor　◆◆◆◆◆ */
 
+		sv.DrawText("お客の数(List)：" + m_customerList.size(), 400, 340, Color.WHITE);
 		sv.DrawText("ID：" + FloorChip[target_squareY][target_squareX].GetId(),
 				400, 340, Color.WHITE);
 		sv.DrawText("DrawNumber：" + FloorChip[target_squareY][target_squareX].GetDrawNumber(),
@@ -543,8 +606,8 @@ public class GameMap {
 						+ FloorChip[target_squareY][target_squareX]
 								.GetUsed_floor(), 400, 440, Color.WHITE);
 		sv.DrawText(
-				"所持料理："
-						+ maid.getM_food(), 400, 460, Color.WHITE);
+				"所持金："
+						+ CommonData.GetInstance().GetPlayerData().money, 400, 460, Color.WHITE);
 		/* ◆◆◆◆◆◆◆◆◆◆◆◆◆◆ */
 
 		// /* ◆◆◆◆　Object　◆◆◆◆◆ */

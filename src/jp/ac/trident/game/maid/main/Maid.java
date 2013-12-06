@@ -26,11 +26,6 @@ public class Maid extends Human {
 	 * 調理中かどうか
 	 */
 	private boolean isCooking;
-	
-	/**
-	 * 調理開始時のタイム
-	 */
-	private long m_startTime = 0;
 
 	/**
 	 * コンストラクタ
@@ -45,6 +40,8 @@ public class Maid extends Human {
 	 */
 	public void Initialize() {
 		super.Initialize();
+		this.vel.x = 6.0f;
+		this.vel.y = 6.0f;
 		m_food = FOOD_NAME.FOOD_NAME_NONE;
 		isCooking = false;
 	}
@@ -98,6 +95,7 @@ public class Maid extends Human {
 		if (isCooking) {
 			Animation(MODE_MOVE);
 			long currentTime = System.currentTimeMillis();
+			// 調理終えたら
 			if (currentTime - m_startTime >= COOKING_TIME) {
 				m_food = FOOD_NAME.FOOD_NAME_COFFEE;
 				m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
