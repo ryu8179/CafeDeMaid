@@ -290,43 +290,42 @@ public class GameSurfaceView extends SurfaceView implements
 		} else {
 			canvas.drawBitmap(bmp, src, desc, null);
 		}
-
 	}
 	
-//	/**
-//	 * 画像を描画する。
-//   * 仮想のoffCanvasに現在のデータを書き込み
-//	 * そのoffCanvasをひきのばしたものを、本当のCanvasに書き込む
-//	 *
-//	 * @param bmp	ビットマップ
-//	 * @param x		描画先のX座標
-//	 * @param y		描画先のY座標
-//	 * @param sx	描画元のX座標
-//	 * @param sy	描画元のY座標
-//	 * @param sw	描画元の幅
-//	 * @param sh	描画元の高さ
-//	 * @param scaleW	幅の倍率
-//	 * @param scaleH	高さの倍率
-//	 * @param reverse	反転するか？
-//	 */
-//	public void ScaleDrawImage(Bitmap bmp, int x, int y, int sx, int sy, int sw,
-//			int sh, int scaleW, int scaleH, boolean reverse){
-//
-//		Rect src = new Rect(sx, sy, sx + sw, sy + sh);
-//		Rect desc = new Rect(x, y, x + (sw*scaleW), y + (sh*scaleH));
-//
-//		if (reverse) {
-//			desc.left = desc.right * -1;
-//			desc.right = (int) (desc.left + sw);
-//
-//			offCanvas.save();
-//			offCanvas.scale(-1.0f, 1.0f, 1.0f, 1.0f);
-//			offCanvas.drawBitmap(bmp, src, desc, null);
-//			offCanvas.restore();
-//		} else {
-//			offCanvas.drawBitmap(bmp, src, desc, null);
-//		}
-//	}
+	/**
+	 * 画像を描画する。
+	 * 仮想のoffCanvasに現在のデータを書き込み
+	 * そのoffCanvasをひきのばしたものを、本当のCanvasに書き込む
+	 *
+	 * @param bmp	ビットマップ
+	 * @param x		描画先のX座標
+	 * @param y		描画先のY座標
+	 * @param sx	描画元のX座標
+	 * @param sy	描画元のY座標
+	 * @param sw	描画元の幅
+	 * @param sh	描画元の高さ
+	 * @param scaleW	幅の倍率
+	 * @param scaleH	高さの倍率
+	 * @param reverse	反転するか？
+	 */
+	public void DrawImageScale(Bitmap bmp, int x, int y, int sx, int sy, int sw,
+			int sh, float scaleW, float scaleH, boolean reverse){
+
+		Rect src = new Rect(sx, sy, sx + sw, sy + sh);
+		Rect desc = new Rect(x, y, x + (int)(sw*scaleW), y + (int)(sh*scaleH));
+
+		if (reverse) {
+			desc.left = desc.right * -1;
+			desc.right = (int) (desc.left + sw);
+
+			offCanvas.save();
+			offCanvas.scale(-1.0f, 1.0f, 1.0f, 1.0f);
+			offCanvas.drawBitmap(bmp, src, desc, null);
+			offCanvas.restore();
+		} else {
+			offCanvas.drawBitmap(bmp, src, desc, null);
+		}
+	}
 
 	/**
 	 * 画像を描画する。(アルファ付き)
