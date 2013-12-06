@@ -11,11 +11,13 @@ import jp.ac.trident.game.maid.common.Collision;
 import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.Customer.PHASE;
+import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.example.maid.GameSurfaceView;
 
@@ -148,6 +150,8 @@ public class GameMap {
 	// {new ObjectData( 0, false), new ObjectData( 0, false), new ObjectData( 0,
 	// false),},
 	};
+	/** 調理台のメニュー **/
+	private CookingTableMenu m_cookingTableMenu;
 
 	/** メイド */
 	private Maid maid;
@@ -170,15 +174,15 @@ public class GameMap {
 		this.object_img = objectImg;
 		this.food_img = foodImg;
 
-		// 縦の配列 マップの高さ分回す
+		// 縦の配列 マップの高さ分回す 
 		for (int y = 0; y < MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
 			for (int x = 0; x < MAP_WIDTH; x++) {
 				FloorChip[y][x] = new FloorData();
-				// ObjectChip[i][j] = new ObjectData();
+				// ObjectChip[y][x] = new ObjectData();
 			}
 		}
-
+		
 		// メイドの生成
 		maid = new Maid(maidImg);
 		// 配膳時の料理を入れるリストの生成
@@ -189,9 +193,21 @@ public class GameMap {
 		
 		Initialize();
 
+		// ここで、マップチップ等の座標を変換している
 		QuarterConvert();
 
 		SetData();
+		
+		// 調理台の検索と、調理台の座標を元にメニューの生成
+		m_cookingTableMenu = null;
+		for (int y = 0; y < MAP_HEIGHT; y++) {
+			// 横の配列 マップの横幅分回す
+			for (int x = 0; x < MAP_WIDTH; x++) {
+				if (ObjectChip[y][x].getM_objectName() == OBJECT_NAME.OBJECT_NAME_COOKING_TABLE) {
+					m_cookingTableMenu = new CookingTableMenu(ObjectChip[y][x].GetPos());
+				}
+			}
+		}
 
 		// 選択の初期化
 		select_pos = new Vector2D();
@@ -274,27 +290,52 @@ public class GameMap {
 		}
 		
 		// タッチしたマスがメイドの隣で、
-		// タッチしたところがキッチンテーブルだった時、料理を持たせる。
+		// タッチしたところがキッチンテーブルだった時、調理をさせる。
 		// タッチしたところがテーブルだった時、料理を置く。
 		if (maid.GetSquareX() == target_squareX && (maid.GetSquareY()-1 == target_squareY || maid.GetSquareY()+1 == target_squareY)
 		||  maid.GetSquareY() == target_squareY && (maid.GetSquareX()-1 == target_squareX || maid.GetSquareX()+1 == target_squareX) ) {
 			OBJECT_NAME objName = ObjectChip[target_squareY][target_squareX].getM_objectName();
 			switch (objName) {
 				case OBJECT_NAME_COOKING_TABLE:
-					maid.Cooking();
+					// メイドが料理を持っていたら、調理台メニューを閉じて、抜ける。
+					if (maid.getM_food() != FOOD_NAME.FOOD_NAME_NONE) {
+						m_cookingTableMenu.setOpen(false);
+						break;
+					}
+					
+					// 調理中じゃない場合、調理台メニューを開く
+					FOOD_NAME cookingFood = m_cookingTableMenu.CheckCollide(new Vector2D(mouse_x, mouse_y));
+					if (cookingFood == null) {
+						m_cookingTableMenu.setOpen(true);
+					}
+					else {
+						// 料理する品が決定していたら、料理
+						m_cookingTableMenu.setOpen(false);
+						maid.Cooking(cookingFood);
+					}
 					break;
+					
 				case OBJECT_NAME_TABLE:
-					// メイドが料理を持っていない場合のみ料理を持たせる
-					if (maid.getM_food() != Food.FOOD_NAME.FOOD_NAME_NONE) {
+					// メイドが料理を持っている場合のみ料理を置く。
+					if (maid.getM_food() != FOOD_NAME.FOOD_NAME_NONE) {
 						Food food = new Food(maid.getM_food(), target_squareX, target_squareY);
 						m_foodList.add(food);
 						maid.setM_food(Food.FOOD_NAME.FOOD_NAME_NONE);
 					}
 					break;
+					
 				default:
 					break;
 			}
 		}
+		if (ObjectChip[target_squareY][target_squareX].getM_objectName() != OBJECT_NAME.OBJECT_NAME_COOKING_TABLE) {
+			// 調理台をタッチしていない場合は、メニューを消す
+			m_cookingTableMenu.setOpen(false);
+		}
+		
+		// 料理メニューDEBUG
+		FOOD_NAME name = m_cookingTableMenu.CheckCollide(new Vector2D(mouse_x, mouse_y));
+		if (name != null) Log.d("debug", name.toString());
 		
 		// メイドの更新、移動ルートの探索と、移動を行う
 		maid.Update(target_squareY, target_squareX);
@@ -487,7 +528,14 @@ public class GameMap {
 				}
 				
 			}
+		} // 床や、メイド、お客等の描画終わり
+		
+		// 調理台選択時、ポップアップの表示
+		if (m_cookingTableMenu.isOpen()) {
+			m_cookingTableMenu.Draw(sv);
 		}
+		
+		// 
 		DebugDraw(sv);
 	}
 

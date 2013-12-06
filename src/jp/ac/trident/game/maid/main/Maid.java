@@ -86,7 +86,7 @@ public class Maid extends Human {
 	/**
 	 * 調理を行う。
 	 */
-	public void Cooking() {
+	public void Cooking(FOOD_NAME foodName) {
 		// 既に料理を持っていたらメソッドを抜ける。
 		if (m_food != FOOD_NAME.FOOD_NAME_NONE) {
 			return;
@@ -97,7 +97,7 @@ public class Maid extends Human {
 			long currentTime = System.currentTimeMillis();
 			// 調理終えたら
 			if (currentTime - m_startTime >= COOKING_TIME) {
-				m_food = FOOD_NAME.FOOD_NAME_COFFEE;
+				m_food = foodName;
 				m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
 				isCooking = false;
 			}
