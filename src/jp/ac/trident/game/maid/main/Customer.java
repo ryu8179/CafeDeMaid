@@ -66,6 +66,12 @@ public class Customer extends Human {
 	 */
 	private int target_height;
 	private int target_width;
+	
+	/**
+	 * イライラ率
+	 * 1.0fになったら帰らす！
+	 */
+	private float m_irritatedRate;
 	/* ここまでメンバ変数 */
 
 	/* メソッド */
@@ -162,6 +168,10 @@ public class Customer extends Human {
 				
 			// 料理待ち
 			case PHASE_WAITING:
+				m_irritatedRate += 0.001f;
+				if (m_irritatedRate >= 1.0f) {
+					LeaveStore();
+				}
 				break;
 				
 				
@@ -276,26 +286,34 @@ public class Customer extends Human {
 			long currentTime = System.currentTimeMillis();
 			// 食べ終えたら
 			if (currentTime - m_startTime >= EATING_TIME) {
-				// 注文料理を無効化する
-				m_orderFood.setExist(false);
-				// 自分が座っていた席を空ける
-				ObjectChip[this.GetSquareY()][this.GetSquareX()].SetUsed_flag(false);
-				//// アニメーションを終えて、テクスチャを戻す？
-				//m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
-				// 食事中のフラグを下ろす
-				isEating = false;
 				// 料理代金を徴収する
 				CommonData.GetInstance().GetPlayerData().money += 1000;
-				// 食事を終えたので、入り口に向かわせる
-				target_height = 0;
-				target_width = 5;
-				m_phase = PHASE.PHASE_MOVING_SHOP;
+				// 店を出るための処理
+				LeaveStore();
 			}
 			return;
 		}
 		isEating = true;
 		//m_image = GameMain.imageMap.get(TEX_NAME.MOHIKAN);
 		m_startTime = System.currentTimeMillis();
+	}
+	
+	/**
+	 * 席を立ち店を出るときに必要となる処理
+	 */
+	private void LeaveStore() {
+		// 注文料理を無効化する
+		m_orderFood.setExist(false);
+		// 自分が座っていた席を空ける
+		ObjectChip[this.GetSquareY()][this.GetSquareX()].SetUsed_flag(false);
+		//// アニメーションを終えて、テクスチャを戻す？
+		//m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
+		// 食事中のフラグを下ろす
+		isEating = false;
+		// 食事を終えたので、入り口に向かわせる
+		target_height = 0;
+		target_width = 5;
+		m_phase = PHASE.PHASE_MOVING_SHOP;
 	}
 
 	/**
