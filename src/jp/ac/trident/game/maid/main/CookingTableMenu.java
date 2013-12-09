@@ -90,7 +90,7 @@ public class CookingTableMenu {
 	 */
 	public void Draw(GameSurfaceView sv) {
 		// 調理台選択時、吹き出しの表示
-		sv.DrawImageScale(
+		sv.DrawImage(
 				GameMain.imageMap.get(TEX_NAME.COOKING_TABLE_BALLOON),
 				(int) m_pos.x - ObjectData.OBJ_RES_WIDTH,
 				(int) m_pos.y - 96,

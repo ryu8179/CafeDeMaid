@@ -308,7 +308,7 @@ public class GameSurfaceView extends SurfaceView implements
 	 * @param scaleH	高さの倍率
 	 * @param reverse	反転するか？
 	 */
-	public void DrawImageScale(Bitmap bmp, int x, int y, int sx, int sy, int sw,
+	public void DrawImage(Bitmap bmp, int x, int y, int sx, int sy, int sw,
 			int sh, float scaleW, float scaleH, boolean reverse){
 
 		Rect src = new Rect(sx, sy, sx + sw, sy + sh);

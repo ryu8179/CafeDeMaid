@@ -37,6 +37,7 @@ public class GameMain {
 		WALL,
 		OBJECT,
 		COOKING_TABLE_BALLOON,
+		CUSTOMER_ORDER_BALLOON,
 		MAID_01,
 		MAID_02,
 		MOHIKAN,
@@ -183,6 +184,7 @@ public class GameMain {
 		Bitmap wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall, options);
 		Bitmap objectImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.obj5, options);
 		Bitmap cookingBalloonImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.cooking_table_balloon, options);
+		Bitmap customerBalloonImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.customer_order_balloon, options);
 		Bitmap maid01Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid01, options);
 		Bitmap maid02Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid02, options);
 		Bitmap mohikanImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.mohikan_edit, options);
@@ -193,6 +195,7 @@ public class GameMain {
 		imageMap.put(TEX_NAME.WALL, wallImg);
 		imageMap.put(TEX_NAME.OBJECT, objectImg);
 		imageMap.put(TEX_NAME.COOKING_TABLE_BALLOON, cookingBalloonImg);
+		imageMap.put(TEX_NAME.CUSTOMER_ORDER_BALLOON, customerBalloonImg);
 		imageMap.put(TEX_NAME.MAID_01, maid01Img);
 		imageMap.put(TEX_NAME.MAID_02, maid02Img);
 		imageMap.put(TEX_NAME.MOHIKAN, mohikanImg);

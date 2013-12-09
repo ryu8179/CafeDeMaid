@@ -333,10 +333,6 @@ public class GameMap {
 			m_cookingTableMenu.setOpen(false);
 		}
 		
-		// 料理メニューDEBUG
-		FOOD_NAME name = m_cookingTableMenu.CheckCollide(new Vector2D(mouse_x, mouse_y));
-		if (name != null) Log.d("debug", name.toString());
-		
 		// メイドの更新、移動ルートの探索と、移動を行う
 		maid.Update(target_squareY, target_squareX);
 		// お客の更新
@@ -465,7 +461,7 @@ public class GameMap {
 								Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
 								m_customerList.get(i).isReverse);
 						
-						// 料理待ちの間、注文を頭上に表示する。
+						// 料理を待っている間、注文を頭上に表示する。
 						if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
 							int sx = 0;
 							int sy = 0;
@@ -476,9 +472,20 @@ public class GameMap {
 								default:					sx = 0;	sy = 0;	break;
 							}
 							sv.DrawImage(
+									GameMain.imageMap.get(TEX_NAME.CUSTOMER_ORDER_BALLOON),
+									(int)( 35 + m_customerList.get(i).GetPos().x),
+									(int)(-10 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
+									0,
+									0,
+									Food.FOOD_WIDTH,
+									Food.FOOD_HEIGHT,
+									0.75f,
+									1.0f,
+									false);
+							sv.DrawImage(
 									food_img,
-									(int)(m_customerList.get(i).GetPos().x),
-									(int)(m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
+									(int)( 27 + m_customerList.get(i).GetPos().x),
+									(int)(-23 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 									sx * Food.FOOD_WIDTH,
 									sy * Food.FOOD_HEIGHT,
 									Food.FOOD_WIDTH,
