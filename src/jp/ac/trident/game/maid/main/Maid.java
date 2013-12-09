@@ -98,13 +98,13 @@ public class Maid extends Human {
 			// 調理終えたら
 			if (currentTime - m_startTime >= COOKING_TIME) {
 				m_food = foodName;
-				m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
+				m_image = GameMain.imageHashMap.get(TEX_NAME.MAID_01);
 				isCooking = false;
 			}
 			return;
 		}
 		isCooking = true;
-		m_image = GameMain.imageMap.get(TEX_NAME.MOHIKAN);
+		m_image = GameMain.imageHashMap.get(TEX_NAME.MOHIKAN);
 		m_startTime = System.currentTimeMillis();
 	}
 }

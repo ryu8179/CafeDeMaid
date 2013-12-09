@@ -294,7 +294,7 @@ public class Customer extends Human {
 			return;
 		}
 		isEating = true;
-		//m_image = GameMain.imageMap.get(TEX_NAME.MOHIKAN);
+		//m_image = GameMain.imageHashMap.get(TEX_NAME.MOHIKAN);
 		m_startTime = System.currentTimeMillis();
 	}
 	
@@ -307,7 +307,7 @@ public class Customer extends Human {
 		// 自分が座っていた席を空ける
 		ObjectChip[this.GetSquareY()][this.GetSquareX()].SetUsed_flag(false);
 		//// アニメーションを終えて、テクスチャを戻す？
-		//m_image = GameMain.imageMap.get(TEX_NAME.MAID_01);
+		//m_image = GameMain.imageHashMap.get(TEX_NAME.MAID_01);
 		// 食事中のフラグを下ろす
 		isEating = false;
 		// 食事を終えたので、入り口に向かわせる
