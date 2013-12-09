@@ -91,7 +91,7 @@ public class CookingTableMenu {
 	public void Draw(GameSurfaceView sv) {
 		// 調理台選択時、吹き出しの表示
 		sv.DrawImage(
-				GameMain.imageMap.get(TEX_NAME.COOKING_TABLE_BALLOON),
+				GameMain.imageHashMap.get(TEX_NAME.COOKING_TABLE_BALLOON),
 				(int) m_pos.x - ObjectData.OBJ_RES_WIDTH,
 				(int) m_pos.y - 96,
 				0,
@@ -111,7 +111,7 @@ public class CookingTableMenu {
 				default: break;
 			}
 			sv.DrawMapChip(
-					GameMain.imageMap.get(TEX_NAME.FOOD),
+					GameMain.imageHashMap.get(TEX_NAME.FOOD),
 					(int) (m_posOf1stFood.x + FOOD_WIDTH*(i%3)),
 					(int) (m_posOf1stFood.y + FOOD_HEIGHT*(i/3)),
 					16 + 64*(chipNum%4),

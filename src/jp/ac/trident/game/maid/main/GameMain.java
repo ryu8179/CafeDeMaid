@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import jp.ac.trident.game.maid.R;
+import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.Display;
+import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.example.maid.GameSurfaceView;
@@ -33,6 +35,7 @@ public class GameMain {
 	 *
 	 */
 	public enum TEX_NAME {
+		NUMBER,
 		FLOOR_CHIP,
 		WALL,
 		OBJECT,
@@ -105,7 +108,7 @@ public class GameMain {
 	/**
 	 * 使用するイメージリソースをstaticで持ってしまう。
 	 */
-	public static HashMap<TEX_NAME, Bitmap> imageMap;
+	public static HashMap<TEX_NAME, Bitmap> imageHashMap;
 
 	/**
 	 * 背景。
@@ -177,9 +180,10 @@ public class GameMain {
 		options.inScaled = false;
 		
 		// staticなMapに格納する
-		imageMap = new HashMap<TEX_NAME, Bitmap>();
-		imageMap.clear();
+		imageHashMap = new HashMap<TEX_NAME, Bitmap>();
+		imageHashMap.clear();
 		
+		Bitmap numberImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.number, options);
 		Bitmap floorImg = BitmapFactory.decodeResource(context.getResources(),R.drawable.floor_chip_w64_h64_var3,options);
 		Bitmap wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall, options);
 		Bitmap objectImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.obj5, options);
@@ -191,23 +195,20 @@ public class GameMain {
 		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.food, options);
 
 		// staticなMapに格納する
-		imageMap.put(TEX_NAME.FLOOR_CHIP, floorImg);
-		imageMap.put(TEX_NAME.WALL, wallImg);
-		imageMap.put(TEX_NAME.OBJECT, objectImg);
-		imageMap.put(TEX_NAME.COOKING_TABLE_BALLOON, cookingBalloonImg);
-		imageMap.put(TEX_NAME.CUSTOMER_ORDER_BALLOON, customerBalloonImg);
-		imageMap.put(TEX_NAME.MAID_01, maid01Img);
-		imageMap.put(TEX_NAME.MAID_02, maid02Img);
-		imageMap.put(TEX_NAME.MOHIKAN, mohikanImg);
-		imageMap.put(TEX_NAME.FOOD, foodImg);
+		imageHashMap.put(TEX_NAME.NUMBER, numberImg);
+		imageHashMap.put(TEX_NAME.FLOOR_CHIP, floorImg);
+		imageHashMap.put(TEX_NAME.WALL, wallImg);
+		imageHashMap.put(TEX_NAME.OBJECT, objectImg);
+		imageHashMap.put(TEX_NAME.COOKING_TABLE_BALLOON, cookingBalloonImg);
+		imageHashMap.put(TEX_NAME.CUSTOMER_ORDER_BALLOON, customerBalloonImg);
+		imageHashMap.put(TEX_NAME.MAID_01, maid01Img);
+		imageHashMap.put(TEX_NAME.MAID_02, maid02Img);
+		imageHashMap.put(TEX_NAME.MOHIKAN, mohikanImg);
+		imageHashMap.put(TEX_NAME.FOOD, foodImg);
 		
 		
 		// mapの作成
 		map = new GameMap();
-		
-
-		// ランダムの作成
-		//rand = new Random();
 
 		// ベクトルの作成
 		vec = new Vector2D();
@@ -339,6 +340,9 @@ public class GameMain {
 
 		map.Draw(sv);
 		
+		// 所持金等のUIを表示する。
+		DrawUI(sv);
+		
 	//**************************************************************************************//
 		// テキストを表示する。
 //		sv.DrawText("bg_x:" + bg_x, 90, 40, Color.BLACK);
@@ -378,5 +382,37 @@ public class GameMain {
 	 */
 	public void setFps(int fps) {
 		this.fps = fps;
+	}
+	
+	/**
+	 * 所持金等のUIを表示する
+	 * @param sv
+	 */
+	private void DrawUI(GameSurfaceView sv) {
+		sv.DrawImage(GameMain.imageHashMap.get(TEX_NAME.OBJECT), 800-64, 0,0, 576, 64, 64, false);
+		DrawNumber(sv, CommonData.GetInstance().GetPlayerData().money, new Vector2D(800-64, 32));
+	}
+	
+	/**
+	 * スプライトで数字を表示。
+	 * @param sv
+	 * @param num
+	 * @param rightPos	数字なので右寄せで描画をする、右端座標
+	 */
+	private void DrawNumber(GameSurfaceView sv, int num, Vector2D rightPos) {
+		// 桁数を計算
+		int digit = 0;
+		int tmp = num;
+		while (tmp > 0) {
+			tmp /= 10;
+			digit++;
+		}
+		
+		// 桁数分だけ、右から表示
+		for (int i=0; i<digit; i++) {
+			tmp = num % 10;
+			sv.DrawImage(GameMain.imageHashMap.get(TEX_NAME.NUMBER), (int)(rightPos.x-32*(i+1)), (int)(rightPos.y), tmp*32, 0, 32, 32, false);
+			num /= 10;
+		}
 	}
 }

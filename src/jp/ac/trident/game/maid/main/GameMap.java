@@ -108,7 +108,7 @@ public class GameMap {
 	private Vector2D select_pos;
 
 	// 画像は、GameMainでstaticで持つように変更。
-	// GameMain.imageMap.get(TEX_NAME.FLOOR_CHIP);
+	// GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP);
 	// の様な呼び出し方。画像を追加したら、enum TEX_NAME に追加を行う。
 
 	/**
@@ -173,7 +173,7 @@ public class GameMap {
 		}
 		
 		// メイドの生成
-		maid = new Maid(GameMain.imageMap.get(TEX_NAME.MAID_01));
+		maid = new Maid(GameMain.imageHashMap.get(TEX_NAME.MAID_01));
 		// 配膳時の料理を入れるリストの生成
 		m_foodList = new ArrayList<Food>();
 		
@@ -320,6 +320,8 @@ public class GameMap {
 		if (ObjectChip[target_squareY][target_squareX].getM_objectName() != OBJECT_NAME.OBJECT_NAME_COOKING_TABLE) {
 			// 調理台をタッチしていない場合は、メニューを消す
 			m_cookingTableMenu.setOpen(false);
+			// 調理アニメーションもキャンセル
+			maid.setM_image(GameMain.imageHashMap.get(TEX_NAME.MAID_01));
 		}
 		
 		// メイドの更新、移動ルートの探索と、移動を行う
@@ -367,7 +369,7 @@ public class GameMap {
 		// 経過時間によって、お客を生成する
 		if (m_elapsedFrame % (3*30) == 0) {
 			TEX_NAME imgName = GameMain.rand.nextBoolean() ? TEX_NAME.MOHIKAN : TEX_NAME.MAID_02;
-			Customer customer = new Customer(GameMain.imageMap.get(imgName));
+			Customer customer = new Customer(GameMain.imageHashMap.get(imgName));
 			customer.Initialize();
 			customer.SetFloorData(ObjectChip);
 			m_customerList.add(customer);
@@ -386,7 +388,7 @@ public class GameMap {
 
 				// 床
 				sv.DrawMapChip(
-						GameMain.imageMap.get(TEX_NAME.FLOOR_CHIP),
+						GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP),
 						(int) FloorChip[y][x].GetPos().x,
 						(int) FloorChip[y][x].GetPos().y,
 						FloorData.FLOOR_RES_WIDTH
@@ -398,7 +400,7 @@ public class GameMap {
 		}
 
 		// 選択されているマス
-		sv.DrawMapChip(GameMain.imageMap.get(TEX_NAME.FLOOR_CHIP), (int) select_pos.x, (int) select_pos.y, 0, 0,
+		sv.DrawMapChip(GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP), (int) select_pos.x, (int) select_pos.y, 0, 0,
 				MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT, false);
 
 		// 縦の配列 マップの高さ分回す
@@ -426,7 +428,7 @@ public class GameMap {
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
-								GameMain.imageMap.get(TEX_NAME.FOOD),
+								GameMain.imageHashMap.get(TEX_NAME.FOOD),
 								(int)(maid.GetPos().x),
 								(int)(maid.GetPos().y - Maid.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 								sx * Food.FOOD_WIDTH,
@@ -461,7 +463,7 @@ public class GameMap {
 								default:					sx = 0;	sy = 0;	break;
 							}
 							sv.DrawImage(
-									GameMain.imageMap.get(TEX_NAME.CUSTOMER_ORDER_BALLOON),
+									GameMain.imageHashMap.get(TEX_NAME.CUSTOMER_ORDER_BALLOON),
 									(int)( 35 + m_customerList.get(i).GetPos().x),
 									(int)(-10 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 									0,
@@ -472,7 +474,7 @@ public class GameMap {
 									1.0f,
 									false);
 							sv.DrawImage(
-									GameMain.imageMap.get(TEX_NAME.FOOD),
+									GameMain.imageHashMap.get(TEX_NAME.FOOD),
 									(int)( 27 + m_customerList.get(i).GetPos().x),
 									(int)(-23 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 									sx * Food.FOOD_WIDTH,
@@ -487,7 +489,7 @@ public class GameMap {
 
 				// オブジェクト
 				sv.DrawMapChip(
-						GameMain.imageMap.get(TEX_NAME.OBJECT),
+						GameMain.imageHashMap.get(TEX_NAME.OBJECT),
 						(int) ObjectChip[y][x].GetPos().x,
 						(int) ObjectChip[y][x].GetPos().y
 								- (ObjectData.OBJ_RES_HEIGHT / 2),
@@ -512,7 +514,7 @@ public class GameMap {
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
-								GameMain.imageMap.get(TEX_NAME.FOOD),
+								GameMain.imageHashMap.get(TEX_NAME.FOOD),
 								(int) ObjectChip[y][x].GetPos().x,
 								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
 								sx * Food.FOOD_WIDTH,
