@@ -1,5 +1,6 @@
 package jp.ac.trident.game.maid.main;
 
+import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 
 public class ObjectData {
@@ -46,10 +47,18 @@ public class ObjectData {
 	private OBJECT_NAME m_objectName;
 
 	/**
-	 * マップチップの向き
+	 * 画像を反転させるか。
 	 * true:反転させる
 	 */
-	private boolean direction;
+	private boolean isReverse;
+	
+	/**
+	 * オブジェクトの向き
+	 * 右向きの場合、描画を反転させる必要がある。
+	 * 椅子以外はあまり必要無いかも。
+	 * DIRECTION_***** で指定お願いします。
+	 */
+	private int m_direction;
 
 	/**
 	 * オブジェクトが使用されているかのフラグ
@@ -69,19 +78,31 @@ public class ObjectData {
 	}
 	
 	/**
-	 * 引数付きコンストラクタ
+	 * コンストラクタ
+	 * @param objectName
+	 * @param chip_num
+	 * @param isReverse
 	 */
-	public ObjectData(int chip_num, boolean direction) {
+	public ObjectData(OBJECT_NAME objectName, int chip_num, boolean isReverse) {
 		this.pos.x = 0;
 		this.pos.y = 0;
 		this.chip_num = chip_num;
 		this.m_objectName = OBJECT_NAME.OBJECT_NAME_NONE;
-		this.direction = direction;
+		this.isReverse = isReverse;
+		this.m_direction = CommonData.DIRECTION_NONE;
 		this.used_flag = false;
-	}
-	public ObjectData(OBJECT_NAME objectName, int chip_num, boolean direction) {
-		this(chip_num, direction);
 		this.m_objectName = objectName;
+	}
+	/**
+	 * 方向指定コンストラクタ
+	 * @param objectName
+	 * @param chip_num
+	 * @param isReverse
+	 * @param direction
+	 */
+	public ObjectData(OBJECT_NAME objectName, int chip_num, boolean isReverse, int direction) {
+		this(objectName, chip_num, isReverse);
+		m_direction = direction;
 	}
 
 	/**
@@ -91,7 +112,7 @@ public class ObjectData {
 		this.pos.x = 0;
 		this.pos.y = 0;
 		this.chip_num = 0;
-		this.direction = false;
+		this.isReverse = false;
 		this.used_flag = false;
 	}
 
@@ -169,15 +190,29 @@ public class ObjectData {
 	/**
 	 * 向きを取得
 	 */
-	public void SetDirection(boolean direction) {
-		this.direction = direction;
+	public void SetReverse(boolean isReverse) {
+		this.isReverse = isReverse;
 	}
 
 	/**
 	 * 向きを返す
 	 */
-	public boolean GetDirection() {
-		return this.direction;
+	public boolean IsReverse() {
+		return this.isReverse;
+	}
+
+	/**
+	 * @return m_direction
+	 */
+	public int getM_direction() {
+		return m_direction;
+	}
+
+	/**
+	 * @param m_direction 設定する m_direction
+	 */
+	public void setM_direction(int m_direction) {
+		this.m_direction = m_direction;
 	}
 
 	/**
