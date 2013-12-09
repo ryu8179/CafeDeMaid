@@ -203,7 +203,7 @@ public class GameMain {
 		
 		
 		// mapの作成
-		map = new GameMap(floorImg, wallImg, objectImg, maid01Img, foodImg);
+		map = new GameMap();
 		
 
 		// ランダムの作成

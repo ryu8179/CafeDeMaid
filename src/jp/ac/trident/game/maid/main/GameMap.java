@@ -107,14 +107,9 @@ public class GameMap {
 	private int target_squareY = 0, target_squareX = 2;
 	private Vector2D select_pos;
 
-	/**
-	 * リソース画像 
-	 * floor	: 床 
-	 * object	: 物
-	 * 
-	 * food		: メイドが持つ料理品
-	 */
-	private Bitmap floor_img, wall_img, object_img, food_img;
+	// 画像は、GameMainでstaticで持つように変更。
+	// GameMain.imageMap.get(TEX_NAME.FLOOR_CHIP);
+	// の様な呼び出し方。画像を追加したら、enum TEX_NAME に追加を行う。
 
 	/**
 	 * マップチップ 2次元配列の構造体
@@ -166,14 +161,8 @@ public class GameMap {
 	 * @param img
 	 *            : リソース画像
 	 */
-	public GameMap(Bitmap floorImg, Bitmap wallImg, Bitmap objectImg, Bitmap maidImg, Bitmap foodImg) {
-
-		// 画像の初期化
-		this.floor_img = floorImg;
-		this.wall_img = wallImg;
-		this.object_img = objectImg;
-		this.food_img = foodImg;
-
+	public GameMap() {
+		
 		// 縦の配列 マップの高さ分回す 
 		for (int y = 0; y < MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
@@ -184,7 +173,7 @@ public class GameMap {
 		}
 		
 		// メイドの生成
-		maid = new Maid(maidImg);
+		maid = new Maid(GameMain.imageMap.get(TEX_NAME.MAID_01));
 		// 配膳時の料理を入れるリストの生成
 		m_foodList = new ArrayList<Food>();
 		
@@ -397,7 +386,7 @@ public class GameMap {
 
 				// 床
 				sv.DrawMapChip(
-						floor_img,
+						GameMain.imageMap.get(TEX_NAME.FLOOR_CHIP),
 						(int) FloorChip[y][x].GetPos().x,
 						(int) FloorChip[y][x].GetPos().y,
 						FloorData.FLOOR_RES_WIDTH
@@ -409,7 +398,7 @@ public class GameMap {
 		}
 
 		// 選択されているマス
-		sv.DrawMapChip(floor_img, (int) select_pos.x, (int) select_pos.y, 0, 0,
+		sv.DrawMapChip(GameMain.imageMap.get(TEX_NAME.FLOOR_CHIP), (int) select_pos.x, (int) select_pos.y, 0, 0,
 				MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT, false);
 
 		// 縦の配列 マップの高さ分回す
@@ -437,7 +426,7 @@ public class GameMap {
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
-								food_img,
+								GameMain.imageMap.get(TEX_NAME.FOOD),
 								(int)(maid.GetPos().x),
 								(int)(maid.GetPos().y - Maid.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 								sx * Food.FOOD_WIDTH,
@@ -483,7 +472,7 @@ public class GameMap {
 									1.0f,
 									false);
 							sv.DrawImage(
-									food_img,
+									GameMain.imageMap.get(TEX_NAME.FOOD),
 									(int)( 27 + m_customerList.get(i).GetPos().x),
 									(int)(-23 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 									sx * Food.FOOD_WIDTH,
@@ -498,7 +487,7 @@ public class GameMap {
 
 				// オブジェクト
 				sv.DrawMapChip(
-						object_img,
+						GameMain.imageMap.get(TEX_NAME.OBJECT),
 						(int) ObjectChip[y][x].GetPos().x,
 						(int) ObjectChip[y][x].GetPos().y
 								- (ObjectData.OBJ_RES_HEIGHT / 2),
@@ -523,7 +512,7 @@ public class GameMap {
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
-								food_img,
+								GameMain.imageMap.get(TEX_NAME.FOOD),
 								(int) ObjectChip[y][x].GetPos().x,
 								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
 								sx * Food.FOOD_WIDTH,
