@@ -162,33 +162,38 @@ public class Customer extends Human {
 				//  目標地点に向かいます。
 				super.Update(target_height, target_width);
 				
-				// 目の前が目標の椅子だったら、座らせ、注文を決定する。
-				if (square_x == target_width && (square_y-1 == target_height || square_y+1 == target_height)
-				||  square_y == target_height && (square_x-1 == target_width || square_x+1 == target_width) ) {
-					// 椅子と同じ座標に設置
-					SetSquareXY(target_width, target_height);
-					// 椅子と同じ向きに固定
-					m_direction = ObjectChip[target_height][target_width].getM_direction();
-					if (m_direction == CommonData.DIRECTION_LEFTDOWN || m_direction == CommonData.DIRECTION_LEFTUP) {
-						isReverse = false;
-					} else {
-						isReverse = true;
+				// 食事前かどうか
+				if (m_orderFood.isExist()) {
+					// 目の前が目標の椅子だったら、座らせ、注文を決定する。
+					if (square_x == target_width && (square_y-1 == target_height || square_y+1 == target_height)
+					||  square_y == target_height && (square_x-1 == target_width || square_x+1 == target_width) ) {
+						// 椅子と同じ座標に設置
+						SetSquareXY(target_width, target_height);
+						// 椅子と同じ向きに固定
+						m_direction = ObjectChip[target_height][target_width].getM_direction();
+						if (m_direction == CommonData.DIRECTION_LEFTDOWN || m_direction == CommonData.DIRECTION_LEFTUP) {
+							isReverse = false;
+						} else {
+							isReverse = true;
+						}
+						// 移動リストのクリア
+						list.clear();
+						// 注文の品を決定
+						m_orderFood.setM_food(GameMain.rand.nextBoolean() ? FOOD_NAME.FOOD_NAME_COFFEE : FOOD_NAME.FOOD_NAME_CAKE);
+						m_phase = PHASE.PHASE_WAITING;
 					}
-					// 移動リストのクリア
-					list.clear();
-					// 注文の品を決定
-					m_orderFood.setM_food(GameMain.rand.nextBoolean() ? FOOD_NAME.FOOD_NAME_COFFEE : FOOD_NAME.FOOD_NAME_CAKE);
-					m_phase = PHASE.PHASE_WAITING;
-				}
-				
-				// 食事を終え、入り口についたら外にいかせる。
-				if (!m_orderFood.isExist()) {
+				} else {
+					// 食事を終え、入り口についたら外にいかせる。
 					if (Collision.pointCircle(pos, GameMap.ENTRANCE_POS, 1)) {
+						m_direction = CommonData.DIRECTION_LEFTUP;
+						isReverse = false;
 						m_phase = PHASE.PHASE_MOVING_ROAD;
 						vel.x = -4.0f;
 						vel.y = -4.0f;
 					}
 				}
+				
+				
 				break;
 				
 				

@@ -365,8 +365,7 @@ public class GameMap {
 		
 		
 		// 経過時間によって、お客を生成する
-		if (m_elapsedFrame == 10) {
-		//if (m_elapsedFrame % (3*30) == 0) {
+		if (m_elapsedFrame % (3*30) == 0) {
 			TEX_NAME imgName = GameMain.rand.nextBoolean() ? TEX_NAME.MOHIKAN : TEX_NAME.MAID_02;
 			Customer customer = new Customer(GameMain.imageHashMap.get(imgName));
 			customer.Initialize();

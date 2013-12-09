@@ -67,6 +67,7 @@ public abstract class Human {
 	
 	/**
 	 * 描画時に反転させるか
+	 * 右向きの場合、trueにする必要がある。
 	 */
 	protected boolean isReverse;
 
