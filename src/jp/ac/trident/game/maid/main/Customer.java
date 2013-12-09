@@ -76,16 +76,17 @@ public class Customer extends Human {
 	private ArrayList<ObjectSquareData> m_chairList;
 	
 	/**
+	 * イライラ率
+	 * 1.0fになったら帰らす！
+	 */
+	private float m_irritatedRate;
+	
+	/**
 	 * 目の前のマスじゃなく、最後の座標
 	 */
 	private int target_height;
 	private int target_width;
 	
-	/**
-	 * イライラ率
-	 * 1.0fになったら帰らす！
-	 */
-	private float m_irritatedRate;
 	/* ここまでメンバ変数 */
 
 	/* メソッド */
@@ -113,6 +114,7 @@ public class Customer extends Human {
 		m_orderFood = new Food();
 		isEating = false;
 		m_chairList = new ArrayList<Customer.ObjectSquareData>();
+		m_irritatedRate = 0;
 		target_height = 0;	// 店内に入るまで意味なし
 		target_width = 0;	// 店内に入るまで意味なし
 		
@@ -132,12 +134,12 @@ public class Customer extends Human {
 		if (GameMain.rand.nextBoolean()) {
 			pos.x = -40;
 			pos.y = 120;
-			m_direction = DIRECTION_RIGHTUP;
+			m_direction = CommonData.DIRECTION_RIGHTUP;
 			isReverse = true;
 		} else {
 			pos.x = 200;
 			pos.y = 0;
-			m_direction = DIRECTION_LEFTDOWN;
+			m_direction = CommonData.DIRECTION_LEFTDOWN;
 			isReverse = false;
 		}
 		vel = Vector2D.sub(target, pos);
@@ -163,7 +165,16 @@ public class Customer extends Human {
 				// 目の前が目標の椅子だったら、座らせ、注文を決定する。
 				if (square_x == target_width && (square_y-1 == target_height || square_y+1 == target_height)
 				||  square_y == target_height && (square_x-1 == target_width || square_x+1 == target_width) ) {
+					// 椅子と同じ座標に設置
 					SetSquareXY(target_width, target_height);
+					// 椅子と同じ向きに固定
+					m_direction = ObjectChip[target_height][target_width].getM_direction();
+					if (m_direction == CommonData.DIRECTION_LEFTDOWN || m_direction == CommonData.DIRECTION_LEFTUP) {
+						isReverse = false;
+					} else {
+						isReverse = true;
+					}
+					// 移動リストのクリア
 					list.clear();
 					// 注文の品を決定
 					m_orderFood.setM_food(GameMain.rand.nextBoolean() ? FOOD_NAME.FOOD_NAME_COFFEE : FOOD_NAME.FOOD_NAME_CAKE);
@@ -183,6 +194,7 @@ public class Customer extends Human {
 				
 			// 料理待ち
 			case PHASE_WAITING:
+				// イライラ率を増加
 				m_irritatedRate += 0.001f;
 				if (m_irritatedRate >= 1.0f) {
 					LeaveStore();
@@ -263,7 +275,7 @@ public class Customer extends Human {
 		// 75%の確率で入店させる。
 		if (GameMain.rand.nextInt(100) <= 75) {
 			target.set(GameMap.ENTRANCE_POS);
-			m_direction = DIRECTION_RIGHTDOWN;
+			m_direction = CommonData.DIRECTION_RIGHTDOWN;
 			isReverse = true;
 			vel = Vector2D.sub(target, pos);
 			vel.normalize();
@@ -291,28 +303,6 @@ public class Customer extends Human {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * 使われていないオブジェクトの、マップ上での座標を返す
-	 * @param objName	椅子とか、机とか。
-	 */
-	private Vector2D SearchOfUnusedObject(OBJECT_NAME objName) {
-		// 空いているオブジェクトを探す
-		for (int y = GameMap.MAP_HEIGHT-1; y >= 0; y--) {
-			// 横の配列 マップの横幅分回す
-			for (int x = GameMap.MAP_WIDTH-1; x >= 0; x--) {
-				// 使用されていたら次のマスへ
-				if (ObjectChip[y][x].GetUsed_flag()) {
-					continue;
-				}
-				// 引数で渡ってきたオブジェクト名と同じか
-				if (ObjectChip[y][x].getM_objectName() == objName) {
-					return new Vector2D(x, y);
-				}
-			}
-		}
-		return null;
 	}
 	
 	/**
@@ -385,6 +375,20 @@ public class Customer extends Human {
 	 */
 	public void setM_phase(PHASE m_phase) {
 		this.m_phase = m_phase;
+	}
+
+	/**
+	 * @return m_irritatedRate
+	 */
+	public float getM_irritatedRate() {
+		return m_irritatedRate;
+	}
+
+	/**
+	 * @param m_irritatedRate 設定する m_irritatedRate
+	 */
+	public void setM_irritatedRate(float m_irritatedRate) {
+		this.m_irritatedRate = m_irritatedRate;
 	}
 	
 	/* ここまでメソッド */

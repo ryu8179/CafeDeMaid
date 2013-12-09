@@ -307,12 +307,14 @@ public class GameSurfaceView extends SurfaceView implements
 	 * @param scaleW	幅の倍率
 	 * @param scaleH	高さの倍率
 	 * @param reverse	反転するか？
+	 * @param alpha		透明度 完全透明:0 不透明:255
 	 */
 	public void DrawImage(Bitmap bmp, int x, int y, int sx, int sy, int sw,
-			int sh, float scaleW, float scaleH, boolean reverse){
+			int sh, float scaleW, float scaleH, boolean reverse, int alpha){
 
 		Rect src = new Rect(sx, sy, sx + sw, sy + sh);
 		Rect desc = new Rect(x, y, x + (int)(sw*scaleW), y + (int)(sh*scaleH));
+		paint.setARGB(alpha, 0, 0, 0);
 
 		if (reverse) {
 			desc.left = desc.right * -1;
@@ -320,10 +322,10 @@ public class GameSurfaceView extends SurfaceView implements
 
 			offCanvas.save();
 			offCanvas.scale(-1.0f, 1.0f, 1.0f, 1.0f);
-			offCanvas.drawBitmap(bmp, src, desc, null);
+			offCanvas.drawBitmap(bmp, src, desc, paint);
 			offCanvas.restore();
 		} else {
-			offCanvas.drawBitmap(bmp, src, desc, null);
+			offCanvas.drawBitmap(bmp, src, desc, paint);
 		}
 	}
 

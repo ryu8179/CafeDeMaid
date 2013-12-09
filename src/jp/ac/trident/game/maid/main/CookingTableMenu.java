@@ -100,7 +100,8 @@ public class CookingTableMenu {
 				128,
 				0.75f,
 				0.75f,
-				false);
+				false,
+				255);
 		// 料理リストの表示
 		int chipNum = 0;
 		for (int i=0; i<m_foodList.size(); i++) {

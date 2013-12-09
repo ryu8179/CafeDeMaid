@@ -6,6 +6,7 @@ package jp.ac.trident.game.maid.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import android.graphics.Bitmap;
 
@@ -35,18 +36,6 @@ public abstract class Human {
 	public static final int MAID_RES_WIDTH = 32;
 	/** 画像の高さ */
 	public static final int MAID_RES_HEIGHT = 64;
-	
-	/**
-	 * 移動状態の列挙型
-	 * @author ryu8179
-	 *
-	 */
-	public static final int DIRECTION_NONE = -1;
-	public static final int DIRECTION_LEFTDOWN = 0;
-	public static final int DIRECTION_LEFTUP = 1;
-	public static final int DIRECTION_RIGHTDOWN = 2;
-	public static final int DIRECTION_RIGHTUP = 3;
-	public static final int DIRECTION_COUNT = 4;
 
 	/** アニメーションの切り替え時間 */
 	protected static final int ANIMATION_CHANGE_FRAME = 10;
@@ -180,7 +169,7 @@ public abstract class Human {
 		this.square_y = 0;
 		this.vel.x = 4.0f;
 		this.vel.y = 4.0f;
-		this.m_direction = DIRECTION_LEFTDOWN;
+		this.m_direction = CommonData.DIRECTION_LEFTDOWN;
 	}
 
 	/**
@@ -379,28 +368,28 @@ public abstract class Human {
 				if (mark_squareX - this.square_x == -1
 						&& mark_squareY - this.square_y == 0) {
 					// MOVE_RIGHTUP;
-					m_direction = DIRECTION_RIGHTUP;
+					m_direction = CommonData.DIRECTION_RIGHTUP;
 					isReverse = true;
 				}
 
 				if (mark_squareX - this.square_x == 1
 						&& mark_squareY - this.square_y == 0) {
 					// MOVE_LEFTDOWN;
-					m_direction = DIRECTION_LEFTDOWN;
+					m_direction = CommonData.DIRECTION_LEFTDOWN;
 					isReverse = false;
 				}
 
 				if (mark_squareX - this.square_x == 0
 						&& mark_squareY - this.square_y == -1) {
 					// MOVE_LEFTUP;
-					m_direction = DIRECTION_LEFTUP;
+					m_direction = CommonData.DIRECTION_LEFTUP;
 					isReverse = false;
 				}
 
 				if (mark_squareX - this.square_x == 0
 						&& mark_squareY - this.square_y == 1) {
 					// MOVE_RIGHTDOWN;
-					m_direction = DIRECTION_RIGHTDOWN;
+					m_direction = CommonData.DIRECTION_RIGHTDOWN;
 					isReverse = true;
 				}
 
