@@ -14,10 +14,8 @@ import jp.ac.trident.game.maid.main.Customer.PHASE;
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.example.maid.GameSurfaceView;
 

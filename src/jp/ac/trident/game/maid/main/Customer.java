@@ -3,6 +3,9 @@
  */
 package jp.ac.trident.game.maid.main;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import jp.ac.trident.game.maid.common.Collision;
 import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
@@ -15,6 +18,12 @@ import android.graphics.Bitmap;
  *
  */
 public class Customer extends Human {
+	
+	private class ObjectSquareData {
+		public ObjectData objectData;
+		public int x;
+		public int y;
+	}
 	
 	/* 定数 */
 	/**
@@ -62,6 +71,11 @@ public class Customer extends Human {
 	private boolean isEating;
 	
 	/**
+	 * 椅子のリスト
+	 */
+	private ArrayList<ObjectSquareData> m_chairList;
+	
+	/**
 	 * 目の前のマスじゃなく、最後の座標
 	 */
 	private int target_height;
@@ -96,10 +110,11 @@ public class Customer extends Human {
 		// Customerのみの変数の初期化
 		m_phase = PHASE.PHASE_MOVING_ROAD;
 		isCheckEnter = false;
-		target_height = 0;	// 店内に入るまで意味なし
-		target_width = 0;	// 店内に入るまで意味なし
 		m_orderFood = new Food();
 		isEating = false;
+		m_chairList = new ArrayList<Customer.ObjectSquareData>();
+		target_height = 0;	// 店内に入るまで意味なし
+		target_width = 0;	// 店内に入るまで意味なし
 		
 		// 店外に設置するための初期化
 		InitializePos();
@@ -199,13 +214,21 @@ public class Customer extends Human {
 					SetSquareXY(5, 0);
 					m_phase = PHASE.PHASE_MOVING_SHOP;
 					
-					// 空いている座席を探し、そこに向かわせる。空いている席が無かったら帰ってもらう
-					Vector2D objPos = SearchOfUnusedObject(OBJECT_NAME.OBJECT_NAME_CHAIR);
+					// 席リストに全部の席を格納し、リストをシャッフルする。
+					AddChairList();
+					Collections.shuffle(m_chairList);
+					// 空いている座席を探し、その席の座標を保存。空いている席が無かったら帰ってもらう
+					Vector2D objPos = null;
+					for (int i=0; i<m_chairList.size(); i++) {
+						if (!m_chairList.get(i).objectData.GetUsed_flag()) {
+							objPos = new Vector2D(m_chairList.get(i).x, m_chairList.get(i).y);
+						}
+					}
 					if (objPos == null) {
 						m_orderFood.setExist(false);
 						break;
 					}
-						
+					// 席を使用していることにする。
 					ObjectChip[(int)objPos.y][(int)objPos.x].SetUsed_flag(true);
 					target_height = (int)objPos.y;
 					target_width = (int)objPos.x;
@@ -248,6 +271,26 @@ public class Customer extends Human {
 		}
 		// 入店するかどうかの判定を行った。
 		isCheckEnter = true;
+	}
+	
+	/**
+	 * 椅子をリストに格納
+	 */
+	private void AddChairList() {
+		// 椅子を探す
+		for (int y = GameMap.MAP_HEIGHT-1; y >= 0; y--) {
+			// 横の配列 マップの横幅分回す
+			for (int x = GameMap.MAP_WIDTH-1; x >= 0; x--) {
+				// 引数で渡ってきたオブジェクト名と同じか
+				if (ObjectChip[y][x].getM_objectName() == OBJECT_NAME.OBJECT_NAME_CHAIR) {
+					ObjectSquareData object = new ObjectSquareData();
+					object.objectData = ObjectChip[y][x];
+					object.x = x;
+					object.y = y;
+					m_chairList.add(object);
+				}
+			}
+		}
 	}
 	
 	/**
