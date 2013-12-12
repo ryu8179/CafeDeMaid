@@ -24,6 +24,17 @@ public class CommonData {
 	};
 	
 	/* 定数 */
+	/**
+	 * 方向を示す(移動方向や、オブジェクトの向きに利用)
+	 * @author ryu8179
+	 *
+	 */
+	public static final int DIRECTION_NONE = -1;
+	public static final int DIRECTION_LEFTDOWN = 0;
+	public static final int DIRECTION_LEFTUP = 1;
+	public static final int DIRECTION_RIGHTDOWN = 2;
+	public static final int DIRECTION_RIGHTUP = 3;
+	public static final int DIRECTION_COUNT = 4;
 	/* ここまで定数 */
 	
 	/**

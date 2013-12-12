@@ -11,9 +11,9 @@ import jp.ac.trident.game.maid.common.Collision;
 import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.Customer.PHASE;
+import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 
@@ -105,14 +105,9 @@ public class GameMap {
 	private int target_squareY = 0, target_squareX = 2;
 	private Vector2D select_pos;
 
-	/**
-	 * リソース画像 
-	 * floor	: 床 
-	 * object	: 物
-	 * 
-	 * food		: メイドが持つ料理品
-	 */
-	private Bitmap floor_img, wall_img, object_img, food_img;
+	// 画像は、GameMainでstaticで持つように変更。
+	// GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP);
+	// の様な呼び出し方。画像を追加したら、enum TEX_NAME に追加を行う。
 
 	/**
 	 * マップチップ 2次元配列の構造体
@@ -129,16 +124,16 @@ public class GameMap {
 	// private ObjectData ObjectChip[][] = new
 	// ObjectData[MAP_HEIGHT][MAP_WIDTH];
 	private ObjectData ObjectChip[][] = {
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false),  new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CASHIER, 27, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false), },
-			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE),  new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CASHIER, 27, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false, CommonData.DIRECTION_LEFTDOWN), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false, CommonData.DIRECTION_LEFTDOWN), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false, CommonData.DIRECTION_LEFTDOWN), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false, CommonData.DIRECTION_LEFTDOWN), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false, CommonData.DIRECTION_LEFTDOWN), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 39, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 6, false, CommonData.DIRECTION_LEFTDOWN), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_TABLE, 1, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_CHAIR, 9, false, CommonData.DIRECTION_RIGHTUP), },
+			{ new ObjectData(OBJECT_NAME.OBJECT_NAME_COOKING_TABLE, 15, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), new ObjectData(OBJECT_NAME.OBJECT_NAME_NONE, 0, false, CommonData.DIRECTION_NONE), },
 
 	// テスト用3*3
 	// {new ObjectData( 0, false), new ObjectData( 3, false), new ObjectData( 0,
@@ -148,6 +143,8 @@ public class GameMap {
 	// {new ObjectData( 0, false), new ObjectData( 0, false), new ObjectData( 0,
 	// false),},
 	};
+	/** 調理台のメニュー **/
+	private CookingTableMenu m_cookingTableMenu;
 
 	/** メイド */
 	private Maid maid;
@@ -162,25 +159,19 @@ public class GameMap {
 	 * @param img
 	 *            : リソース画像
 	 */
-	public GameMap(Bitmap floorImg, Bitmap wallImg, Bitmap objectImg, Bitmap maidImg, Bitmap foodImg) {
-
-		// 画像の初期化
-		this.floor_img = floorImg;
-		this.wall_img = wallImg;
-		this.object_img = objectImg;
-		this.food_img = foodImg;
-
-		// 縦の配列 マップの高さ分回す
+	public GameMap() {
+		
+		// 縦の配列 マップの高さ分回す 
 		for (int y = 0; y < MAP_HEIGHT; y++) {
 			// 横の配列 マップの横幅分回す
 			for (int x = 0; x < MAP_WIDTH; x++) {
 				FloorChip[y][x] = new FloorData();
-				// ObjectChip[i][j] = new ObjectData();
+				// ObjectChip[y][x] = new ObjectData();
 			}
 		}
-
+		
 		// メイドの生成
-		maid = new Maid(maidImg);
+		maid = new Maid(GameMain.imageHashMap.get(TEX_NAME.MAID_01));
 		// 配膳時の料理を入れるリストの生成
 		m_foodList = new ArrayList<Food>();
 		
@@ -189,9 +180,21 @@ public class GameMap {
 		
 		Initialize();
 
+		// ここで、マップチップ等の座標を変換している
 		QuarterConvert();
 
 		SetData();
+		
+		// 調理台の検索と、調理台の座標を元にメニューの生成
+		m_cookingTableMenu = null;
+		for (int y = 0; y < MAP_HEIGHT; y++) {
+			// 横の配列 マップの横幅分回す
+			for (int x = 0; x < MAP_WIDTH; x++) {
+				if (ObjectChip[y][x].getM_objectName() == OBJECT_NAME.OBJECT_NAME_COOKING_TABLE) {
+					m_cookingTableMenu = new CookingTableMenu(ObjectChip[y][x].GetPos());
+				}
+			}
+		}
 
 		// 選択の初期化
 		select_pos = new Vector2D();
@@ -276,26 +279,49 @@ public class GameMap {
 		}
 		
 		// タッチしたマスがメイドの隣で、
-		// タッチしたところがキッチンテーブルだった時、料理を持たせる。
+		// タッチしたところがキッチンテーブルだった時、調理をさせる。
 		// タッチしたところがテーブルだった時、料理を置く。
 		if (maid.GetSquareX() == target_squareX && (maid.GetSquareY()-1 == target_squareY || maid.GetSquareY()+1 == target_squareY)
 		||  maid.GetSquareY() == target_squareY && (maid.GetSquareX()-1 == target_squareX || maid.GetSquareX()+1 == target_squareX) ) {
 			OBJECT_NAME objName = ObjectChip[target_squareY][target_squareX].getM_objectName();
 			switch (objName) {
 				case OBJECT_NAME_COOKING_TABLE:
-					maid.Cooking();
+					// メイドが料理を持っていたら、調理台メニューを閉じて、抜ける。
+					if (maid.getM_food() != FOOD_NAME.FOOD_NAME_NONE) {
+						m_cookingTableMenu.setOpen(false);
+						break;
+					}
+					
+					// 調理中じゃない場合、調理台メニューを開く
+					FOOD_NAME cookingFood = m_cookingTableMenu.CheckCollide(new Vector2D(mouse_x, mouse_y));
+					if (cookingFood == null) {
+						m_cookingTableMenu.setOpen(true);
+					}
+					else {
+						// 料理する品が決定していたら、料理
+						m_cookingTableMenu.setOpen(false);
+						maid.Cooking(cookingFood);
+					}
 					break;
+					
 				case OBJECT_NAME_TABLE:
-					// メイドが料理を持っていない場合のみ料理を持たせる
-					if (maid.getM_food() != Food.FOOD_NAME.FOOD_NAME_NONE) {
+					// メイドが料理を持っている場合のみ料理を置く。
+					if (maid.getM_food() != FOOD_NAME.FOOD_NAME_NONE) {
 						Food food = new Food(maid.getM_food(), target_squareX, target_squareY);
 						m_foodList.add(food);
 						maid.setM_food(Food.FOOD_NAME.FOOD_NAME_NONE);
 					}
 					break;
+					
 				default:
 					break;
 			}
+		}
+		if (ObjectChip[target_squareY][target_squareX].getM_objectName() != OBJECT_NAME.OBJECT_NAME_COOKING_TABLE) {
+			// 調理台をタッチしていない場合は、メニューを消す
+			m_cookingTableMenu.setOpen(false);
+			// 調理アニメーションもキャンセル
+			maid.setM_image(GameMain.imageHashMap.get(TEX_NAME.MAID_01));
 		}
 		
 		// メイドの更新、移動ルートの探索と、移動を行う
@@ -343,7 +369,7 @@ public class GameMap {
 		// 経過時間によって、お客を生成する
 		if (m_elapsedFrame % (3*30) == 0) {
 			TEX_NAME imgName = GameMain.rand.nextBoolean() ? TEX_NAME.MOHIKAN : TEX_NAME.MAID_02;
-			Customer customer = new Customer(GameMain.imageMap.get(imgName));
+			Customer customer = new Customer(GameMain.imageHashMap.get(imgName));
 			customer.Initialize();
 			customer.SetFloorData(ObjectChip);
 			m_customerList.add(customer);
@@ -362,7 +388,7 @@ public class GameMap {
 
 				// 床
 				sv.DrawMapChip(
-						floor_img,
+						GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP),
 						(int) FloorChip[y][x].GetPos().x,
 						(int) FloorChip[y][x].GetPos().y,
 						FloorData.FLOOR_RES_WIDTH
@@ -381,7 +407,7 @@ public class GameMap {
 //		}
 
 		// 選択されているマス
-		sv.DrawMapChip(floor_img, (int) select_pos.x, (int) select_pos.y, 0, 0,
+		sv.DrawMapChip(GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP), (int) select_pos.x, (int) select_pos.y, 0, 0,
 				MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT, false);
 
 		// 縦の配列 マップの高さ分回す
@@ -409,7 +435,7 @@ public class GameMap {
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
-								food_img,
+								GameMain.imageHashMap.get(TEX_NAME.FOOD),
 								(int)(maid.GetPos().x),
 								(int)(maid.GetPos().y - Maid.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 								sx * Food.FOOD_WIDTH,
@@ -431,9 +457,10 @@ public class GameMap {
 								Maid.MAID_RES_WIDTH * (m_customerList.get(i).GetChip_num() % Maid.MAID_ANIME_LENGTH),
 								Maid.MAID_RES_HEIGHT * (m_customerList.get(i).getM_direction() % 2 ),	// 上向きだけ1に変換
 								Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
-								m_customerList.get(i).isReverse);
+								m_customerList.get(i).isReverse,
+								255);
 						
-						// 料理待ちの間、注文を頭上に表示する。
+						// 料理を待っている間、注文を頭上に表示する。
 						if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
 							int sx = 0;
 							int sy = 0;
@@ -444,14 +471,27 @@ public class GameMap {
 								default:					sx = 0;	sy = 0;	break;
 							}
 							sv.DrawImage(
-									food_img,
-									(int)(m_customerList.get(i).GetPos().x),
-									(int)(m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
+									GameMain.imageHashMap.get(TEX_NAME.CUSTOMER_ORDER_BALLOON),
+									(int)( 35 + m_customerList.get(i).GetPos().x),
+									(int)(-10 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
+									0,
+									0,
+									Food.FOOD_WIDTH,
+									Food.FOOD_HEIGHT,
+									0.75f,
+									1.0f,
+									false,
+									(int)((1-m_customerList.get(i).getM_irritatedRate())*255));
+							sv.DrawImage(
+									GameMain.imageHashMap.get(TEX_NAME.FOOD),
+									(int)( 27 + m_customerList.get(i).GetPos().x),
+									(int)(-23 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
 									sx * Food.FOOD_WIDTH,
 									sy * Food.FOOD_HEIGHT,
 									Food.FOOD_WIDTH,
 									Food.FOOD_HEIGHT,
-									false);
+									false,
+									(int)((1-m_customerList.get(i).getM_irritatedRate())*255));
 						}
 					}
 					
@@ -459,7 +499,7 @@ public class GameMap {
 
 				// オブジェクト
 				sv.DrawMapChip(
-						object_img,
+						GameMain.imageHashMap.get(TEX_NAME.OBJECT),
 						(int) ObjectChip[y][x].GetPos().x,
 						(int) ObjectChip[y][x].GetPos().y
 								- (ObjectData.OBJ_RES_HEIGHT / 2),
@@ -468,7 +508,7 @@ public class GameMap {
 						ObjectData.OBJ_RES_HEIGHT
 								* (ObjectChip[y][x].GetChip_num() / ObjectData.OBJ_CHIP_RES_LENGTH),
 						ObjectData.OBJ_RES_WIDTH, ObjectData.OBJ_RES_HEIGHT,
-						ObjectChip[y][x].GetDirection());
+						ObjectChip[y][x].IsReverse());
 				
 				// 料理
 				// 料理リスト内を検索して、指定座標に料理がある場合、描画する
@@ -484,7 +524,7 @@ public class GameMap {
 							default:					sx = 0;	sy = 0;	break;
 						}
 						sv.DrawMapChip(
-								food_img,
+								GameMain.imageHashMap.get(TEX_NAME.FOOD),
 								(int) ObjectChip[y][x].GetPos().x,
 								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
 								sx * Food.FOOD_WIDTH,
@@ -496,7 +536,14 @@ public class GameMap {
 				}
 				
 			}
+		} // 床や、メイド、お客等の描画終わり
+		
+		// 調理台選択時、ポップアップの表示
+		if (m_cookingTableMenu.isOpen()) {
+			m_cookingTableMenu.Draw(sv);
 		}
+		
+		// 
 		DebugDraw(sv);
 	}
 
