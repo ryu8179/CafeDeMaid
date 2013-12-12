@@ -30,6 +30,11 @@ public class FloorData {
 	 * 床の中心座標
 	 */
 	private Vector2D center;
+	
+	/**
+	 * クォータビューでのどの座標にいるか
+	 */
+	protected int square_x, square_y;
 
 	/** 
 	 * 床のチップ番号 
@@ -124,6 +129,28 @@ public class FloorData {
 	 */
 	public Vector2D GetCenter() {
 		return this.center;
+	}
+	
+	/**
+	 * 座標マスの取得XY
+	 */
+	public void SetSquareXY(int square_x, int square_y) {
+		this.square_x = square_x;
+		this.square_y = square_y;
+	}
+	
+	/**
+	 * 座標マスを返すX
+	 */
+	public int GetSquareX() {
+		return this.square_x;
+	}
+
+	/**
+	 * 座標マスを返すY
+	 */
+	public int GetSquareY() {
+		return this.square_y;
 	}
 
 	/**

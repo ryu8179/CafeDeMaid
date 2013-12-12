@@ -249,6 +249,8 @@ public class GameMap {
 				}
 			}
 		}
+		
+		SetDrawNum();
 
 		// メイド
 		maid.SetFloorData(ObjectChip);
@@ -370,6 +372,13 @@ public class GameMap {
 						MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT * 2, false);
 			}
 		}
+		
+//		// ここで設定した描画順の通りに描画していく処理を書く
+//		while(){
+//			for(){
+//				
+//			}
+//		}
 
 		// 選択されているマス
 		sv.DrawMapChip(floor_img, (int) select_pos.x, (int) select_pos.y, 0, 0,
@@ -572,6 +581,33 @@ public class GameMap {
 			select_pos.y = FloorChip[y][x].GetPos().y;
 
 			// maid.Move(debug_num1, debug_num2);
+		}
+	}
+	
+	/**
+	 * 描画順を設定する関数
+	 */
+	public void SetDrawNum(){
+		int num = 1;
+		int line = 0;
+		
+		for (int y = 0; y < MAP_HEIGHT; y++) {
+			for (int x = 0; x < MAP_WIDTH; x++) {
+				FloorChip[y][x].SetSquareXY(x, y);
+			}
+		}
+		
+		while(line <= ((MAP_WIDTH-1) + (MAP_HEIGHT-1))){
+			for (int y = 0; y < MAP_HEIGHT; y++) {
+				for (int x = 0; x < MAP_WIDTH; x++) {
+					
+					if((FloorChip[y][x].GetSquareX() + FloorChip[y][x].GetSquareY()) == line){
+						FloorChip[y][x].SetDrawNumber(num);
+						num++;
+					}
+				}
+			}
+			line++;
 		}
 	}
 
