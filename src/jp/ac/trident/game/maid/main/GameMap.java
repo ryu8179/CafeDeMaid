@@ -310,6 +310,7 @@ public class GameMap {
 						Food food = new Food(maid.getM_food(), target_squareX, target_squareY);
 						m_foodList.add(food);
 						maid.setM_food(new FoodData());
+						maid.CalculateMoveVel();
 					}
 					break;
 					

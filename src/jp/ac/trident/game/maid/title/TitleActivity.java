@@ -1,10 +1,12 @@
 package jp.ac.trident.game.maid.title;
 
 import jp.ac.trident.game.maid.R;
+import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.main.MainActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,6 +23,11 @@ public class TitleActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.title);
+
+		// CommonDataクラスに、SharedPreferencesをセットしておく。
+		// シーンを跨いで使用するデータや、データを端末に保存するため
+		CommonData.GetInstance().SetSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()));
+		CommonData.GetInstance().LoadData();
         
         //button_startを取得
         Button btn_start = (Button)findViewById(R.id.button_start);

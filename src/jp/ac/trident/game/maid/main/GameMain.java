@@ -10,9 +10,11 @@ import jp.ac.trident.game.maid.R;
 import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceView;
@@ -214,7 +216,7 @@ public class GameMain {
 		vec = new Vector2D();
 		
 		vec_holder = new Vector2D();
-
+		
 	}
 
 	/**

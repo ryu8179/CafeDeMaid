@@ -3,6 +3,9 @@
  */
 package jp.ac.trident.game.maid.common;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
 
 
 /**
@@ -11,8 +14,11 @@ package jp.ac.trident.game.maid.common;
  * @author ryu8179
  * 
  * 使用例：
- * 　CommonData.GetInstance().GetPlayerData().speed 
- * 　と書けば、シーンを跨いで使用できるプレイヤーのスピード値を取得できます。
+ *	CommonData.GetInstance().GetPlayerData().speed;
+ *	と書けば、シーンを跨いで使用できるプレイヤーのスピード値を取得できます。
+ * 
+ *	CommonData.GetInstance().SaveData();
+ *	と書けば、Android端末にデータを保存します。
  *
  */
 public class CommonData {
@@ -48,6 +54,8 @@ public class CommonData {
 	private static CommonData instance = new CommonData();
 
 	/* メンバ変数 */
+	private SharedPreferences sharedPre;
+	
 	/**
 	 * プレイヤーのデータ
 	 */
@@ -65,25 +73,28 @@ public class CommonData {
 	private CommonData() {
 		playerData = new PlayerData();
 		optionData = new OptionData();
-		
-		// 端末に保存されているデータのロード
-		LoadData();
 	}
 	
 	/**
 	 * 端末に保存されているデータのロードを行う。　予定
 	 */
 	public void LoadData() {
-		playerData.money = 1000;
-		playerData.str = 5;
-		playerData.speed = 10;
-		playerData.maid = 15;
+		playerData.money = sharedPre.getInt("money", 1000);
+		playerData.str = sharedPre.getInt("str", 5);
+		playerData.speed = sharedPre.getInt("speed", 10);
+		playerData.maid = sharedPre.getInt("maid", 15);
 	}
 	
 	/**
 	 * 端末にデータを保存する。　予定
 	 */
 	public void SaveData() {
+		Editor editor = sharedPre.edit();
+		editor.putInt("money", playerData.money);
+		editor.putInt("str", playerData.str);
+		editor.putInt("speed", playerData.speed);
+		editor.putInt("maid", playerData.maid);
+		editor.commit();
 	}
 	
 	/**
@@ -92,6 +103,14 @@ public class CommonData {
 	 */
 	public static CommonData GetInstance() {
 		return instance;
+	}
+	
+	/**
+	 * SharedPreferencesへの道をつないでおく
+	 * @param sharedPre
+	 */
+	public void SetSharedPreferences(SharedPreferences sharedPre) {
+		this.sharedPre = sharedPre;
 	}
 	
 	/**

@@ -45,8 +45,8 @@ public class FoodData {
 	 * 仮データ
 	 */
 	public final static FoodData foodData[] = {
-		new FoodData(FOOD_NAME.FOOD_NAME_COFFEE, 5, 2, 300 ),
-		new FoodData(FOOD_NAME.FOOD_NAME_CAKE, 10, 5, 600 ),
+		new FoodData(FOOD_NAME.FOOD_NAME_COFFEE, 5, 2000, 300 ),
+		new FoodData(FOOD_NAME.FOOD_NAME_CAKE, 10, 5000, 600 ),
 	};
 
 }

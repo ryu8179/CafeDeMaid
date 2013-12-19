@@ -326,6 +326,7 @@ public class Customer extends Human {
 			if (currentTime - m_startTime >= EATING_TIME) {
 				// 料理代金を徴収する
 				CommonData.GetInstance().GetPlayerData().money += m_orderFood.getM_foodData().price;
+				CommonData.GetInstance().SaveData();
 				// 店を出るための処理
 				LeaveStore();
 			}
