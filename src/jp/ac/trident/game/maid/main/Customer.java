@@ -179,7 +179,7 @@ public class Customer extends Human {
 						// 移動リストのクリア
 						list.clear();
 						// 注文の品を決定
-						m_orderFood.setM_food(GameMain.rand.nextBoolean() ? FOOD_NAME.FOOD_NAME_COFFEE : FOOD_NAME.FOOD_NAME_CAKE);
+						m_orderFood.setM_foodData(GameMain.rand.nextBoolean() ? FoodData.foodData[0] : FoodData.foodData[1]);
 						m_phase = PHASE.PHASE_WAITING;
 					}
 				} else {
@@ -325,7 +325,7 @@ public class Customer extends Human {
 			// 食べ終えたら
 			if (currentTime - m_startTime >= EATING_TIME) {
 				// 料理代金を徴収する
-				CommonData.GetInstance().GetPlayerData().money += 1000;
+				CommonData.GetInstance().GetPlayerData().money += m_orderFood.getM_foodData().price;
 				// 店を出るための処理
 				LeaveStore();
 			}

@@ -4,10 +4,15 @@
 package jp.ac.trident.game.maid.common;
 
 
+
 /**
  * シングルトンクラス
  * シーンをまたいで利用するデータ群
  * @author ryu8179
+ * 
+ * 使用例：
+ * 　CommonData.GetInstance().GetPlayerData().speed 
+ * 　と書けば、シーンを跨いで使用できるプレイヤーのスピード値を取得できます。
  *
  */
 public class CommonData {

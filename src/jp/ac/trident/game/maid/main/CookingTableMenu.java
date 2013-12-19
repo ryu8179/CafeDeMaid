@@ -50,7 +50,7 @@ public class CookingTableMenu {
 	/**
 	 * 調理可能な料理リスト
 	 */
-	private ArrayList<FOOD_NAME> m_foodList;
+	private ArrayList<FoodData> m_foodList;
 	////////////////////// ここまでメンバ変数 //////////////////////
 	
 	////////////////////// メソッド //////////////////////
@@ -60,7 +60,7 @@ public class CookingTableMenu {
 	public CookingTableMenu(Vector2D pos) {
 		m_pos = new Vector2D();
 		m_posOf1stFood = new Vector2D();
-		m_foodList = new ArrayList<Food.FOOD_NAME>();
+		m_foodList = new ArrayList<FoodData>();
 		
 		this.Initialize(pos);
 	}
@@ -73,8 +73,8 @@ public class CookingTableMenu {
 		m_posOf1stFood.x = m_pos.x + ObjectData.OBJ_RES_WIDTH*0.5f - FOOD_WIDTH*1.5f;
 		m_posOf1stFood.y = m_pos.y - (ObjectData.OBJ_RES_HEIGHT+FOOD_HEIGHT);
 		
-		this.AddFood(FOOD_NAME.FOOD_NAME_CAKE);
-		this.AddFood(FOOD_NAME.FOOD_NAME_COFFEE);
+		this.AddFood(FoodData.foodData[0]);
+		this.AddFood(FoodData.foodData[1]);
 	}
 	
 	/**
@@ -105,7 +105,7 @@ public class CookingTableMenu {
 		// 料理リストの表示
 		int chipNum = 0;
 		for (int i=0; i<m_foodList.size(); i++) {
-			switch (m_foodList.get(i)) {
+			switch (m_foodList.get(i).name) {
 				case FOOD_NAME_COFFEE:	chipNum = 0; break;
 				case FOOD_NAME_CAKE:	chipNum = 1; break;
 	
@@ -128,7 +128,7 @@ public class CookingTableMenu {
 	 * @param touchPos
 	 * @return 料理名 or null
 	 */
-	public FOOD_NAME CheckCollide(Vector2D touchPos) {
+	public FoodData CheckCollide(Vector2D touchPos) {
 		for (int i=0; i<m_foodList.size(); i++) {
 			Rect rect = new Rect();
 			rect.left = (int) (m_posOf1stFood.x + FOOD_WIDTH*(i%3));
@@ -146,7 +146,7 @@ public class CookingTableMenu {
 	 * 調理可能リストに、料理の追加
 	 * @param food
 	 */
-	public void AddFood(FOOD_NAME food) {
+	public void AddFood(FoodData food) {
 		m_foodList.add(food);
 	}
 	
