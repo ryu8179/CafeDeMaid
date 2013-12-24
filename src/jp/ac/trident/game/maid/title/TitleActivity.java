@@ -2,6 +2,7 @@ package jp.ac.trident.game.maid.title;
 
 import jp.ac.trident.game.maid.R;
 import jp.ac.trident.game.maid.common.CommonData;
+import jp.ac.trident.game.maid.common.DBAdapter;
 import jp.ac.trident.game.maid.main.MainActivity;
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +29,9 @@ public class TitleActivity extends Activity{
 		// シーンを跨いで使用するデータや、データを端末に保存するため
 		CommonData.GetInstance().SetSharedPreferences(PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()));
 		CommonData.GetInstance().LoadData();
+		
+		DBAdapter dbAdapter = new DBAdapter(this.getApplicationContext());
+		dbAdapter.loadData();
         
         //button_startを取得
         Button btn_start = (Button)findViewById(R.id.button_start);

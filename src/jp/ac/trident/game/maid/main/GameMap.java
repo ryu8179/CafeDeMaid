@@ -544,8 +544,8 @@ public class GameMap {
 			m_cookingTableMenu.Draw(sv);
 		}
 		
-		// 
-		DebugDraw(sv);
+		// デバッグテキストの表示
+		//DebugDraw(sv);
 	}
 
 	/**
