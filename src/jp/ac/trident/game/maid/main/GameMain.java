@@ -47,6 +47,7 @@ public class GameMain {
 		MAID_02,
 		MOHIKAN,
 		FOOD,
+		BG_OF_MONEY,
 	}
 	/* ================== ここまで定数宣言 ================== */
 
@@ -195,6 +196,7 @@ public class GameMain {
 		Bitmap maid02Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid02, options);
 		Bitmap mohikanImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.mohikan_edit, options);
 		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.food, options);
+		Bitmap bgOfMoney = BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_of_money, options);
 
 		// staticなMapに格納する
 		imageHashMap.put(TEX_NAME.NUMBER, numberImg);
@@ -207,7 +209,7 @@ public class GameMain {
 		imageHashMap.put(TEX_NAME.MAID_02, maid02Img);
 		imageHashMap.put(TEX_NAME.MOHIKAN, mohikanImg);
 		imageHashMap.put(TEX_NAME.FOOD, foodImg);
-		
+		imageHashMap.put(TEX_NAME.BG_OF_MONEY, bgOfMoney);
 		
 		// mapの作成
 		map = new GameMap();
@@ -391,8 +393,9 @@ public class GameMain {
 	 * @param sv
 	 */
 	private void DrawUI(GameSurfaceView sv) {
-		sv.DrawImage(GameMain.imageHashMap.get(TEX_NAME.OBJECT), 800-64, 0,0, 576, 64, 64, false);
-		DrawNumber(sv, CommonData.GetInstance().GetPlayerData().money, new Vector2D(800-64, 32));
+		sv.DrawImage(GameMain.imageHashMap.get(TEX_NAME.BG_OF_MONEY), (int)(800-(250*1.0f)), 0, 0, 0, 250, 100, 1.0f, 0.75f, false, 255);
+		sv.DrawImage(GameMain.imageHashMap.get(TEX_NAME.OBJECT), 790-64, 0,0, 576, 64, 64, false);
+		DrawNumber(sv, CommonData.GetInstance().GetPlayerData().money, new Vector2D(790-64, 24));
 	}
 	
 	/**
