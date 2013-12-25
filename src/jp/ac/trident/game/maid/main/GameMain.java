@@ -12,10 +12,10 @@ import jp.ac.trident.game.maid.common.Vector2D;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.Display;
-import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.example.maid.GameSurfaceView;
@@ -136,6 +136,11 @@ public class GameMain {
 	private Vector2D vec_holder;
 	
 	/**
+	 * 選択した座標用
+	 */
+	private Vector2D select_touth;
+	
+	/**
 	 * 背景の位置
 	 */
 	private int bg_x,bg_y;
@@ -214,6 +219,8 @@ public class GameMain {
 		vec = new Vector2D();
 		
 		vec_holder = new Vector2D();
+		
+		select_touth = new Vector2D();
 
 	}
 
@@ -256,6 +263,8 @@ public class GameMain {
 		
 		bg_x = -175;
 		bg_y = -180;
+		
+		select_touth.Init();
 	}
 
 	/**
@@ -285,6 +294,13 @@ public class GameMain {
 			// 合計経過時間
 			totalElapsedTime += elapsedTime;
 		}
+		
+		// タッチされた瞬間
+		if(VirtualController.isTouchTrigger(0)){
+			select_touth.x = VirtualController.getTouchX(0);
+			select_touth.y = VirtualController.getTouchY(0);
+		}
+		
 		// 画面にタッチしてる？
 		if (VirtualController.isTouch(0)) {
 			// FPSの表示座標をタッチ位置に更新
@@ -299,6 +315,7 @@ public class GameMain {
 					}
 				}
 			}
+			
 			// 指を離した時の座標を入れる
 			// タッチされている座標を入れる
 			touch_now.x = VirtualController.getTouchX(0);
@@ -321,7 +338,7 @@ public class GameMain {
 			touch_release.y = VirtualController.getTouchY(0);
 		}
 		
-		map.Update(touch_now.x, touch_now.y);
+		map.Update(select_touth.x, select_touth.y);
 		
 		vec_holder.x = vec.x;
 		vec_holder.y = vec.y;
@@ -337,6 +354,7 @@ public class GameMain {
 		
 		// 背景を表示する。
 		sv.DrawImage(bg, bg_x, bg_y);
+		//sv.DrawImage(bg, bg_x + (int)vec.x, bg_y + (int)vec.y);
 
 		map.Draw(sv);
 		
@@ -345,10 +363,10 @@ public class GameMain {
 		
 	//**************************************************************************************//
 		// テキストを表示する。
-//		sv.DrawText("bg_x:" + bg_x, 90, 40, Color.BLACK);
-//		sv.DrawText("bg_y:" + bg_y, 90, 60, Color.BLACK);
-//		sv.DrawText("vec.x:" + vec.x, 290, 40, Color.BLACK);
-//		sv.DrawText("vec.y:" + vec.y, 290, 60, Color.BLACK);
+		sv.DrawText("bg_x:" + bg_x, 90, 40, Color.BLACK);
+		sv.DrawText("bg_y:" + bg_y, 90, 60, Color.BLACK);
+		sv.DrawText("vec.x:" + vec.x, 290, 40, Color.BLACK);
+		sv.DrawText("vec.y:" + vec.y, 290, 60, Color.BLACK);
 		//sv.DrawText("FPS:" + fps, 90, 40, Color.BLACK);
 		//sv.DrawText("x:" + touch_push.x + " y:" + touch_push.y, 200, 40,Color.WHITE);
 		//sv.DrawText("x2:" + touch_release.x + " y2:" + touch_release.y, 200,60, Color.WHITE);

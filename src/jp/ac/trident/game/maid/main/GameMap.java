@@ -152,6 +152,9 @@ public class GameMap {
 	
 	/** 配膳されている料理を格納するリスト */
 	ArrayList<Food> m_foodList;
+	
+	// 描画順
+	private int draw_num = 1;
 
 	/**
 	 * コンストラクタ
@@ -253,6 +256,7 @@ public class GameMap {
 			}
 		}
 		
+		// 描画順の設定
 		SetDrawNum();
 
 		// メイド
@@ -381,30 +385,49 @@ public class GameMap {
 	 */
 	public void Draw(GameSurfaceView sv) {
 
-		// 縦の配列 マップの高さ分回す
-		for (int y = 0; y < MAP_HEIGHT; y++) {
-			// 横の配列 マップの横幅分回す
-			for (int x = 0; x < MAP_WIDTH; x++) {
-
-				// 床
-				sv.DrawMapChip(
-						GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP),
-						(int) FloorChip[y][x].GetPos().x,
-						(int) FloorChip[y][x].GetPos().y,
-						FloorData.FLOOR_RES_WIDTH
-								* (FloorChip[y][x].GetChip_num() % CHIP_RES_LENGTH),
-						FloorData.FLOOR_RES_HEIGHT
-								* (FloorChip[y][x].GetChip_num() / CHIP_RES_LENGTH),
-						MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT * 2, false);
-			}
-		}
-		
-//		// ここで設定した描画順の通りに描画していく処理を書く
-//		while(){
-//			for(){
-//				
+//		// 縦の配列 マップの高さ分回す
+//		for (int y = 0; y < MAP_HEIGHT; y++) {
+//			// 横の配列 マップの横幅分回す
+//			for (int x = 0; x < MAP_WIDTH; x++) {
+//
+//				// 床
+//				sv.DrawMapChip(
+//						GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP),
+//						(int) FloorChip[y][x].GetPos().x,
+//						(int) FloorChip[y][x].GetPos().y,
+//						FloorData.FLOOR_RES_WIDTH
+//								* (FloorChip[y][x].GetChip_num() % CHIP_RES_LENGTH),
+//						FloorData.FLOOR_RES_HEIGHT
+//								* (FloorChip[y][x].GetChip_num() / CHIP_RES_LENGTH),
+//						MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT * 2, false);
 //			}
 //		}
+		
+		// ここで設定した描画順の通りに描画していく処理を書く
+		while(draw_num <= 110){
+			// 縦の配列 マップの高さ分回す
+			for (int y = 0; y < MAP_HEIGHT; y++) {
+				// 横の配列 マップの横幅分回す
+				for (int x = 0; x < MAP_WIDTH; x++) {
+					
+					// マップの描画番号が同じ場合Draw
+					if(draw_num == FloorChip[y][x].GetDrawNumber()){
+						// 床
+						sv.DrawMapChip(
+								GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP),
+								(int) FloorChip[y][x].GetPos().x,
+								(int) FloorChip[y][x].GetPos().y,
+								FloorData.FLOOR_RES_WIDTH
+										* (FloorChip[y][x].GetChip_num() % CHIP_RES_LENGTH),
+								FloorData.FLOOR_RES_HEIGHT
+										* (FloorChip[y][x].GetChip_num() / CHIP_RES_LENGTH),
+								MAP_CHIPSIZE_WIDTH, MAP_CHIPSIZE_HEIGHT * 2, false);
+						draw_num++;
+					}
+				}
+			}
+		}
+		draw_num = 1;
 
 		// 選択されているマス
 		sv.DrawMapChip(GameMain.imageHashMap.get(TEX_NAME.FLOOR_CHIP), (int) select_pos.x, (int) select_pos.y, 0, 0,
@@ -633,6 +656,7 @@ public class GameMap {
 	
 	/**
 	 * 描画順を設定する関数
+	 * 今はFloorChipのみ設定してるけど、描画するものすべてに描画順はあった方がいいはず
 	 */
 	public void SetDrawNum(){
 		int num = 1;
