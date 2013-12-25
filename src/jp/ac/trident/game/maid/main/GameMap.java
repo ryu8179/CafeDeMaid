@@ -291,13 +291,13 @@ public class GameMap {
 			switch (objName) {
 				case OBJECT_NAME_COOKING_TABLE:
 					// メイドが料理を持っていたら、調理台メニューを閉じて、抜ける。
-					if (maid.getM_food() != FOOD_NAME.FOOD_NAME_NONE) {
+					if (maid.getM_food().name != FOOD_NAME.FOOD_NAME_NONE) {
 						m_cookingTableMenu.setOpen(false);
 						break;
 					}
 					
 					// 調理中じゃない場合、調理台メニューを開く
-					FOOD_NAME cookingFood = m_cookingTableMenu.CheckCollide(new Vector2D(mouse_x, mouse_y));
+					FoodData cookingFood = m_cookingTableMenu.CheckCollide(new Vector2D(mouse_x, mouse_y));
 					if (cookingFood == null) {
 						m_cookingTableMenu.setOpen(true);
 					}
@@ -310,10 +310,11 @@ public class GameMap {
 					
 				case OBJECT_NAME_TABLE:
 					// メイドが料理を持っている場合のみ料理を置く。
-					if (maid.getM_food() != FOOD_NAME.FOOD_NAME_NONE) {
+					if (maid.getM_food().name != FOOD_NAME.FOOD_NAME_NONE) {
 						Food food = new Food(maid.getM_food(), target_squareX, target_squareY);
 						m_foodList.add(food);
-						maid.setM_food(Food.FOOD_NAME.FOOD_NAME_NONE);
+						maid.setM_food(new FoodData());
+						maid.CalculateMoveVel();
 					}
 					break;
 					
@@ -448,10 +449,10 @@ public class GameMap {
 							Maid.MAID_RES_WIDTH, Maid.MAID_RES_HEIGHT,
 							maid.isReverse);
 					// メイドの所持料理(メイドが持ってる画像を準備出来たら、必要無くなるかも。)
-					if (maid.getM_food() != Food.FOOD_NAME.FOOD_NAME_NONE) {
+					if (maid.getM_food().name != Food.FOOD_NAME.FOOD_NAME_NONE) {
 						int sx = 0;
 						int sy = 0;
-						switch (maid.getM_food()) {
+						switch (maid.getM_food().name) {
 							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
 							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
 							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
@@ -487,7 +488,7 @@ public class GameMap {
 						if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
 							int sx = 0;
 							int sy = 0;
-							switch (m_customerList.get(i).getM_order().getM_foodName()) {
+							switch (m_customerList.get(i).getM_order().getM_foodData().name) {
 								case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
 								case FOOD_NAME_CAKE:		sx = 1;	sy = 0;	break;
 								case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
@@ -540,7 +541,7 @@ public class GameMap {
 					&&  m_foodList.get(i).getM_y() == y) {
 						int sx = 0;
 						int sy = 0;
-						switch (m_foodList.get(i).getM_foodName()) {
+						switch (m_foodList.get(i).getM_foodData().name) {
 							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
 							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
 							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
@@ -566,8 +567,8 @@ public class GameMap {
 			m_cookingTableMenu.Draw(sv);
 		}
 		
-		// 
-		DebugDraw(sv);
+		// デバッグテキストの表示
+		//DebugDraw(sv);
 	}
 
 	/**

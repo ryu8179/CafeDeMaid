@@ -1,5 +1,8 @@
 package jp.ac.trident.game.maid.main;
 
+import jp.ac.trident.game.maid.common.CommonData;
+import jp.ac.trident.game.maid.common.CommonData.PlayerData;
+import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.GameMain.TEX_NAME;
 import android.graphics.Bitmap;
@@ -20,7 +23,7 @@ public class Maid extends Human {
 	 * メイドが手に持っているもの
 	 * 配膳等の時に使用する
 	 */
-	private FOOD_NAME m_food;
+	private FoodData m_food;
 	
 	/**
 	 * 調理中かどうか
@@ -40,10 +43,9 @@ public class Maid extends Human {
 	 */
 	public void Initialize() {
 		super.Initialize();
-		this.vel.x = 6.0f;
-		this.vel.y = 6.0f;
-		m_food = FOOD_NAME.FOOD_NAME_NONE;
+		m_food = new FoodData();
 		isCooking = false;
+		CalculateMoveVel();
 	}
 
 	/**
@@ -60,7 +62,7 @@ public class Maid extends Human {
 	 * 所持料理名を返す
 	 * @return
 	 */
-	public FOOD_NAME getM_food() {
+	public FoodData getM_food() {
 		return m_food;
 	}
 
@@ -68,8 +70,8 @@ public class Maid extends Human {
 	 * 所持料理をセットする
 	 * @param m_food
 	 */
-	public void setM_food(FOOD_NAME m_food) {
-		this.m_food = m_food;
+	public void setM_food(FoodData food) {
+		this.m_food = food;
 	}
 
 	/**
@@ -86,9 +88,9 @@ public class Maid extends Human {
 	/**
 	 * 調理を行う。
 	 */
-	public void Cooking(FOOD_NAME foodName) {
+	public void Cooking(FoodData foodData) {
 		// 既に料理を持っていたらメソッドを抜ける。
-		if (m_food != FOOD_NAME.FOOD_NAME_NONE) {
+		if (m_food.name != FOOD_NAME.FOOD_NAME_NONE) {
 			return;
 		}
 		// 調理中のフラグが立っていたら調理を行う。
@@ -96,8 +98,9 @@ public class Maid extends Human {
 			Animation(MODE_MOVE);
 			long currentTime = System.currentTimeMillis();
 			// 調理終えたら
-			if (currentTime - m_startTime >= COOKING_TIME) {
-				m_food = foodName;
+			if (currentTime - m_startTime >= foodData.baseCookingTime - (CommonData.GetInstance().GetPlayerData().maid*100.0f)) {
+				m_food = foodData;
+				CalculateMoveVel();
 				m_image = GameMain.imageHashMap.get(TEX_NAME.MAID_01);
 				isCooking = false;
 			}
@@ -106,5 +109,19 @@ public class Maid extends Human {
 		isCooking = true;
 		m_image = GameMain.imageHashMap.get(TEX_NAME.MOHIKAN);
 		m_startTime = System.currentTimeMillis();
+	}
+	
+	/**
+	 * 移動速度の再計算
+	 */
+	public void CalculateMoveVel() {
+		PlayerData playerParameter = CommonData.GetInstance().GetPlayerData();
+		float baseSpeed = 4.0f;
+		float playerSpeed = playerParameter.speed/10.0f;
+		float foodDecel = (m_food.weight-playerParameter.str) / 10.0f;
+		if (foodDecel < 0) foodDecel = 0.0f;
+		
+		this.vel.x = baseSpeed + playerSpeed - foodDecel;
+		this.vel.y = baseSpeed + playerSpeed - foodDecel;
 	}
 }

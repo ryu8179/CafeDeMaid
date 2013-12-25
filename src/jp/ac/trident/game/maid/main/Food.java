@@ -29,9 +29,9 @@ class Food {
 
 	// ********************** メンバ変数 ********************** 
 	/**
-	 * 料理名
+	 * 料理データ
 	 */
-	private FOOD_NAME m_foodName;
+	private FoodData m_foodData;
 	
 	/**
 	 * マップチップによる x と y 座標
@@ -52,10 +52,10 @@ class Food {
 	 * @return
 	 */
 	public Food() {
-		this(FOOD_NAME.FOOD_NAME_NONE, 0, 0);
+		this(new FoodData(), 0, 0);
 	}
-	public Food(FOOD_NAME foodName, int x, int y) {
-		m_foodName = foodName;
+	public Food(FoodData foodData, int x, int y) {
+		m_foodData = foodData;
 		m_x = x;
 		m_y = y;
 		isExist = true;
@@ -74,11 +74,11 @@ class Food {
 	public void setM_y(int m_y) {
 		this.m_y = m_y;
 	}
-	public FOOD_NAME getM_foodName() {
-		return m_foodName;
+	public FoodData getM_foodData() {
+		return m_foodData;
 	}
-	public void setM_food(FOOD_NAME m_foodName) {
-		this.m_foodName = m_foodName;
+	public void setM_foodData(FoodData foodData) {
+		this.m_foodData = foodData;
 	}
 	/**
 	 * @return isExist
