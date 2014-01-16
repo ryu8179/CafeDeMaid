@@ -253,47 +253,6 @@ public class GameSurfaceView extends SurfaceView implements
 	
 	/**
 	 * 画像を描画する。
-	 * 
-	 * @param bmp
-	 *            ビットマップ
-	 * @param x
-	 *            描画先のX座標
-	 * @param y
-	 *            描画先のY座標
-	 * @param sx
-	 *            描画元のX座標
-	 * @param sy
-	 *            描画元のY座標
-	 * @param sw
-	 *            描画元の幅
-	 * @param sh
-	 *            描画元の高さ
-	 * @param reverse
-	 *            反転するか？
-	 */
-	public void DrawMapChip(Bitmap bmp, int x, int y, int sx, int sy, int sw,
-			int sh, boolean reverse) {
-
-		x += vec.x;
-		y += vec.y;
-		Rect src = new Rect(sx, sy, sx + sw, sy + sh);
-		Rect desc = new Rect(x, y, x + sw, y + sh);
-
-		if (reverse) {
-			desc.left = desc.right * -1;
-			desc.right = (int) (desc.left + sw);
-
-			canvas.save();
-			canvas.scale(-1.0f, 1.0f, 1.0f, 1.0f);
-			canvas.drawBitmap(bmp, src, desc, null);
-			canvas.restore();
-		} else {
-			canvas.drawBitmap(bmp, src, desc, null);
-		}
-	}
-	
-	/**
-	 * 画像を描画する。
 	 * 仮想のoffCanvasに現在のデータを書き込み
 	 * そのoffCanvasをひきのばしたものを、本当のCanvasに書き込む
 	 *
@@ -368,6 +327,47 @@ public class GameSurfaceView extends SurfaceView implements
 			canvas.restore();
 		} else {
 			canvas.drawBitmap(bmp, src, desc, paint);
+		}
+	}
+	
+	/**
+	 * 画像を描画する。
+	 * 
+	 * @param bmp
+	 *            ビットマップ
+	 * @param x
+	 *            描画先のX座標
+	 * @param y
+	 *            描画先のY座標
+	 * @param sx
+	 *            描画元のX座標
+	 * @param sy
+	 *            描画元のY座標
+	 * @param sw
+	 *            描画元の幅
+	 * @param sh
+	 *            描画元の高さ
+	 * @param reverse
+	 *            反転するか？
+	 */
+	public void DrawMapChip(Bitmap bmp, int x, int y, int sx, int sy, int sw,
+			int sh, boolean reverse) {
+
+		x += vec.x;
+		y += vec.y;
+		Rect src = new Rect(sx, sy, sx + sw, sy + sh);
+		Rect desc = new Rect(x, y, x + sw, y + sh);
+
+		if (reverse) {
+			desc.left = desc.right * -1;
+			desc.right = (int) (desc.left + sw);
+
+			canvas.save();
+			canvas.scale(-1.0f, 1.0f, 1.0f, 1.0f);
+			canvas.drawBitmap(bmp, src, desc, null);
+			canvas.restore();
+		} else {
+			canvas.drawBitmap(bmp, src, desc, null);
 		}
 	}
 
