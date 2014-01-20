@@ -79,7 +79,7 @@ public class CommonData {
 	}
 	
 	/**
-	 * 端末に保存されているデータのロードを行う。　予定
+	 * 端末に保存されているデータのロードを行う。
 	 */
 	public void LoadData() {
 		playerData.money = sharedPre.getInt("money", 1000);
@@ -93,7 +93,7 @@ public class CommonData {
 	}
 	
 	/**
-	 * 端末にデータを保存する。　予定
+	 * 端末にデータを保存する。
 	 */
 	public void SaveData() {
 		Editor editor = sharedPre.edit();

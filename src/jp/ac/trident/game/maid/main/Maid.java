@@ -29,6 +29,7 @@ public class Maid extends Human {
 	 * 調理中かどうか
 	 */
 	private boolean isCooking;
+	/* ここまでメンバ変数 */
 
 	/**
 	 * コンストラクタ

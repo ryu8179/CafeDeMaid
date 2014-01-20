@@ -404,19 +404,24 @@ public abstract class Human {
 					// 現在の座標に移動速度を足しこむ
 					pos.x += move_speed.x;
 					pos.y += move_speed.y;
+					if ((move_speed.x > 0 && pos.x > ObjectChip[mark_squareY][mark_squareX].GetPos().x)
+					||  (move_speed.x < 0 && pos.x < ObjectChip[mark_squareY][mark_squareX].GetPos().x)) {
+						pos.x = ObjectChip[mark_squareY][mark_squareX].GetPos().x;
+					}
+					if ((move_speed.y > 0 && pos.y > ObjectChip[mark_squareY][mark_squareX].GetPos().y)
+					||  (move_speed.y < 0 && pos.y < ObjectChip[mark_squareY][mark_squareX].GetPos().y)) {
+						pos.y = ObjectChip[mark_squareY][mark_squareX].GetPos().y;
+					}
 
 					// 移動アニメーションさせる
 					Animation(MODE_MOVE);
 
 					// 座標で隣接するマスに到着したか判定　こっちを使った方が後々便利だと思う
 					// 経由マスに現在の座標が到達したら次の経由マスに移動　…現在floatで座標を取得しているので、重なったら処理に移るとすると時間がかかりすぎるため、判定を甘く見積もっている
-					if ((((pos.x - 0.75f) <= ObjectChip[mark_squareY][mark_squareX]
-							.GetPos().x) && ((pos.x + 0.75f) >= ObjectChip[mark_squareY][mark_squareX]
-							.GetPos().x))
-							&& ((pos.y - (0.75f / 2.0f)) <= ObjectChip[mark_squareY][mark_squareX]
-									.GetPos().y)
-							&& (pos.y + 0.75f / 2.0f) >= ObjectChip[mark_squareY][mark_squareX]
-									.GetPos().y) {
+					if ( ( ( (pos.x - 0.75f) <= ObjectChip[mark_squareY][mark_squareX].GetPos().x) 
+					&& ( (pos.x + 0.75f) >= ObjectChip[mark_squareY][mark_squareX].GetPos().x) )
+					&& ((pos.y - (0.75f / 2.0f)) <= ObjectChip[mark_squareY][mark_squareX].GetPos().y)
+					&& (pos.y + 0.75f / 2.0f) >= ObjectChip[mark_squareY][mark_squareX].GetPos().y) {
 						reach_flag = true;
 						SetSquareXY(mark_squareX, mark_squareY);
 						root_counter++;

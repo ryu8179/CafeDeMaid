@@ -15,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.Display;
-import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.example.maid.GameSurfaceView;
@@ -170,10 +169,6 @@ public class GameMain {
 		// SEの読み込み
 		se = MediaPlayer.create(context, R.raw.se);
 
-		// リソースから背景画像を読み込む。
-		bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.background);
-		//bg = Bitmap.createScaledBitmap(bg, disp.getWidth(), disp.getHeight(), true);
-
 		// 経営部分で使用する画像の読み込みなど
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inScaled = false;
@@ -181,7 +176,9 @@ public class GameMain {
 		// staticなMapに格納する
 		imageHashMap = new HashMap<TEX_NAME, Bitmap>();
 		imageHashMap.clear();
-		
+
+		bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.background, options);
+		//bg = Bitmap.createScaledBitmap(bg, disp.getWidth(), disp.getHeight(), true);
 		Bitmap numberImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.number, options);
 		Bitmap floorImg = BitmapFactory.decodeResource(context.getResources(),R.drawable.floor_chip_w64_h64_var3,options);
 		Bitmap wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall, options);
@@ -250,8 +247,8 @@ public class GameMain {
 		
 		totalElapsedTime = 0;
 		
-		bg_x = -175;
-		bg_y = -180;
+		bg_x = (int)(0 - 1280*0.5f + MainActivity.SCREEN_WIDTH*0.5f) - 10;
+		bg_y = (int)(0 - 800*0.5f + MainActivity.SCREEN_HEIGHT*0.5f) - 30;
 	}
 
 	/**
@@ -329,7 +326,8 @@ public class GameMain {
 	void drawGame(GameSurfaceView sv) {
 		
 		// 背景を表示する。
-		sv.DrawImage(bg, bg_x, bg_y);
+		//sv.DrawImage(bg, bg_x, bg_y);
+		sv.DrawImage(bg, bg_x, bg_y, 0, 0, 1280, 800, 1.0f, 1.0f, false, 255);
 
 		map.Draw(sv);
 		

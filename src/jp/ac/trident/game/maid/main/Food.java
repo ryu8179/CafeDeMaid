@@ -12,10 +12,11 @@ class Food {
 	 */
 	public enum FOOD_NAME {
 		FOOD_NAME_COFFEE,
-		FOOD_NAME_CAKE,
 		FOOD_NAME_TEA,
+		FOOD_NAME_CAKE,
 		FOOD_NAME_RICE_OMELET,
 		FOOD_NAME_COUNT,
+		
 		FOOD_NAME_NONE,
 	}
 	/**

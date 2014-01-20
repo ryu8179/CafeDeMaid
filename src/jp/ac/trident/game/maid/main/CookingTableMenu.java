@@ -75,6 +75,8 @@ public class CookingTableMenu {
 		
 		this.AddFood(FoodData.foodData[0]);
 		this.AddFood(FoodData.foodData[1]);
+		this.AddFood(FoodData.foodData[2]);
+		this.AddFood(FoodData.foodData[3]);
 	}
 	
 	/**
@@ -106,9 +108,10 @@ public class CookingTableMenu {
 		int chipNum = 0;
 		for (int i=0; i<m_foodList.size(); i++) {
 			switch (m_foodList.get(i).name) {
-				case FOOD_NAME_COFFEE:	chipNum = 0; break;
-				case FOOD_NAME_CAKE:	chipNum = 1; break;
-	
+				case FOOD_NAME_COFFEE:		chipNum = 0; break;
+				case FOOD_NAME_TEA:			chipNum = 1; break;
+				case FOOD_NAME_CAKE:		chipNum = 2; break;
+				case FOOD_NAME_RICE_OMELET:	chipNum = 3; break;
 				default: break;
 			}
 			sv.DrawMapChip(

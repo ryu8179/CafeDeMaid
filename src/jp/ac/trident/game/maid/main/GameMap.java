@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import jp.ac.trident.game.maid.common.Collision;
 import jp.ac.trident.game.maid.common.CommonData;
+import jp.ac.trident.game.maid.common.CommonData.PlayerData;
 import jp.ac.trident.game.maid.common.Vector2D;
 import jp.ac.trident.game.maid.main.Customer.PHASE;
 import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
@@ -271,6 +272,11 @@ public class GameMap {
 	 * @param
 	 */
 	public void Update(float mouse_x, float mouse_y) {
+		if (mouse_x < 100) CommonData.GetInstance().GetPlayerData().str++;
+		if (mouse_y < 100) CommonData.GetInstance().GetPlayerData().speed++;
+		if (mouse_x > 700) CommonData.GetInstance().GetPlayerData().maid++;
+		CommonData.GetInstance().SaveData();
+		
 		m_elapsedFrame++;
 
 		// マップチップとの当たり判定を取り、target_squareY, target_squareX に、タッチしたチップ番号を入れている。
@@ -450,20 +456,20 @@ public class GameMap {
 							maid.isReverse);
 					// メイドの所持料理(メイドが持ってる画像を準備出来たら、必要無くなるかも。)
 					if (maid.getM_food().name != Food.FOOD_NAME.FOOD_NAME_NONE) {
-						int sx = 0;
-						int sy = 0;
+						int chipNum = 0;
 						switch (maid.getM_food().name) {
-							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
-							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
-							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
-							default:					sx = 0;	sy = 0;	break;
+							case FOOD_NAME_COFFEE:		chipNum = 0; break;
+							case FOOD_NAME_TEA:			chipNum = 1; break;
+							case FOOD_NAME_CAKE:		chipNum = 2; break;
+							case FOOD_NAME_RICE_OMELET:	chipNum = 3; break;
+							default: break;
 						}
 						sv.DrawMapChip(
 								GameMain.imageHashMap.get(TEX_NAME.FOOD),
 								(int)(maid.GetPos().x),
 								(int)(maid.GetPos().y - Maid.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
-								sx * Food.FOOD_WIDTH,
-								sy * Food.FOOD_HEIGHT,
+								Food.FOOD_WIDTH * (chipNum%4),
+								Food.FOOD_HEIGHT * (chipNum/4),
 								Food.FOOD_WIDTH,
 								Food.FOOD_HEIGHT,
 								false);
@@ -486,13 +492,13 @@ public class GameMap {
 						
 						// 料理を待っている間、注文を頭上に表示する。
 						if (m_customerList.get(i).getM_phase() == PHASE.PHASE_WAITING) {
-							int sx = 0;
-							int sy = 0;
+							int chipNum = 0;
 							switch (m_customerList.get(i).getM_order().getM_foodData().name) {
-								case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
-								case FOOD_NAME_CAKE:		sx = 1;	sy = 0;	break;
-								case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
-								default:					sx = 0;	sy = 0;	break;
+								case FOOD_NAME_COFFEE:		chipNum = 0; break;
+								case FOOD_NAME_TEA:			chipNum = 1; break;
+								case FOOD_NAME_CAKE:		chipNum = 2; break;
+								case FOOD_NAME_RICE_OMELET:	chipNum = 3; break;
+								default: break;
 							}
 							sv.DrawImage(
 									GameMain.imageHashMap.get(TEX_NAME.CUSTOMER_ORDER_BALLOON),
@@ -510,8 +516,8 @@ public class GameMap {
 									GameMain.imageHashMap.get(TEX_NAME.FOOD),
 									(int)( 27 + m_customerList.get(i).GetPos().x),
 									(int)(-23 + m_customerList.get(i).GetPos().y - Human.MAID_RES_HEIGHT/4 - Food.FOOD_HEIGHT), // 料理の画像サイズ分引く
-									sx * Food.FOOD_WIDTH,
-									sy * Food.FOOD_HEIGHT,
+									Food.FOOD_WIDTH * (chipNum%4),
+									Food.FOOD_HEIGHT * (chipNum/4),
 									Food.FOOD_WIDTH,
 									Food.FOOD_HEIGHT,
 									false,
@@ -539,20 +545,20 @@ public class GameMap {
 				for (int i=0; i<m_foodList.size(); i++) {
 					if (m_foodList.get(i).getM_x() == x
 					&&  m_foodList.get(i).getM_y() == y) {
-						int sx = 0;
-						int sy = 0;
+						int chipNum = 0;
 						switch (m_foodList.get(i).getM_foodData().name) {
-							case FOOD_NAME_COFFEE:		sx = 0;	sy = 0;	break;
-							case FOOD_NAME_CAKE:	sx = 1;	sy = 0;	break;
-							case FOOD_NAME_TEA:			sx = 2; sy = 0; break;
-							default:					sx = 0;	sy = 0;	break;
+							case FOOD_NAME_COFFEE:		chipNum = 0; break;
+							case FOOD_NAME_TEA:			chipNum = 1; break;
+							case FOOD_NAME_CAKE:		chipNum = 2; break;
+							case FOOD_NAME_RICE_OMELET:	chipNum = 3; break;
+							default: break;
 						}
 						sv.DrawMapChip(
 								GameMain.imageHashMap.get(TEX_NAME.FOOD),
 								(int) ObjectChip[y][x].GetPos().x,
 								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
-								sx * Food.FOOD_WIDTH,
-								sy * Food.FOOD_HEIGHT,
+								Food.FOOD_WIDTH * (chipNum%4),
+								Food.FOOD_HEIGHT * (chipNum/4),
 								Food.FOOD_WIDTH,
 								Food.FOOD_HEIGHT,
 								false);
@@ -568,7 +574,7 @@ public class GameMap {
 		}
 		
 		// デバッグテキストの表示
-		//DebugDraw(sv);
+		DebugDraw(sv);
 	}
 
 	/**
@@ -691,8 +697,11 @@ public class GameMap {
 	private void DebugDraw(GameSurfaceView sv) {
 		// デバック表示
 		/* ◆◆◆◆　Floor　◆◆◆◆◆ */
+		sv.DrawText("maid.vel.x/y:" + maid.vel.x, 400, 280, Color.WHITE);
+		PlayerData pd = CommonData.GetInstance().GetPlayerData();
+		sv.DrawText("str:" + pd.str + ", speed:" + pd.speed + ", maid:" + pd.maid, 400, 300, Color.WHITE);
 
-		sv.DrawText("お客の数(List)：" + m_customerList.size(), 400, 340, Color.WHITE);
+		sv.DrawText("お客の数(List)：" + m_customerList.size(), 400, 320, Color.WHITE);
 		sv.DrawText("ID：" + FloorChip[target_squareY][target_squareX].GetId(),
 				400, 340, Color.WHITE);
 		sv.DrawText("DrawNumber：" + FloorChip[target_squareY][target_squareX].GetDrawNumber(),

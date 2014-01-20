@@ -46,7 +46,9 @@ public class FoodData {
 	 */
 	public final static FoodData foodData[] = {
 		new FoodData(FOOD_NAME.FOOD_NAME_COFFEE, 5, 2000, 300 ),
-		new FoodData(FOOD_NAME.FOOD_NAME_CAKE, 10, 5000, 600 ),
+		new FoodData(FOOD_NAME.FOOD_NAME_TEA, 5, 2000, 300 ),
+		new FoodData(FOOD_NAME.FOOD_NAME_CAKE, 20, 3500, 500 ),
+		new FoodData(FOOD_NAME.FOOD_NAME_RICE_OMELET, 35, 5000, 800 ),
 	};
 
 }

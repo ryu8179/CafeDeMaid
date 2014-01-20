@@ -179,7 +179,18 @@ public class Customer extends Human {
 						// 移動リストのクリア
 						list.clear();
 						// 注文の品を決定
-						m_orderFood.setM_foodData(GameMain.rand.nextBoolean() ? FoodData.foodData[0] : FoodData.foodData[1]);
+						int rNum = GameMain.rand.nextInt(100);
+						if (rNum < 30) {
+							m_orderFood.setM_foodData(FoodData.foodData[0]);
+						} else if (rNum < 60) {
+							m_orderFood.setM_foodData(FoodData.foodData[1]);
+						} else if (rNum < 80) {
+							m_orderFood.setM_foodData(FoodData.foodData[2]);
+						} else if (rNum < 100) {
+							m_orderFood.setM_foodData(FoodData.foodData[3]);
+						} else {
+							m_orderFood.setM_foodData(FoodData.foodData[0]);
+						}
 						m_phase = PHASE.PHASE_WAITING;
 					}
 				} else {
