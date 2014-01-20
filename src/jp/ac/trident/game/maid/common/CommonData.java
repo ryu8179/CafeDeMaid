@@ -29,6 +29,9 @@ public class CommonData {
 		public int str;
 		public int speed;
 		public int maid;
+		public int up;
+		public String rank;
+		public String upStatus;
 	};
 	public class OptionData {
 		;
@@ -83,6 +86,10 @@ public class CommonData {
 		playerData.str = sharedPre.getInt("str", 5);
 		playerData.speed = sharedPre.getInt("speed", 10);
 		playerData.maid = sharedPre.getInt("maid", 15);
+		playerData.up = sharedPre.getInt("up", 0);
+		playerData.rank = sharedPre.getString("rank", "");
+		playerData.upStatus = sharedPre.getString("upStatus", "");
+		
 	}
 	
 	/**
@@ -94,6 +101,10 @@ public class CommonData {
 		editor.putInt("str", playerData.str);
 		editor.putInt("speed", playerData.speed);
 		editor.putInt("maid", playerData.maid);
+		editor.putInt("up", playerData.up);
+		editor.putString("rank", playerData.rank);
+		editor.putString("upStatus", playerData.upStatus);
+		
 		editor.commit();
 	}
 	
