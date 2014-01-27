@@ -377,14 +377,13 @@ public class GameMap {
 			}
 		}
 		
-		
-		
-		
 		// 経過時間によって、お客を生成する
 		if (m_elapsedFrame % (3*30) == 0) {
 			TEX_NAME imgName = GameMain.rand.nextBoolean() ? TEX_NAME.MOHIKAN : TEX_NAME.MAID_02;
 			Customer customer = new Customer(GameMain.imageHashMap.get(imgName));
-			customer.Initialize();
+			float speed = GameMain.rand.nextFloat() * 2.5f + 1.5f;
+			customer.setSpeed(speed);
+			customer.InitializePos();
 			customer.SetFloorData(ObjectChip);
 			m_customerList.add(customer);
 		}
@@ -479,6 +478,45 @@ public class GameMap {
 					}
 					
 				} // メイドの描画
+
+
+				// オブジェクト
+				sv.DrawMapChip(
+						GameMain.imageHashMap.get(TEX_NAME.OBJECT),
+						(int) ObjectChip[y][x].GetPos().x,
+						(int) ObjectChip[y][x].GetPos().y
+								- (ObjectData.OBJ_RES_HEIGHT / 2),
+						ObjectData.OBJ_RES_WIDTH
+								* (ObjectChip[y][x].GetChip_num() % ObjectData.OBJ_CHIP_RES_LENGTH),
+						ObjectData.OBJ_RES_HEIGHT
+								* (ObjectChip[y][x].GetChip_num() / ObjectData.OBJ_CHIP_RES_LENGTH),
+						ObjectData.OBJ_RES_WIDTH, ObjectData.OBJ_RES_HEIGHT,
+						ObjectChip[y][x].IsReverse());
+				
+				// 料理
+				// 料理リスト内を検索して、指定座標に料理がある場合、描画する
+				for (int i=0; i<m_foodList.size(); i++) {
+					if (m_foodList.get(i).getM_x() == x
+					&&  m_foodList.get(i).getM_y() == y) {
+						int chipNum = 0;
+						switch (m_foodList.get(i).getM_foodData().name) {
+							case FOOD_NAME_COFFEE:		chipNum = 0; break;
+							case FOOD_NAME_TEA:			chipNum = 1; break;
+							case FOOD_NAME_CAKE:		chipNum = 2; break;
+							case FOOD_NAME_RICE_OMELET:	chipNum = 3; break;
+							default: break;
+						}
+						sv.DrawMapChip(
+								GameMain.imageHashMap.get(TEX_NAME.FOOD),
+								(int) ObjectChip[y][x].GetPos().x,
+								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
+								Food.FOOD_WIDTH * (chipNum%4),
+								Food.FOOD_HEIGHT * (chipNum/4),
+								Food.FOOD_WIDTH,
+								Food.FOOD_HEIGHT,
+								false);
+					}
+				}
 				
 				// お客様
 				for (int i=0; i<m_customerList.size(); i++) {
@@ -528,44 +566,6 @@ public class GameMap {
 						}
 					}
 					
-				}
-
-				// オブジェクト
-				sv.DrawMapChip(
-						GameMain.imageHashMap.get(TEX_NAME.OBJECT),
-						(int) ObjectChip[y][x].GetPos().x,
-						(int) ObjectChip[y][x].GetPos().y
-								- (ObjectData.OBJ_RES_HEIGHT / 2),
-						ObjectData.OBJ_RES_WIDTH
-								* (ObjectChip[y][x].GetChip_num() % ObjectData.OBJ_CHIP_RES_LENGTH),
-						ObjectData.OBJ_RES_HEIGHT
-								* (ObjectChip[y][x].GetChip_num() / ObjectData.OBJ_CHIP_RES_LENGTH),
-						ObjectData.OBJ_RES_WIDTH, ObjectData.OBJ_RES_HEIGHT,
-						ObjectChip[y][x].IsReverse());
-				
-				// 料理
-				// 料理リスト内を検索して、指定座標に料理がある場合、描画する
-				for (int i=0; i<m_foodList.size(); i++) {
-					if (m_foodList.get(i).getM_x() == x
-					&&  m_foodList.get(i).getM_y() == y) {
-						int chipNum = 0;
-						switch (m_foodList.get(i).getM_foodData().name) {
-							case FOOD_NAME_COFFEE:		chipNum = 0; break;
-							case FOOD_NAME_TEA:			chipNum = 1; break;
-							case FOOD_NAME_CAKE:		chipNum = 2; break;
-							case FOOD_NAME_RICE_OMELET:	chipNum = 3; break;
-							default: break;
-						}
-						sv.DrawMapChip(
-								GameMain.imageHashMap.get(TEX_NAME.FOOD),
-								(int) ObjectChip[y][x].GetPos().x,
-								(int) ObjectChip[y][x].GetPos().y - (Food.FOOD_HEIGHT / 2),
-								Food.FOOD_WIDTH * (chipNum%4),
-								Food.FOOD_HEIGHT * (chipNum/4),
-								Food.FOOD_WIDTH,
-								Food.FOOD_HEIGHT,
-								false);
-					}
 				}
 				
 			}

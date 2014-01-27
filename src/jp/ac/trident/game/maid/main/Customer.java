@@ -9,7 +9,6 @@ import java.util.Collections;
 import jp.ac.trident.game.maid.common.Collision;
 import jp.ac.trident.game.maid.common.CommonData;
 import jp.ac.trident.game.maid.common.Vector2D;
-import jp.ac.trident.game.maid.main.Food.FOOD_NAME;
 import jp.ac.trident.game.maid.main.ObjectData.OBJECT_NAME;
 import android.graphics.Bitmap;
 
@@ -125,7 +124,7 @@ public class Customer extends Human {
 	/**
 	 * 初期位置に設置(店外)
 	 */
-	private void InitializePos() {
+	public void InitializePos() {
 		// 向かう先を決定
 		target.x= 80;
 		target.y = 60;
@@ -144,7 +143,7 @@ public class Customer extends Human {
 		}
 		vel = Vector2D.sub(target, pos);
 		vel.normalize();
-		vel.scale(4);
+		vel.scale(speed);
 	}
 	
 
@@ -203,13 +202,11 @@ public class Customer extends Human {
 						vel.y = -4.0f;
 					}
 				}
-				
-				
 				break;
-				
 				
 			// 料理待ち
 			case PHASE_WAITING:
+				Animation(MODE_SIT);
 				// イライラ率を増加
 				m_irritatedRate += 0.001f;
 				if (m_irritatedRate >= 1.0f) {
@@ -295,7 +292,7 @@ public class Customer extends Human {
 			isReverse = true;
 			vel = Vector2D.sub(target, pos);
 			vel.normalize();
-			vel.scale(4);
+			vel.scale(speed);
 		}
 		// 入店するかどうかの判定を行った。
 		isCheckEnter = true;
@@ -331,7 +328,7 @@ public class Customer extends Human {
 		}
 		// 食事中のフラグが立っていたら食事を行う。
 		if (isEating) {
-			Animation(MODE_MOVE);
+			//Animation(MODE_MOVE);
 			long currentTime = System.currentTimeMillis();
 			// 食べ終えたら
 			if (currentTime - m_startTime >= EATING_TIME) {

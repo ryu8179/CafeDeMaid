@@ -102,13 +102,11 @@ public class Maid extends Human {
 			if (currentTime - m_startTime >= foodData.baseCookingTime - (CommonData.GetInstance().GetPlayerData().maid*100.0f)) {
 				m_food = foodData;
 				CalculateMoveVel();
-				m_image = GameMain.imageHashMap.get(TEX_NAME.MAID_01);
 				isCooking = false;
 			}
 			return;
 		}
 		isCooking = true;
-		m_image = GameMain.imageHashMap.get(TEX_NAME.MOHIKAN);
 		m_startTime = System.currentTimeMillis();
 	}
 	

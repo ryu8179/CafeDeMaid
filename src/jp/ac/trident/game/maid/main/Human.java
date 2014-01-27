@@ -26,11 +26,11 @@ public abstract class Human {
 	
 	/* 定数宣言 */
 
-	/** ｷｬﾗｸﾀｰの現在の状態 0:待機 1:移動 2:その他 */
-	protected static final int MODE_NONE = 0, MODE_MOVE = 1;
+	/** ｷｬﾗｸﾀｰの現在の状態 0:待機 1:移動 2:座る */
+	protected static final int MODE_NONE = 0, MODE_MOVE = 1, MODE_SIT = 2;
 
 	/** キャラクターのアニメーション枚数 */
-	public static final int MAID_ANIME_LENGTH = 3;
+	public static final int MAID_ANIME_LENGTH = 4;
 
 	/** 画像の幅 */
 	public static final int MAID_RES_WIDTH = 64;
@@ -113,6 +113,11 @@ public abstract class Human {
 	 * 次に目標とするマスについたかどうかのフラグ
 	 */
 	protected boolean reach_flag = true;
+	
+	/**
+	 * 移動速度のベースとなるもの
+	 */
+	protected float speed = 4.0f;
 
 	/**
 	 * 実際の移動速度
@@ -458,6 +463,13 @@ public abstract class Human {
 			chip_num = ANIMATION_INDEX[m_elapsedFrame / 10 % ANIMATION_INDEX.length];
 
 			break;
+			
+		// 座っている
+		case MODE_SIT:
+			// アニメーションさせる
+			chip_num = (m_direction % 2 * 4) + 3;
+
+			break;
 
 		default:
 			break;
@@ -483,6 +495,13 @@ public abstract class Human {
 
 		move_speed.x = ((x2 - x1) / length) * vel.x;
 		move_speed.y = ((y2 - y1) / length) * vel.y;
+	}
+
+	/**
+	 * @param speed 設定する speed
+	 */
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 	
 	
