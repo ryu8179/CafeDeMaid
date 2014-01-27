@@ -33,7 +33,7 @@ public abstract class Human {
 	public static final int MAID_ANIME_LENGTH = 3;
 
 	/** 画像の幅 */
-	public static final int MAID_RES_WIDTH = 32;
+	public static final int MAID_RES_WIDTH = 64;
 	/** 画像の高さ */
 	public static final int MAID_RES_HEIGHT = 64;
 
@@ -249,7 +249,7 @@ public abstract class Human {
 	 */
 	protected void SetCenterXY(float x, float y) {
 		// 左上基準なので半径分足しこみ中心にする。　Yについては
-		this.center.x = x + (MAID_RES_WIDTH / 2);
+		this.center.x = x + (MAID_RES_WIDTH / 4);
 		this.center.y = y + ((MAID_RES_HEIGHT / 2) / 2);
 	}
 

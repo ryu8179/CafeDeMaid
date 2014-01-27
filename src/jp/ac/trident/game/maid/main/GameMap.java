@@ -451,7 +451,7 @@ public class GameMap {
 					// メイド
 					sv.DrawImage(
 							maid.getM_image(),
-							(int) maid.GetPos().x + (Maid.MAID_RES_WIDTH / 2),
+							(int) maid.GetPos().x,
 							(int) maid.GetPos().y - (Maid.MAID_RES_HEIGHT / 2),
 							Maid.MAID_RES_WIDTH * (maid.GetChip_num() % Maid.MAID_ANIME_LENGTH),
 							Maid.MAID_RES_HEIGHT * (maid.getM_direction() % 2 ),	// 上向きだけ1に変換
@@ -485,7 +485,7 @@ public class GameMap {
 					if (m_customerList.get(i).GetSquareX() == x && m_customerList.get(i).GetSquareY() == y) {
 						sv.DrawImage(
 								m_customerList.get(i).getM_image(),
-								(int) m_customerList.get(i).GetPos().x + (Maid.MAID_RES_WIDTH / 2),
+								(int) m_customerList.get(i).GetPos().x,
 								(int) m_customerList.get(i).GetPos().y - (Maid.MAID_RES_HEIGHT / 2),
 								Maid.MAID_RES_WIDTH * (m_customerList.get(i).GetChip_num() % Maid.MAID_ANIME_LENGTH),
 								Maid.MAID_RES_HEIGHT * (m_customerList.get(i).getM_direction() % 2 ),	// 上向きだけ1に変換
