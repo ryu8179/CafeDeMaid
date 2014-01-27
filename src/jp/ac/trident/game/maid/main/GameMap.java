@@ -272,10 +272,13 @@ public class GameMap {
 	 * @param
 	 */
 	public void Update(float mouse_x, float mouse_y) {
+		/*
+		// testing
 		if (mouse_x < 100) CommonData.GetInstance().GetPlayerData().str++;
 		if (mouse_y < 100) CommonData.GetInstance().GetPlayerData().speed++;
 		if (mouse_x > 700) CommonData.GetInstance().GetPlayerData().maid++;
 		CommonData.GetInstance().SaveData();
+		*/
 		
 		m_elapsedFrame++;
 
@@ -574,7 +577,7 @@ public class GameMap {
 		}
 		
 		// デバッグテキストの表示
-		DebugDraw(sv);
+		//DebugDraw(sv);
 	}
 
 	/**
