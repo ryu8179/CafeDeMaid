@@ -43,6 +43,7 @@ public class GameMain {
 		MAID_01,
 		MAID_02,
 		MOHIKAN,
+		USAMIMI,
 		FOOD,
 		BG_OF_MONEY,
 	}
@@ -188,6 +189,7 @@ public class GameMain {
 		Bitmap maid01Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid01, options);
 		Bitmap maid02Img = BitmapFactory.decodeResource(context.getResources(), R.drawable.maid02, options);
 		Bitmap mohikanImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.mohikan_edit, options);
+		Bitmap usamimiImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.usamimi_edit, options);
 		Bitmap foodImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.food, options);
 		Bitmap bgOfMoney = BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_of_money, options);
 
@@ -201,6 +203,7 @@ public class GameMain {
 		imageHashMap.put(TEX_NAME.MAID_01, maid01Img);
 		imageHashMap.put(TEX_NAME.MAID_02, maid02Img);
 		imageHashMap.put(TEX_NAME.MOHIKAN, mohikanImg);
+		imageHashMap.put(TEX_NAME.USAMIMI, usamimiImg);
 		imageHashMap.put(TEX_NAME.FOOD, foodImg);
 		imageHashMap.put(TEX_NAME.BG_OF_MONEY, bgOfMoney);
 		

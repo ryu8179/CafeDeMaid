@@ -379,7 +379,15 @@ public class GameMap {
 		
 		// 経過時間によって、お客を生成する
 		if (m_elapsedFrame % (3*30) == 0) {
-			TEX_NAME imgName = GameMain.rand.nextBoolean() ? TEX_NAME.MOHIKAN : TEX_NAME.MAID_02;
+			TEX_NAME imgName;
+			int numRand = GameMain.rand.nextInt(99);
+			if (numRand < 30) {
+				imgName = TEX_NAME.MAID_02;
+			} else if (numRand < 60) {
+				imgName = TEX_NAME.USAMIMI;
+			} else {
+				imgName = TEX_NAME.MOHIKAN;
+			}
 			Customer customer = new Customer(GameMain.imageHashMap.get(imgName));
 			float speed = GameMain.rand.nextFloat() * 2.5f + 1.5f;
 			customer.setSpeed(speed);
